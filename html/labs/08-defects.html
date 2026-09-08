@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 08 — Defects · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a class="active" href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 08</div>
+      <h1>Lab 08 — Regression, contract checks, and defect writing</h1>
+<p><strong>Time:</strong> 90 minutes  </p>
+<p><strong>Layer:</strong> All three  </p>
+<p><strong>Exit:</strong> Five defects (or simulated defects) written to the project standard.</p>
+<hr>
+<h2 id="1-plant-bugs-on-purpose">1. Plant bugs (on purpose)</h2>
+<p>Perform these on staging only. Write a defect for each using <a href="../checklists/defects.html">defect-taxonomy.md</a>.</p>
+<table><thead><tr><th>#</th><th>Plant</th><th>Layer you should assign</th></tr></thead><tbody><tr><td>1</td><td>Publish landing page that references an <strong>unpublished</strong> product</td><td>A / B</td></tr><tr><td>2</td><td>Save a title change; do not publish; claim “site is wrong” if you only looked at Preview</td><td>B (not a bug if CDA is old)</td></tr><tr><td>3</td><td>Localize FR title; forget to publish FR</td><td>B</td></tr><tr><td>4</td><td>Rename a field <strong>UID</strong> <code>cta_label</code> → <code>cta_text</code> on <code>hero</code></td><td>B + C (contract break)</td></tr><tr><td>5</td><td>Publish new asset; entry still points at old published asset</td><td>A</td></tr></tbody></table>
+<p>Revert the UID rename after you capture the defect — it will break later demos.</p>
+<hr>
+<h2 id="2-mini-contract-test-manual-is-fine">2. Mini contract test (manual is fine)</h2>
+<p>Save staging CDA JSON for <code>linen-overshirt</code> with includes as <code>notes/contract-product.json</code>.</p>
+<p>Required keys:</p>
+<pre><code>title, slug, sku, price, category.title, hero_image.url</code></pre>
+<p>If any key disappears after a content-type edit, fail the “build.”</p>
+<p>Optional later: assert this in CI with a delivery token stored as a secret.</p>
+<hr>
+<h2 id="3-defect-quality-bar">3. Defect quality bar</h2>
+<p>Each defect must contain:</p>
+<ul>
+<li>Title: <code>[Horizon][staging][en-us] unpublished category blanks PDP</code></li>
+<li>Layer: A / B / C</li>
+<li>Stack, environment, locale</li>
+<li>Content type UID, entry UID, version</li>
+<li>Steps</li>
+<li>Expected vs actual</li>
+<li>Evidence: CDA snippet (redact tokens), CMS screenshot, optional site screenshot</li>
+<li>Owner hint: Editor / CMS admin / Frontend / DevOps (webhooks)</li>
+</ul>
+<h3>Weak (do not write)</h3>
+<p>&gt; Homepage broken. Please check.</p>
+<h3>Strong</h3>
+<p>&gt; Layer B. <code>landing_page</code> <code>blt123</code> v4 published to staging <code>en-us</code>. CDA <code>sections[0].products</code> is <code>[&quot;blt999&quot;]</code> with no include expansion; <code>blt999</code> <code>GET</code> on staging returns 404 (entry unpublished). Frontend PDP grid empty. Publish <code>blt999</code> to staging or remove the reference.</p>
+<hr>
+<h2 id="4-capstone-optional-same-day">4. Capstone (optional same day)</h2>
+<p>With a partner acting as editor:</p>
+<ol>
+<li>Brief: “Ship Spring Edit to staging, FR title on hero, no production.”</li>
+<li>You write a 15-minute test plan from the acceptance pack.</li>
+<li>Execute. Sign off or block with one strong defect.</li>
+</ol>
+<hr>
+<h2 id="pass">Pass</h2>
+<ul>
+<li>Five defects meet the quality bar (or 3 planted + 2 from earlier labs)</li>
+<li>Contract JSON saved</li>
+<li>UID rename reverted</li>
+<li>You can explain why Preview ≠ CDA in one sentence</li>
+</ul>
+<hr>
+<p><strong>Training complete.</strong> Use <a href="../checklists/">checklists/</a> on the first real project. Re-read <a href="../summary.html">TRAINING-SUMMARY.md</a> definition of done and self-score.</p>
+      <div class="pager">
+        <a href="07-releases.html">← Lab 07</a>
+        <a href="../checklists/acceptance.html">Acceptance pack →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

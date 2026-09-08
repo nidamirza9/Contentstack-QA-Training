@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 06 — Localization · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a class="active" href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 06</div>
+      <h1>Lab 06 — Localization and fallback</h1>
+<p><strong>Time:</strong> 60 minutes  </p>
+<p><strong>Layer:</strong> CMS + API  </p>
+<p><strong>Exit:</strong> You can predict CDA output for <code>en-us</code>, localized <code>fr-fr</code>, and unlocalized <code>de-de</code>.</p>
+<p>Use <code>[QA-FIXTURE] Linen Overshirt</code> (published on staging).</p>
+<hr>
+<h2 id="1-confirm-field-localization">1. Confirm field localization</h2>
+<p>On <code>product</code>:</p>
+<ul>
+<li>Localizable: <code>title</code>, <code>description</code></li>
+<li>Not localizable: <code>slug</code>, <code>sku</code>, <code>price</code>, <code>category</code>, <code>hero_image</code></li>
+</ul>
+<p>If <code>category</code> was accidentally localizable, that is a <strong>modeling defect</strong>. Do not “fix” a client model in labs without asking; on Horizon Market, correct it.</p>
+<hr>
+<h2 id="2-localize-french">2. Localize French</h2>
+<ol>
+<li>Open the product. Switch language to <strong>French - France</strong>.</li>
+<li>The UI shows inherited <code>en-us</code> values until you localize.</li>
+<li>Localize <code>title</code> to <code>Surchemise en lin</code>.</li>
+<li>Leave <code>description</code> <strong>unlocalized</strong> (still inheriting) <strong>or</strong> localize it — pick one and write it down.</li>
+<li>Do <strong>not</strong> change SKU (field should be disabled).</li>
+<li>Publish the <strong>French</strong> entry to staging.</li>
+</ol>
+<hr>
+<h2 id="3-api-matrix">3. API matrix</h2>
+<p>Call CDA with staging token:</p>
+<table><thead><tr><th>locale</th><th>include_fallback</th><th>Expected title</th><th>Expected SKU</th></tr></thead><tbody><tr><td><code>en-us</code></td><td>n/a</td><td>Linen Overshirt (or current EN)</td><td><code>HM-OSH-001</code></td></tr><tr><td><code>fr-fr</code></td><td>default</td><td><code>Surchemise en lin</code></td><td><code>HM-OSH-001</code></td></tr><tr><td><code>de-de</code></td><td>on</td><td>English title (fallback)</td><td><code>HM-OSH-001</code></td></tr><tr><td><code>de-de</code></td><td>off</td><td>Empty / missing localized entry (document actual)</td><td>—</td></tr></tbody></table>
+<pre><code>GET {CDA}/v3/content_types/product/entries
+  ?environment=staging
+  &amp;locale=fr-fr
+  &amp;query={&quot;slug&quot;:&quot;linen-overshirt&quot;}</code></pre>
+<pre><code>GET {CDA}/v3/content_types/product/entries
+  ?environment=staging
+  &amp;locale=de-de
+  &amp;include_fallback=true
+  &amp;query={&quot;slug&quot;:&quot;linen-overshirt&quot;}</code></pre>
+<hr>
+<h2 id="4-non-localizable-integrity">4. Non-localizable integrity</h2>
+<ol>
+<li>Change EN price to <code>139</code> and publish EN staging.</li>
+<li>Fetch <code>fr-fr</code>. Price must be <code>139</code>, not the old price.</li>
+<li>If FR still shows <code>129</code>, you localized price by mistake or published the wrong locale.</li>
+</ol>
+<hr>
+<h2 id="5-reference-locale-trap">5. Reference locale trap</h2>
+<ol>
+<li>Localize category title to <code>Habillement</code> on <code>fr-fr</code> and publish category FR to staging.</li>
+<li>Fetch product <code>fr-fr</code> with <code>include[]=category</code>.</li>
+<li>Expected category title: <code>Habillement</code> if the reference resolves in the requested locale.</li>
+<li>If you had made <code>category</code> localizable on the product and pointed FR at a different category, you would have a silent data bug. Confirm the field is <strong>not</strong> localizable.</li>
+</ol>
+<hr>
+<h2 id="6-app-layer-note-no-app-required">6. App-layer note (no app required)</h2>
+<p>Dates, currency symbols, and RTL are <strong>usually app concerns</strong>. CMS stores <code>129</code> and <code>en-us</code>. File “€ not shown on FR site” as Layer C unless the CMS was supposed to store a formatted string (bad model).</p>
+<hr>
+<h2 id="pass">Pass</h2>
+<ul>
+<li>Matrix filled with real responses</li>
+<li>SKU identical across locales</li>
+<li>DE fallback behaviour documented</li>
+<li>Price change propagated to FR</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="07-releases.html">Lab 07 — Releases and campaign</a></p>
+      <div class="pager">
+        <a href="05-workflow-preview.html">← Lab 05</a>
+        <a href="07-releases.html">Lab 07 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

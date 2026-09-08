@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contentstack QA tester training</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a class="active" href="index.html">Home</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Contentstack Learning / HTML</div>
+      <h1>Contentstack QA tester training</h1>
+      <p class="meta">Hands-on pack for testers on real Contentstack projects. Open this file in any browser. No server required.</p>
+      <div class="card-row">
+        <div class="stat"><b>4 days</b><span>Concept + labs</span></div>
+        <div class="stat"><b>8 labs</b><span>On a real stack</span></div>
+        <div class="stat"><b>3 layers</b><span>CMS / API / app</span></div>
+        <div class="stat"><b>30 cases</b><span>Reusable test IDs</span></div>
+      </div>
+      <div class="callout">
+        <strong>Start here.</strong> Read the training summary, then Module 01, then Lab setup.
+        Do not skip API labs. Most production defects are published-vs-draft, environment, locale, or unresolved references.
+      </div>
+      <h2>Open these pages</h2>
+      <div class="tile-grid">
+        <a class="tile" href="summary.html"><strong>Training summary</strong><span>Outcomes, ownership, syllabus, definition of done</span></a>
+        <a class="tile" href="modules/01-boundaries.html"><strong>Module 01</strong><span>Headless CMS and Contentstack boundaries</span></a>
+        <a class="tile" href="labs/00-setup.html"><strong>Lab setup</strong><span>Create the Horizon Market sandbox stack</span></a>
+        <a class="tile" href="checklists/acceptance.html"><strong>Acceptance pack</strong><span>Use on the first real project go-live</span></a>
+        <a class="tile" href="paths.html"><strong>Full paths</strong><span>Copy-paste locations for every HTML file and the canvas</span></a>
+      </div>
+      <h2>How QA on Contentstack is different</h2>
+      <p>Contentstack is a headless CMS. Editors create structured content. A website or app fetches published JSON and renders it. CMS preview is not the live site unless Live Preview is built.</p>
+      <pre><code>Editor action in Contentstack
+        ↓
+Published JSON on CDA / GraphQL (per environment + locale)
+        ↓
+Frontend / app rendering + cache + personalization</code></pre>
+      <h2>Recommended path</h2>
+      <ol>
+        <li><a href="summary.html">Training summary</a> — 30–40 minutes</li>
+        <li>Modules 01–04 — about 1 day</li>
+        <li>Labs 00–08 on a trial stack — 2–3 days</li>
+        <li>Checklists on the first client project</li>
+      </ol>
+      <h2>Horizon Market sandbox</h2>
+      <table>
+        <thead><tr><th>Item</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Stack</td><td><code>horizon-market-qa</code></td></tr>
+          <tr><td>Environments</td><td><code>development</code>, <code>staging</code>, <code>production</code></td></tr>
+          <tr><td>Locales</td><td><code>en-us</code> (master), <code>fr-fr</code>, <code>de-de</code></td></tr>
+          <tr><td>Workflow</td><td>Draft → In Review → Approved → Published</td></tr>
+          <tr><td>QA role</td><td>Read all content; publish to <code>staging</code> only</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <strong>Token rule.</strong> Delivery token proves published site JSON. Preview token proves drafts.
+        Management token is for writes only — never in the browser or a repo.
+      </div>
+      <h2>Full local paths</h2>
+      <p>Double-click the launcher or paste a path into File Explorer / Chrome.</p>
+      <p>HTML home</p>
+      <div class="pathbox">C:\Users\nmirza.HZI\OneDrive - Horizontal Integration Inc\Documents\CNE+GSE\Contentstack-Learning\html\index.html</div>
+      <p>One-click launcher</p>
+      <div class="pathbox">C:\Users\nmirza.HZI\OneDrive - Horizontal Integration Inc\Documents\CNE+GSE\Contentstack-Learning\Contentstack-QA-Training.html</div>
+      <p>Canvas (keep open beside chat in Cursor)</p>
+      <div class="pathbox">C:\Users\nmirza.HZI\.cursor\projects\c-Users-nmirza-HZI-OneDrive-Horizontal-Integration-Inc-Documents-CNE-GSE-Contentstack-Learning\canvases\qa-training-summary.canvas.tsx</div>
+    </main>
+  </div>
+</body>
+</html>

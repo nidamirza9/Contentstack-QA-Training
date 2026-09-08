@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 02 — Model and publish · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a class="active" href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Modules / 02</div>
+      <h1>Module 02 — Content Model, Authoring, and Publish</h1>
+<p><strong>Time:</strong> 4 hours  </p>
+<p><strong>Goal:</strong> Read a content type like a contract, author clean entries, and publish without leaking to production.</p>
+<hr>
+<h2 id="1-content-type-api-contract">1. Content type = API contract</h2>
+<p>A content type defines:</p>
+<ul>
+<li><strong>Display name</strong> (what editors see)</li>
+<li><strong>UID</strong> (what APIs and tests use — example: <code>product</code>, <code>landing_page</code>)</li>
+<li><strong>Fields</strong>, each with a <strong>field UID</strong>, data type, validations, and “Localize this field”</li>
+<li><strong>Options</strong>: single vs multiple, title field, taxonomy, workflow assignment</li>
+</ul>
+<p>QA must treat a field UID change as a <strong>breaking change</strong>. The frontend and automated tests key off UIDs, not labels.</p>
+<p>When testers review a new type, ask:</p>
+<ul>
+<li>Is the title field unique enough for editors to find entries?</li>
+<li>Are SKUs, dates, and references <strong>non-localizable</strong> unless there is a real per-locale reason?</li>
+<li>Are reusable things <strong>References</strong>, and page-only layout <strong>Modular Blocks</strong>?</li>
+<li>Are there required fields that editors cannot know at draft time? (That causes workflow deadlock.)</li>
+</ul>
+<hr>
+<h2 id="2-field-types-qa-must-recognize">2. Field types QA must recognize</h2>
+<table><thead><tr><th>Field</th><th>Typical use</th><th>QA watch-outs</th></tr></thead><tbody><tr><td>Single Line Text</td><td>Title, slug, SKU, CTA label</td><td>Unique slug; URL-safe slug vs pretty title</td></tr><tr><td>Multi Line Text</td><td>Short description, meta description</td><td>Newlines vs HTML</td></tr><tr><td>Number</td><td>Price, sort order</td><td>Zero vs empty; locale decimal in the <strong>app</strong></td></tr><tr><td>Boolean</td><td>Featured, fixture flag</td><td>Default false vs unset</td></tr><tr><td>Date / DateTime</td><td>Event start, embargo</td><td>Timezone; stored UTC vs displayed local</td></tr><tr><td>Select / Radio / Checkbox</td><td>Theme, size</td><td>New option not handled by frontend</td></tr><tr><td>File</td><td>Image, PDF</td><td>Asset published? alt text? dimensions?</td></tr><tr><td>Link</td><td>CTA URL + title</td><td>Relative vs absolute; locale path</td></tr><tr><td>Group</td><td>Address, SEO block</td><td>Multiple groups: order matters</td></tr><tr><td>Modular Blocks</td><td>Landing page sections</td><td>Block order, empty optional inner fields</td></tr><tr><td>Reference</td><td>Author, category, related products</td><td>Unpublished or deleted target; need <code>include[]</code></td></tr><tr><td>JSON RTE</td><td>Article body</td><td>Embedded entries/assets need <code>include_embedded_items[]</code></td></tr><tr><td>HTML RTE</td><td>Legacy rich text</td><td>Raw HTML XSS / script if app is careless</td></tr><tr><td>Markdown</td><td>Docs-like body</td><td>Renderer differences</td></tr><tr><td>Extension / custom</td><td>Color picker, DAM</td><td>Value shape vs frontend mapper</td></tr><tr><td>Taxonomy</td><td>Region, audience</td><td>Filter queries; unpublished terms</td></tr></tbody></table>
+<h3>Reference vs Modular Blocks</h3>
+<table><thead><tr><th></th><th>Reference</th><th>Modular Blocks</th></tr></thead><tbody><tr><td>Data lives</td><td>Separate entries</td><td>Inline on the parent</td></tr><tr><td>Reuse</td><td>Yes</td><td>No</td></tr><tr><td>API</td><td>UID unless <code>include[]</code></td><td>Always inline</td></tr><tr><td>QA focus</td><td>Target published in same environment + locale</td><td>Order, allowed block types, missing inner required fields</td></tr></tbody></table>
+<p>A classic production bug: homepage references a <code>promo_banner</code> that is still draft. CDA omits or returns an incomplete reference. The site looks “randomly empty.”</p>
+<hr>
+<h2 id="3-global-fields-and-taxonomies">3. Global fields and taxonomies</h2>
+<p><strong>Global fields</strong> are reusable schemas (SEO, CTA, address). Editing a global field changes every content type that includes it. Regression scope is <strong>all consumers</strong>, not one type.</p>
+<p><strong>Taxonomies</strong> classify entries (region, campaign, product family). QA should test listing pages that filter by taxonomy and confirm unpublished entries do not appear.</p>
+<hr>
+<h2 id="4-assets">4. Assets</h2>
+<p>Assets have their own publish lifecycle.</p>
+<p>Test:</p>
+<ol>
+<li>Upload image, do <strong>not</strong> publish asset, publish the entry → site image 404 or broken transform.</li>
+<li>Replace an asset file and republish → CDN may still serve the old file until cache expires or URL changes.</li>
+<li>Image transforms (<code>?width=800&amp;format=webp</code>) are <strong>URL features</strong>, not CMS preview features. Verify the app’s transform string.</li>
+</ol>
+<hr>
+<h2 id="5-entries-versions-and-save-vs-publish">5. Entries, versions, and save vs publish</h2>
+<ul>
+<li><strong>Save</strong> creates a new version. It does <strong>not</strong> change CDA.</li>
+<li><strong>Publish</strong> copies a specific version to selected environments and locales.</li>
+<li>You can publish an older version (rollback).</li>
+<li>Unpublish removes the entry from that environment’s CDA; the entry still exists as a draft.</li>
+</ul>
+<p>QA language that prevents confusion:</p>
+<p>&gt; “Version 7 is saved. Version 6 is published on production <code>en-us</code>. Version 7 is published on staging <code>en-us</code> only.”</p>
+<hr>
+<h2 id="6-environments-and-promotion">6. Environments and promotion</h2>
+<p>Recommended stack for Horizon Market (and most client stacks):</p>
+<table><thead><tr><th>Environment</th><th>Purpose</th><th>Who publishes</th></tr></thead><tbody><tr><td><code>development</code></td><td>Dev integration</td><td>Developers / automation</td></tr><tr><td><code>staging</code></td><td>QA + editorial UAT</td><td>QA, lead editor</td></tr><tr><td><code>production</code></td><td>Live channels</td><td>Publisher role / Release</td></tr></tbody></table>
+<p>Publish rules should block the Editor role from production. QA verifies the <strong>negative</strong> case: editor clicks Publish → production is not in the allowed list, or the action fails.</p>
+<hr>
+<h2 id="7-single-content-types-vs-multiple">7. Single content types vs multiple</h2>
+<p>A <strong>single</strong> content type allows one entry (site settings, header nav). QA must not create a second entry and must test that the app always fetches that UID or <code>find</code> with a unique query.</p>
+<p>A <strong>multiple</strong> type (articles, products) needs list queries, pagination (<code>skip</code> / <code>limit</code>), and sort.</p>
+<hr>
+<h2 id="8-branches-schema-not-git-for-entries">8. Branches (schema, not git for entries)</h2>
+<p>Branches let developers change content types without breaking editors on main.</p>
+<p>QA on a branch:</p>
+<ul>
+<li>Validate the new/changed fields on the branch delivery token if the app is pointed there.</li>
+<li>After <strong>merge to main</strong>, re-run contract tests on main <code>staging</code>.</li>
+<li>Environments are shared; do not assume a branch has a private production.</li>
+</ul>
+<hr>
+<h2 id="9-horizon-market-model-memorize-this">9. Horizon Market model (memorize this)</h2>
+<pre><code>author (multiple)
+  title, bio, photo, locale: bio+title localizable
+
+category (multiple)
+  title, slug  — slug non-localizable
+
+product (multiple)
+  title (loc), slug (unique, non-loc), sku (non-loc)
+  price (number, non-loc), description (JSON RTE, loc)
+  hero_image (file), category (ref), related_products (ref, multiple)
+  featured (boolean)
+
+article (multiple)
+  title, slug, excerpt, body (JSON RTE)
+  author (ref), products_mentioned (ref, multiple)
+  publish_date
+
+landing_page (multiple)
+  title, slug
+  sections (modular blocks: hero, product_grid, cta, rich_text)
+  seo (global field)
+
+promo_banner (multiple)
+  name, message (loc), image, target_url, active_from, active_to
+
+site_settings (single)
+  site_name, default_seo, footer_links</code></pre>
+<p>Workflow on <code>product</code>, <code>article</code>, <code>landing_page</code>, <code>promo_banner</code>:  </p>
+<p><code>Draft → In Review → Approved → Published</code></p>
+<hr>
+<h2 id="10-knowledge-check">10. Knowledge check</h2>
+<ol>
+<li>Why is changing a field <strong>label</strong> safer than changing a field <strong>UID</strong>?</li>
+<li>A landing page looks empty. The hero block exists in the CMS. Give two Layer B causes and one Layer A cause.</li>
+<li>Editor replaced a product image. Production still shows the old image. List three possible causes.</li>
+</ol>
+<hr>
+<p><strong>Next:</strong> <a href="03-apis-releases.html">Module 03 — APIs, preview, releases</a></p>
+      <div class="pager">
+        <a href="01-boundaries.html">← Module 01</a>
+        <a href="03-apis-releases.html">Module 03 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

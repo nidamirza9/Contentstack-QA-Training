@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 05 — Workflow and preview · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a class="active" href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 05</div>
+      <h1>Lab 05 — Workflow, roles, and preview</h1>
+<p><strong>Time:</strong> 60 minutes  </p>
+<p><strong>Layer:</strong> CMS + Preview  </p>
+<p><strong>Exit:</strong> You can separate workflow stage from publish, and draft from CDA.</p>
+<hr>
+<h2 id="1-workflow-happy-path">1. Workflow happy path</h2>
+<p>If Horizon Review is assigned to <code>product</code>:</p>
+<ol>
+<li>Create product <code>[QA-FIXTURE] Canvas Tote</code>, SKU <code>HM-TOTE-001</code>, slug <code>canvas-tote</code>, category Apparel. Save.</li>
+<li>Stage should be <strong>Draft</strong>. Staging CDA query for slug <code>canvas-tote</code> → 0 entries.</li>
+<li>Send to <strong>In Review</strong>. Still not on CDA.</li>
+<li>Move to <strong>Approved</strong>. Still not on CDA unless a rule auto-publishes (note it if it does — that is a project decision to test).</li>
+<li>Publish to <strong>staging</strong> only.</li>
+<li>Staging CDA returns the tote.</li>
+</ol>
+<p>Record: stage at each step vs CDA count.</p>
+<hr>
+<h2 id="2-role-negatives-skip-if-you-are-only-admin">2. Role negatives (skip if you are only Admin)</h2>
+<p>Log in as <strong>HM Author</strong> (or equivalent):</p>
+<table><thead><tr><th>Attempt</th><th>Expected</th></tr></thead><tbody><tr><td>Publish tote to production</td><td>Denied</td></tr><tr><td>Edit a production-published legal entry (if you created one)</td><td>Denied if field/role restricted</td></tr></tbody></table>
+<p>Log in as <strong>HM Translator FR</strong>:</p>
+<table><thead><tr><th>Attempt</th><th>Expected</th></tr></thead><tbody><tr><td>Edit <code>en-us</code> title</td><td>Denied</td></tr><tr><td>Edit <code>fr-fr</code> title</td><td>Allowed</td></tr></tbody></table>
+<p>File any mismatch as a <strong>role defect</strong> with role name + permission screenshot.</p>
+<hr>
+<h2 id="3-preview-vs-cda">3. Preview vs CDA</h2>
+<ol>
+<li>As QA/Admin, change tote title to <code>Canvas Tote — DRAFT</code> and <strong>Save</strong>.</li>
+<li>Staging CDA still shows the previous published title.</li>
+<li>Preview API (preview host + <code>preview_token</code> header) or Live Preview shows <code>Canvas Tote — DRAFT</code>.</li>
+<li>Publish to staging. CDA catches up.</li>
+</ol>
+<p>If Live Preview is not wired to an app, Postman against Preview API is enough for this lab.</p>
+<p>Preview REST pattern (region-specific host):</p>
+<pre><code>GET {PREVIEW_HOST}/v3/content_types/product/entries/{UID}
+  ?environment=staging
+  &amp;locale=en-us</code></pre>
+<p>Headers: <code>api_key</code>, <code>preview_token</code>.</p>
+<hr>
+<h2 id="4-publish-rules">4. Publish rules</h2>
+<p>If you configured “production only from Approved”:</p>
+<ol>
+<li>Set tote to <strong>In Review</strong>.</li>
+<li>Attempt production publish.</li>
+<li>Expected: blocked.</li>
+<li>Approve, then production publish should work — <strong>immediately unpublish from production</strong> so labs stay clean.</li>
+</ol>
+<hr>
+<h2 id="pass">Pass</h2>
+<ul>
+<li>Table of stage vs CDA for tote</li>
+<li>Draft title not on CDA</li>
+<li>At least one role negative attempted or explicitly skipped with reason</li>
+<li>Production left clean (tote unpublished from production)</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="06-localization.html">Lab 06 — Localization</a></p>
+      <div class="pager">
+        <a href="04-delivery-api.html">← Lab 04</a>
+        <a href="06-localization.html">Lab 06 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

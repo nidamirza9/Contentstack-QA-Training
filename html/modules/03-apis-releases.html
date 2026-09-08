@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 03 — APIs and releases · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a class="active" href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Modules / 03</div>
+      <h1>Module 03 — APIs, Preview, and Releases</h1>
+<p><strong>Time:</strong> 3 hours  </p>
+<p><strong>Goal:</strong> Pick the correct API for each QA check and prove publish, preview, and campaign releases.</p>
+<hr>
+<h2 id="1-three-apis-three-jobs">1. Three APIs, three jobs</h2>
+<table><thead><tr><th>API</th><th>Read/Write</th><th>Data state</th><th>Auth</th><th>QA use</th></tr></thead><tbody><tr><td><strong>REST CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Delivery token</td><td>Contract and regression</td></tr><tr><td><strong>GraphQL CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Same delivery token</td><td>Field-level contract, over-fetch checks</td></tr><tr><td><strong>Preview API</strong></td><td>Read</td><td>Draft + Timeline + live preview hash</td><td>Preview token</td><td>Preview UAT, embargo Timeline</td></tr><tr><td><strong>CMA</strong></td><td>Read/Write</td><td>All states, admin operations</td><td>Management token</td><td>Setup, workflow, Releases — <strong>not</strong> runtime proof</td></tr></tbody></table>
+<p>GraphQL CDA has <strong>no mutations</strong>. All writes go through CMA.</p>
+<p><strong>Never</strong> use CMA GET as proof that the website is correct. CMA can see drafts. The site uses CDA.</p>
+<hr>
+<h2 id="2-hosts-you-will-actually-call">2. Hosts you will actually call</h2>
+<p>Region matters. Confirm the stack region in Settings. North America examples:</p>
+<table><thead><tr><th>Surface</th><th>Host pattern</th></tr></thead><tbody><tr><td>REST CDA</td><td><code>https://cdn.contentstack.io/v3/...</code></td></tr><tr><td>REST CMA</td><td><code>https://api.contentstack.io/v3/...</code></td></tr><tr><td>GraphQL CDA</td><td><code>https://graphql.contentstack.com/stacks/{api_key}?environment={env}</code></td></tr><tr><td>GraphQL Preview</td><td><code>https://graphql-preview.contentstack.com/stacks/{api_key}</code></td></tr></tbody></table>
+<p>EU / Azure / GCP stacks use different hosts (<code>eu-</code>, <code>azure-na-</code>, <code>gcp-na-</code>). Copy hosts from the stack’s API docs, not from memory.</p>
+<p>Required CDA headers (REST):</p>
+<pre><code>api_key: &lt;stack API key&gt;
+access_token: &lt;environment delivery token&gt;</code></pre>
+<p>Common query parameters:</p>
+<table><thead><tr><th>Param</th><th>Why QA uses it</th></tr></thead><tbody><tr><td><code>environment</code></td><td>Must match the delivery token’s environment</td></tr><tr><td><code>locale</code></td><td><code>en-us</code>, <code>fr-fr</code>, <code>de-de</code></td></tr><tr><td><code>include[]</code></td><td>Resolve reference field UIDs</td></tr><tr><td><code>include_all</code> / <code>include_all_depth</code></td><td>Full tree (watch payload size)</td></tr><tr><td><code>include_embedded_items[]</code></td><td>Resolve JSON RTE embeds (value = RTE field UID)</td></tr><tr><td><code>include_fallback</code></td><td>See fallback content when locale missing</td></tr><tr><td><code>query</code></td><td>JSON filter (featured, taxonomy, slug)</td></tr><tr><td><code>skip</code> / <code>limit</code></td><td>Pagination</td></tr><tr><td><code>only[BASE][]</code> / <code>except[BASE][]</code></td><td>Field projection</td></tr></tbody></table>
+<hr>
+<h2 id="3-rest-cda-recipes-for-horizon-market">3. REST CDA recipes for Horizon Market</h2>
+<p>Replace placeholders. Use staging token for UAT.</p>
+<p><strong>Get product by UID</strong></p>
+<pre><code>GET https://cdn.contentstack.io/v3/content_types/product/entries/{ENTRY_UID}
+  ?environment=staging
+  &amp;locale=en-us
+  &amp;include[]=category
+  &amp;include[]=related_products</code></pre>
+<p><strong>Get product by slug</strong></p>
+<pre><code>GET https://cdn.contentstack.io/v3/content_types/product/entries
+  ?environment=staging
+  &amp;locale=en-us
+  &amp;query={&quot;slug&quot;:&quot;linen-overshirt&quot;}
+  &amp;include[]=category</code></pre>
+<p><strong>List featured products</strong></p>
+<pre><code>GET https://cdn.contentstack.io/v3/content_types/product/entries
+  ?environment=staging
+  &amp;query={&quot;featured&quot;:true}
+  &amp;include[]=category</code></pre>
+<p><strong>Landing page with RTE embeds</strong></p>
+<pre><code>GET https://cdn.contentstack.io/v3/content_types/landing_page/entries
+  ?environment=staging
+  &amp;query={&quot;slug&quot;:&quot;spring-edit&quot;}
+  &amp;include_embedded_items[]=sections.rich_text.body</code></pre>
+<p>If modular block RTE field UID differs, copy it from the content type schema.</p>
+<h3>GraphQL equivalent (published only)</h3>
+<pre><code>query StagingProduct($locale: String!) {
+  all_product(
+    locale: $locale
+    where: { slug: &quot;linen-overshirt&quot; }
+  ) {
+    items {
+      title
+      slug
+      sku
+      price
+      categoryConnection { edges { node { title slug } } }
+    }
+  }
+}</code></pre>
+<p>Call GraphQL CDA with the <strong>same</strong> staging delivery token. If GraphQL returns the product and REST does not, you used different environments or locales — that is the defect, not “GraphQL is newer.”</p>
+<hr>
+<h2 id="4-preview-vs-published-the-1-qa-confusion">4. Preview vs published (the #1 QA confusion)</h2>
+<table><thead><tr><th>Check</th><th>API</th><th>Expected</th></tr></thead><tbody><tr><td>Editor saved, not published</td><td>Preview: new copy</td><td>CDA: old published version or 404</td></tr><tr><td>Published to staging only</td><td>Staging CDA: new</td><td>Production CDA: old</td></tr><tr><td>Live Preview iframe</td><td>Preview host + <code>live_preview</code> hash + preview token</td><td>Must not use delivery token</td></tr><tr><td>Timeline / scheduled future</td><td>Preview + <code>preview_timestamp</code></td><td>CDA unchanged until schedule fires</td></tr></tbody></table>
+<p>If Live Preview and the public staging site disagree, do not immediately blame the frontend. Confirm which API each surface calls.</p>
+<hr>
+<h2 id="5-releases-and-scheduled-publish">5. Releases and scheduled publish</h2>
+<p>A <strong>Release</strong> is a named set of items, each with <code>publish</code> or <code>unpublish</code>, deployed together to one or more environments.</p>
+<p>QA must verify:</p>
+<ol>
+<li>Every referenced entry and asset is <strong>in the Release</strong> or already live. Missing child = broken page after deploy.</li>
+<li>Entries are in a <strong>publishable workflow stage</strong>. Stuck in “In Review” can skip the item or fail the Release (depends on stack config).</li>
+<li>Locales included match the campaign (do not ship <code>en-us</code> only when the banner is localized).</li>
+<li>After deploy: CDA on the target environment matches the Release contents; the other environment is untouched if not selected.</li>
+<li>Unpublish items in the same Release actually disappear from CDA.</li>
+<li>Failed or partial deploy is treated as a <strong>go-live incident</strong>, not a cosmetic bug.</li>
+</ol>
+<p>Scheduled publish on a <strong>single entry</strong> is not the same as a Release. Test both if the project uses both.</p>
+<p>CMA can create and deploy Releases. QA may watch a deploy; QA should not hold a management token in a personal snippet file.</p>
+<hr>
+<h2 id="6-webhooks-and-the-site-is-stale">6. Webhooks and “the site is stale”</h2>
+<p>Publish success in CMS ≠ users see new HTML.</p>
+<p>Typical chain:</p>
+<pre><code>Publish event → webhook → CI rebuild or ISR revalidate → CDN</code></pre>
+<p>QA records:</p>
+<ul>
+<li>Publish timestamp</li>
+<li>Webhook delivery status (Settings → Webhooks)</li>
+<li>Build/revalidate timestamp</li>
+<li>Browser cache / CDN TTL</li>
+</ul>
+<p>A 5-minute delay with a working webhook is often <strong>expected</strong>. A 2-hour delay with failed 500 webhooks is a defect.</p>
+<hr>
+<h2 id="7-live-preview-and-visual-builder">7. Live Preview and Visual Builder</h2>
+<p><strong>Live Preview:</strong> draft rendered in the real app inside Contentstack.</p>
+<p><strong>Visual Builder:</strong> editors click page elements (<code>data-cslp</code> tags) and edit fields in context.</p>
+<p>QA checks:</p>
+<ul>
+<li>Draft change appears in Preview without publish.</li>
+<li>Published site does not show the draft.</li>
+<li>Visual Builder outlines the correct field (wrong <code>data-cslp</code> = editor edits the wrong content).</li>
+<li>Locale switch in Preview matches <code>locale</code> sent to Preview API.</li>
+<li>Preview does not leak management tokens to the browser network panel.</li>
+</ul>
+<p>Studio / composition pages (if the project uses Contentstack Studio) are JSON layouts. Test against fixture entries tagged <code>fixture=true</code> so authors do not edit them.</p>
+<hr>
+<h2 id="8-knowledge-check">8. Knowledge check</h2>
+<ol>
+<li>Which API proves what shoppers see on production?</li>
+<li>REST returns <code>category</code> as a UID string. What did the request omit?</li>
+<li>Preview shows the new headline; staging site does not. Give the healthy explanation and the unhealthy one.</li>
+<li>A Release deploys but the hero image 404s. What was likely left out of the Release?</li>
+</ol>
+<hr>
+<p><strong>Next:</strong> <a href="04-qa-strategy.html">Module 04 — QA strategy on real projects</a></p>
+      <div class="pager">
+        <a href="02-model-publish.html">← Module 02</a>
+        <a href="04-qa-strategy.html">Module 04 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 04 — QA strategy · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a class="active" href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Modules / 04</div>
+      <h1>Module 04 — QA Strategy on Real Contentstack Projects</h1>
+<p><strong>Time:</strong> 2 hours  </p>
+<p><strong>Goal:</strong> Plan tests the way a delivery team actually ships: model change, content UAT, campaign, localization, regression.</p>
+<hr>
+<h2 id="1-test-strategy-in-one-page">1. Test strategy in one page</h2>
+<table><thead><tr><th>Layer</th><th>Technique</th><th>When</th></tr></thead><tbody><tr><td>Content type schema</td><td>Contract snapshot of CDA/GraphQL schema or sample JSON</td><td>Every merge of a branch or type edit</td></tr><tr><td>Entry rules</td><td>Manual + required-field / workflow negative tests</td><td>New type or workflow</td></tr><tr><td>Delivery JSON</td><td>REST/GraphQL assertions in CI against fixture UIDs</td><td>Every pipeline</td></tr><tr><td>Preview</td><td>Scripted Playwright only for high-value paths</td><td>Preview or Visual Builder change</td></tr><tr><td>Channel UI</td><td>Functional + visual on staging</td><td>Every content template</td></tr><tr><td>Campaign</td><td>Release rehearsal on staging, then production window</td><td>Every coordinated go-live</td></tr><tr><td>Localization</td><td>Fallback matrix + app formatting</td><td>New locale or localized field</td></tr><tr><td>Roles</td><td>Negative publish / language tests</td><td>New role or publish rule</td></tr></tbody></table>
+<p>Do <strong>not</strong> automate the entire Contentstack UI. It is slow and brittle. Automate the <strong>JSON contract</strong> and a thin set of authoring E2E paths.</p>
+<hr>
+<h2 id="2-fixture-entry-strategy">2. Fixture-entry strategy</h2>
+<p>Create entries that CI and humans both use:</p>
+<ul>
+<li>Prefix title with <code>[QA-FIXTURE]</code></li>
+<li>Boolean field <code>is_fixture</code> = true (add it to types you test)</li>
+<li>Never use fixtures for real campaigns</li>
+<li>Store UIDs in the test repo (<code>fixtures/horizon-market.json</code>)</li>
+<li>Optional: snapshot CDA JSON and diff it in CI (schema drift)</li>
+</ul>
+<p>If editors “helpfully” edit fixtures, contract tests fail. Protect with role exceptions or a dedicated QA content type folder convention.</p>
+<hr>
+<h2 id="3-story-templates-qa-should-demand">3. Story templates QA should demand</h2>
+<p>Bad story:</p>
+<p>&gt; As an editor I can add a product so it shows on the site.</p>
+<p>Good acceptance criteria (copy this):</p>
+<ol>
+<li>Editor can create <code>product</code> with required fields; SKU and slug unique.</li>
+<li>Save does not appear on any CDA environment.</li>
+<li>Publish to <code>staging</code> + <code>en-us</code> makes CDA return the entry with <code>category</code> resolved.</li>
+<li><code>production</code> CDA still 404 / empty for that UID.</li>
+<li>Staging PDP shows title, price, image, category name.</li>
+<li>Unpublish from staging removes CDA + PDP (after cache SLA).</li>
+<li><code>fr-fr</code> without localization falls back per stack rules; SKU stays identical.</li>
+</ol>
+<p>If a story has no environment or locale, send it back.</p>
+<hr>
+<h2 id="4-risk-based-coverage">4. Risk-based coverage</h2>
+<table><thead><tr><th>Risk</th><th>Why it ships broken</th><th>Minimum tests</th></tr></thead><tbody><tr><td>Unpublished reference</td><td>Homepage empty</td><td>Publish parent, leave child draft</td></tr><tr><td>Locale fallback</td><td>FR site shows EN legal copy</td><td>Matrix in Lab 06</td></tr><tr><td>Modular block order</td><td>Legal disclaimer above fold</td><td>Reorder blocks, check JSON array + UI</td></tr><tr><td>Global field change</td><td>SEO title vanishes on 40 types</td><td>One consumer per type after change</td></tr><tr><td>Asset not in Release</td><td>Campaign image 404</td><td>Release without asset vs with asset</td></tr><tr><td>Workflow skip</td><td>Legal-unreviewed content live</td><td>Role cannot publish from In Review</td></tr><tr><td>Branch merge</td><td>Field UID renamed</td><td>Contract test fail = block merge</td></tr><tr><td>Webhook fail</td><td>ISR never runs</td><td>Failed webhook + stale HTML</td></tr><tr><td>Cache</td><td>“I published 2 minutes ago”</td><td>Document SLA; do not file before SLA</td></tr><tr><td>GraphQL vs REST mapper</td><td>App uses one, QA tested the other</td><td>Dual-check once per template</td></tr></tbody></table>
+<hr>
+<h2 id="5-roles-qa-must-impersonate">5. Roles QA must impersonate</h2>
+<p>Ask for these users on the sandbox and on the project:</p>
+<table><thead><tr><th>Persona</th><th>Typical permissions</th><th>Tests</th></tr></thead><tbody><tr><td>Author</td><td>Create/update entries, no production publish</td><td>Cannot publish prod</td></tr><tr><td>Reviewer</td><td>Workflow In Review → Approved</td><td>Cannot edit after Approved if configured</td></tr><tr><td>Translator</td><td>Specific locales only; not master</td><td>Cannot change <code>en-us</code></td></tr><tr><td>Publisher</td><td>Production + Releases</td><td>Happy path go-live</td></tr><tr><td>QA</td><td>Read all; publish staging</td><td>Your daily user</td></tr><tr><td>Developer</td><td>Content types, tokens, branches</td><td>Out of scope for content UAT</td></tr></tbody></table>
+<p>File permission defects with <strong>role name</strong>, not “I could not click Publish.”</p>
+<hr>
+<h2 id="6-collaboration-pattern-that-works">6. Collaboration pattern that works</h2>
+<pre><code>Editor authors  →  QA checks CMS + staging CDA + staging site
+Developer fixes mapper / include[] / preview SDK
+Publisher runs Release after QA sign-off
+QA re-checks production CDA + smoke (not full regression)</code></pre>
+<p>Stand-up language:</p>
+<ul>
+<li>“Blocked on unpublished <code>author</code> uid <code>blt…</code> for article X”</li>
+<li>“Staging CDA good; production webhook 502 since 14:10”</li>
+<li>“Visual Builder <code>data-cslp</code> on hero CTA points at <code>title</code> not <code>cta_label</code>”</li>
+</ul>
+<hr>
+<h2 id="7-first-week-plan-on-a-client-stack">7. First-week plan on a client stack</h2>
+<p><strong>Day 1:</strong> Get stack access, region, three tokens (delivery staging, delivery production read-only test, preview). Map content types to site templates. List locales and fallback.</p>
+<p><strong>Day 2:</strong> Walk one happy-path entry per major type. Capture fixture UIDs. Import sample CDA JSON into the test repo.</p>
+<p><strong>Day 3:</strong> Negative tests: unpublished ref, wrong locale, role publish, empty modular block.</p>
+<p><strong>Day 4:</strong> Preview vs site, one Release rehearsal, webhook/cache SLA written in Confluence/ADO.</p>
+<p><strong>Day 5:</strong> Sign the <a href="../checklists/acceptance.html">acceptance pack</a> for “QA is unblocked.”</p>
+<hr>
+<h2 id="8-what-done-looks-like-for-a-content-ticket">8. What “done” looks like for a content ticket</h2>
+<ul>
+<li>Entry UIDs and versions recorded</li>
+<li>Environments and locales listed</li>
+<li>Staging CDA JSON attached (sensitive tokens redacted)</li>
+<li>Production CDA checked if the ticket claims live</li>
+<li>Site/app screenshot <strong>after</strong> cache SLA</li>
+<li>References and assets published</li>
+<li>Workflow stage matches publish rules</li>
+<li>No fixture or test copy on production</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href=".labs/00-setup.html">Lab setup</a></p>
+      <div class="pager">
+        <a href="03-apis-releases.html">← Module 03</a>
+        <a href="../labs/00-setup.html">Lab setup →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

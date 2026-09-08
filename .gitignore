@@ -1,0 +1,4 @@
+.env
+.env.*
+notes/lab-uids.md
+*.pem

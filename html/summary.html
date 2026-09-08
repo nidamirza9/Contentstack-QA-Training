@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Training summary · Contentstack QA</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a class="active" href="summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Training summary</div>
+      <h1>Training Summary — Contentstack QA Tester</h1>
+<p><strong>Audience:</strong> QA testers joining a live Contentstack project  </p>
+<p><strong>Duration:</strong> 4 days (2 concept + 2 lab) + first-sprint shadowing  </p>
+<p><strong>Outcome:</strong> A tester who can accept content, prove it via API, and file defects that developers and editors can act on</p>
+<hr>
+<h2 id="why-qa-on-contentstack-is-different">Why QA on Contentstack is different</h2>
+<p>Contentstack is a <strong>headless CMS</strong>. Editors create structured content in the CMS. A separate website, app, or kiosk <strong>fetches JSON</strong> and renders it. There is no “CMS page preview equals the live site” unless the team built Live Preview.</p>
+<p>QA therefore tests <strong>three layers</strong>, not one screen:</p>
+<pre><code>Editor action in Contentstack
+        ↓
+Published JSON on CDA / GraphQL (per environment + locale)
+        ↓
+Frontend / app rendering + cache + personalization</code></pre>
+<p>A bug can sit in any layer. Filing “homepage is blank” without checking environment, locale, publish status, and the Delivery API wastes a sprint.</p>
+<p>Contentstack is the <strong>system of record for editorial content</strong>. It does <strong>not</strong> host the website, run checkout, authenticate site visitors, or own URL routing. Those belong to the app and infrastructure. Test them as integrations, not as CMS features.</p>
+<hr>
+<h2 id="what-a-qa-tester-owns-on-a-real-project">What a QA tester owns on a real project</h2>
+<table><thead><tr><th>Owns</th><th>Does not own</th></tr></thead><tbody><tr><td>Content correctness vs acceptance criteria</td><td>Designing the content model (challenge it, do not invent it)</td></tr><tr><td>Workflow, role, and publish-rule enforcement</td><td>Creating management tokens or changing stack settings without approval</td></tr><tr><td>Environment promotion: draft → staging → production</td><td>Frontend architecture and hosting</td></tr><tr><td>Locale + fallback behaviour</td><td>Translation quality (linguistics owns copy; QA owns “wrong locale shown”)</td></tr><tr><td>Delivery API contract: fields, references, assets</td><td>Writing production CMA write scripts</td></tr><tr><td>Live Preview / Visual Builder vs published site</td><td>Building Live Preview SDK integration</td></tr><tr><td>Releases, scheduled publish, unpublish</td><td>CDN/WAF configuration (verify cache impact)</td></tr><tr><td>Regression when a content type or branch is merged</td><td>Schema design on branches (verify after merge)</td></tr></tbody></table>
+<hr>
+<h2 id="skills-you-will-have-after-this-training">Skills you will have after this training</h2>
+<ol>
+<li>Explain stack, content type, entry, asset, environment, locale, branch, and release.</li>
+<li>Author and validate a content type and entries for Horizon Market.</li>
+<li>Publish to one environment and prove another environment is unchanged.</li>
+<li>Call REST CDA and GraphQL CDA; use Preview API for drafts.</li>
+<li>Resolve references with <code>include[]</code> and embedded RTE items with <code>include_embedded_items[]</code>.</li>
+<li>Test fallback locales and non-localizable fields.</li>
+<li>Walk an entry through Draft → In Review → Approved → Published.</li>
+<li>Assemble a Release and verify atomic publish / unpublish.</li>
+<li>Write test cases and defects using the taxonomy in this pack.</li>
+<li>Run a campaign go-live checklist with editors and developers.</li>
+</ol>
+<hr>
+<h2 id="syllabus">Syllabus</h2>
+<h3>Day 1 — Foundations and authoring</h3>
+<table><thead><tr><th>#</th><th>Module</th><th>Hours</th><th>Exit criteria</th></tr></thead><tbody><tr><td>01</td><td><a href="modules/01-boundaries.html">Headless CMS and Contentstack boundaries</a></td><td>2</td><td>Can draw the three-layer test model</td></tr><tr><td>02</td><td><a href="modules/02-model-publish.html">Content model, authoring, environments</a></td><td>4</td><td>Can name field types and when to use Reference vs Modular Blocks</td></tr><tr><td>Lab 01–03</td><td>Stack orientation, model + entry, publish</td><td>2</td><td>Entry visible on staging CDA, absent on production CDA</td></tr></tbody></table>
+<h3>Day 2 — APIs, preview, localization, releases</h3>
+<table><thead><tr><th>#</th><th>Module</th><th>Hours</th><th>Exit criteria</th></tr></thead><tbody><tr><td>03</td><td><a href="modules/03-apis-releases.html">APIs, preview, releases</a></td><td>3</td><td>Can choose CDA vs CMA vs Preview for a given check</td></tr><tr><td>04</td><td><a href="modules/04-qa-strategy.html">QA strategy on real projects</a></td><td>2</td><td>Can write a content-change test plan</td></tr><tr><td>Lab 04–07</td><td>CDA, workflow, locales, campaign Release</td><td>3</td><td>Localized campaign proven on staging API + site</td></tr></tbody></table>
+<h3>Day 3–4 — Hands-on project simulation</h3>
+<table><thead><tr><th>#</th><th>Lab</th><th>Hours</th><th>Exit criteria</th></tr></thead><tbody><tr><td>Lab 08</td><td><a href="./labs/lab-08-regression-and-defects.md">Regression and defect writing</a></td><td>3</td><td>Five defects filed with layer + evidence</td></tr><tr><td>Capstone</td><td>Mini go-live of Horizon Market spring campaign</td><td>4</td><td>Checklist signed; no unpublished reference on production</td></tr></tbody></table>
+<p>Use <a href="./checklists/">checklists/</a> during Days 3–4. Do not invent a new process on the first client project.</p>
+<hr>
+<h2 id="contentstack-building-blocks-qa-memory-card">Contentstack building blocks (QA memory card)</h2>
+<table><thead><tr><th>Primitive</th><th>What it is</th><th>QA implication</th></tr></thead><tbody><tr><td><strong>Organization</strong></td><td>Company account</td><td>Users and SSO live here</td></tr><tr><td><strong>Stack</strong></td><td>One project / site family</td><td>Tokens, environments, and content types are per stack</td></tr><tr><td><strong>Content type</strong></td><td>Schema and API contract</td><td>Field UID changes break frontend and tests</td></tr><tr><td><strong>Global field</strong></td><td>Reusable field group</td><td>A change ripples across every type that uses it</td></tr><tr><td><strong>Entry</strong></td><td>One instance of a type</td><td>Versioned; publish is per environment and locale</td></tr><tr><td><strong>Asset</strong></td><td>File on CDN</td><td>Publishing an entry does not always publish a new asset</td></tr><tr><td><strong>Environment</strong></td><td>Publish destination + delivery token</td><td>Staging token never proves production</td></tr><tr><td><strong>Locale</strong></td><td>Language variant + fallback</td><td>Unlocalized entries inherit; localized ones do not</td></tr><tr><td><strong>Workflow</strong></td><td>Stages and publish rules</td><td>“Approved” is not the same as “published”</td></tr><tr><td><strong>Release</strong></td><td>Atomic set of publish/unpublish</td><td>Partial deploy or skipped items are defects</td></tr><tr><td><strong>Branch</strong></td><td>Parallel schema work</td><td>Test the merge, not only the feature branch</td></tr><tr><td><strong>Webhook / Automate</strong></td><td>Event out to CI, search, Slack</td><td>Failed webhook = stale site or stale index</td></tr></tbody></table>
+<hr>
+<h2 id="token-rules-never-mix-these">Token rules (never mix these)</h2>
+<table><thead><tr><th>Token</th><th>Used for</th><th>Safe in frontend?</th></tr></thead><tbody><tr><td><strong>Delivery token</strong></td><td>REST/GraphQL CDA — <strong>published</strong> content for one environment</td><td>Yes, if scoped correctly</td></tr><tr><td><strong>Preview token</strong></td><td>Preview API — drafts and Timeline</td><td>No (treat as secret)</td></tr><tr><td><strong>Management token</strong></td><td>CMA writes, workflows, releases</td><td>Never in browser or repo</td></tr></tbody></table>
+<p>If a “site bug” only appears when someone used a management token in Postman, it is not a production CDA bug.</p>
+<hr>
+<h2 id="real-world-project-shape">Real-world project shape</h2>
+<p>A typical Contentstack delivery QA will see:</p>
+<ol>
+<li><strong>Kickoff</strong> — content model walkthrough, environments, locales, roles.</li>
+<li><strong>Authoring UAT</strong> — editors create real entries; QA checks required fields, defaults, references, modular block order.</li>
+<li><strong>Integration test</strong> — frontend wired to <code>development</code> or <code>staging</code> delivery tokens.</li>
+<li><strong>Preview UAT</strong> — Live Preview / Visual Builder matches the app; draft ≠ published.</li>
+<li><strong>Localization UAT</strong> — fallback, RTL if needed, date/currency formatting in the <strong>app</strong> (CMS stores strings).</li>
+<li><strong>Release rehearsal</strong> — campaign Release on staging, then production window.</li>
+<li><strong>Regression</strong> — schema change or branch merge; contract tests on CDA JSON.</li>
+<li><strong>Hypercare</strong> — unpublish, rollback via versions, cache TTL, webhook rebuild time.</li>
+</ol>
+<p>Horizon Market labs simulate items 2–7.</p>
+<hr>
+<h2 id="definition-of-done-for-this-training">Definition of done for this training</h2>
+<p>A tester is project-ready when they can, without help:</p>
+<ul>
+<li>Create a <code>product</code> and <code>landing_page</code> entry, attach an asset and a category reference, and publish <strong>only</strong> to <code>staging</code>.</li>
+<li>Show the JSON on staging CDA with references resolved, and show production CDA still missing that entry.</li>
+<li>Localize the product title to <code>fr-fr</code>, leave SKU non-localized, and prove fallback for <code>de-de</code>.</li>
+<li>Move the entry through workflow and show a reviewer-only user cannot publish to production.</li>
+<li>File one defect that includes: layer (CMS / API / app), environment, locale, entry UID, version, and a CDA response snippet.</li>
+</ul>
+<hr>
+<h2 id="recommended-official-academy-path-optional">Recommended official Academy path (optional)</h2>
+<p>Complete these <strong>after</strong> the labs if the project uses the matching feature:</p>
+<ol>
+<li>CMS Developer Foundations — boundaries and building blocks  </li>
+<li>Content Modeling with Contentstack  </li>
+<li>APIs and Developer Tooling  </li>
+<li>Preview, Visual Builder, and Releases  </li>
+<li>Workflow, Branches, and Collaboration  </li>
+</ol>
+<p>Academy is developer-leaning. This pack is the QA cut of the same platform.</p>
+<hr>
+<h2 id="next-step">Next step</h2>
+<p>Open <a href="modules/01-boundaries.html">modules/01-headless-cms-and-contentstack.md</a>, then set up the sandbox in <a href="labs/00-setup.html">labs/00-lab-setup.md</a>.</p>
+      <div class="pager">
+        <a href="index.html">← Home</a>
+        <a href="modules/01-boundaries.html">Module 01 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

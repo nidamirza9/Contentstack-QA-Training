@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 03 — Publish · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a class="active" href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 03</div>
+      <h1>Lab 03 — Environments, assets, and publish</h1>
+<p><strong>Time:</strong> 45 minutes  </p>
+<p><strong>Layer:</strong> CMS + (light) API  </p>
+<p><strong>Exit:</strong> Product is on staging only; production CDA does not return it.</p>
+<hr>
+<h2 id="1-publish-dependencies-first">1. Publish dependencies first</h2>
+<p>Order matters.</p>
+<ol>
+<li>Publish asset <code>hero_image</code> (and author photo) to <strong>staging</strong>.</li>
+<li>Publish <code>category</code> Apparel to <strong>staging</strong> (<code>en-us</code>).</li>
+<li>Publish <code>product</code> Linen Overshirt to <strong>staging</strong> (<code>en-us</code>) only.  </li>
+</ol>
+<p>   Do <strong>not</strong> select <code>production</code>.</p>
+<p>If the UI lets you select all environments, that is a <strong>role/publish-rule defect</strong> on a real project. On a personal trial you may be Admin — still uncheck production.</p>
+<hr>
+<h2 id="2-prove-it">2. Prove it</h2>
+<p>Use staging token:</p>
+<pre><code>GET {CDA}/v3/content_types/product/entries?environment=staging&amp;query={&quot;slug&quot;:&quot;linen-overshirt&quot;}</code></pre>
+<p>Expected: 1 entry; <code>title</code> contains Linen Overshirt.</p>
+<p>Use production token:</p>
+<pre><code>GET {CDA}/v3/content_types/product/entries?environment=production&amp;query={&quot;slug&quot;:&quot;linen-overshirt&quot;}</code></pre>
+<p>Expected: 0 entries.</p>
+<p>If production returns the product, you published to production. Unpublish from production and re-test.</p>
+<hr>
+<h2 id="3-version-drill">3. Version drill</h2>
+<ol>
+<li>Edit title to <code>[QA-FIXTURE] Linen Overshirt (v2)</code> and <strong>Save</strong> (do not publish).</li>
+<li>Repeat staging CDA. Expected: <strong>old</strong> title still published.</li>
+<li>Open Live Preview or Preview API if configured — expected: v2 title.</li>
+<li>Publish v2 to staging. CDA now shows v2.</li>
+<li>In Versions, publish the previous version back to staging (rollback). CDA shows v1 title again.</li>
+</ol>
+<hr>
+<h2 id="4-asset-drill">4. Asset drill</h2>
+<ol>
+<li>Replace <code>hero_image</code> with a visually different file.</li>
+<li>Publish the <strong>entry</strong> but not the new asset (if the UI allows).</li>
+<li>Note broken or old image behaviour — this is a standard defect pattern.</li>
+<li>Publish the new asset to staging and confirm CDA <code>hero_image.url</code> changes or cache-busts.</li>
+</ol>
+<hr>
+<h2 id="5-unpublish">5. Unpublish</h2>
+<ol>
+<li>Unpublish the product from staging.</li>
+<li>Staging CDA query returns 0.</li>
+<li>Re-publish to staging so later labs still have data.</li>
+</ol>
+<hr>
+<h2 id="pass">Pass</h2>
+<ul>
+<li>Staging CDA hit, production miss (then restored)</li>
+<li>Save ≠ publish demonstrated</li>
+<li>Rollback via versions demonstrated</li>
+<li>Notes updated with current published version</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="04-delivery-api.html">Lab 04 — Delivery API</a></p>
+      <div class="pager">
+        <a href="02-model-entry.html">← Lab 02</a>
+        <a href="04-delivery-api.html">Lab 04 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceptance pack · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a class="active" href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Checklists / Acceptance</div>
+      <h1>QA acceptance pack — Contentstack project</h1>
+<p>Use on every sprint, campaign, and “QA is unblocked” gate. Copy into ADO/Jira as needed.</p>
+<hr>
+<h2 id="a-stack-access-once-per-project">A. Stack access (once per project)</h2>
+<ul>
+<li>Region and app URL documented</li>
+<li>Staging delivery token in secret store (not chat)</li>
+<li>Production delivery token available to QA for <strong>read</strong> proof</li>
+<li>Preview token for UAT environment</li>
+<li>Role: QA can publish staging, cannot publish production (or exception documented)</li>
+<li>Locales + fallback tree written down</li>
+<li>Webhook list + owner + expected SLA (rebuild / ISR)</li>
+</ul>
+<hr>
+<h2 id="b-content-type-schema-change">B. Content type / schema change</h2>
+<ul>
+<li>Field UIDs listed (added / removed / renamed)</li>
+<li>Localize flags reviewed (SKU, date, refs default non-localizable)</li>
+<li>Fixture CDA JSON updated</li>
+<li>GraphQL field names still resolve</li>
+<li>Global field consumers listed and spot-checked</li>
+<li>Branch merged to main and <strong>main staging</strong> retested</li>
+</ul>
+<hr>
+<h2 id="c-entry-page-acceptance">C. Entry / page acceptance</h2>
+<ul>
+<li>Required fields populated; no <code>lorem</code> / <code>TODO</code> on the target environment</li>
+<li>Slug unique and matches the app route convention</li>
+<li>All references published on the <strong>same</strong> environment + locale</li>
+<li>Assets published; alt/title present if the model has them</li>
+<li>Modular block order matches the brief</li>
+<li>Workflow stage allows publish</li>
+<li>Version number recorded</li>
+<li>Unpublished / outdated related entries removed from refs</li>
+</ul>
+<hr>
+<h2 id="d-api-proof">D. API proof</h2>
+<ul>
+<li>CDA REST (correct environment + locale) matches CMS published version</li>
+<li><code>include[]</code> used for every reference the page renders</li>
+<li>JSON RTE embeds resolved if the page uses them</li>
+<li>Production CDA checked only when the ticket claims production</li>
+<li>Preview API / Live Preview checked for draft-only tickets</li>
+<li>Tokens redacted in attachments</li>
+</ul>
+<hr>
+<h2 id="e-channel-site">E. Channel / site</h2>
+<ul>
+<li>Template mapping: every required JSON field visible or intentionally hidden</li>
+<li>Images load (correct transform)</li>
+<li>Cache / webhook SLA waited</li>
+<li>404 for unpublished slug</li>
+<li>Visual Builder field mapping (if in scope)</li>
+</ul>
+<hr>
+<h2 id="f-localization">F. Localization</h2>
+<ul>
+<li>Requested locales published</li>
+<li>Fallback behaviour accepted by the business</li>
+<li>Non-localizable fields identical</li>
+<li>No mixed-language leftovers in RTE</li>
+<li>App formats dates/currency for the locale (Layer C)</li>
+</ul>
+<hr>
+<h2 id="g-release-go-live">G. Release / go-live</h2>
+<ul>
+<li>Item list reviewed (parents + children + assets + locales)</li>
+<li>Staging rehearsal passed</li>
+<li>Takedown / rollback plan exists</li>
+<li>Production smoke: CDA + 3 URLs</li>
+<li>Search index / secondary channels updated if webhooks exist</li>
+</ul>
+<hr>
+<h2 id="h-sign-off">H. Sign-off</h2>
+<table><thead><tr><th>Role</th><th>Name</th><th>Date</th><th>Result</th></tr></thead><tbody><tr><td>QA</td><td></td><td></td><td>Pass / Blocked</td></tr><tr><td>Editor</td><td></td><td></td><td></td></tr><tr><td>Developer</td><td></td><td></td><td></td></tr></tbody></table>
+<p>Blocker UIDs:</p>
+      <div class="pager">
+        <a href="../labs/08-defects.html">← Lab 08</a>
+        <a href="test-cases.html">Test cases →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

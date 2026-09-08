@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 02 — Model and entry · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a class="active" href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 02</div>
+      <h1>Lab 02 — Content types and first entries</h1>
+<p><strong>Time:</strong> 75 minutes  </p>
+<p><strong>Layer:</strong> CMS  </p>
+<p><strong>Exit:</strong> Horizon Market core types exist; one product entry is saved (not published).</p>
+<hr>
+<h2 id="1-build-content-types">1. Build content types</h2>
+<p>Create these <strong>multiple</strong> types. Keep UIDs exactly as written.</p>
+<h3><code>category</code></h3>
+<table><thead><tr><th>Field</th><th>Type</th><th>UID</th><th>Localize</th><th>Required</th></tr></thead><tbody><tr><td>Title</td><td>Single line</td><td><code>title</code></td><td>Yes</td><td>Yes</td></tr><tr><td>Slug</td><td>Single line</td><td><code>slug</code></td><td>No</td><td>Yes</td></tr></tbody></table>
+<h3><code>author</code></h3>
+<table><thead><tr><th>Field</th><th>Type</th><th>UID</th><th>Localize</th><th>Required</th></tr></thead><tbody><tr><td>Title</td><td>Single line</td><td><code>title</code></td><td>Yes</td><td>Yes</td></tr><tr><td>Bio</td><td>Multi line</td><td><code>bio</code></td><td>Yes</td><td>No</td></tr><tr><td>Photo</td><td>File</td><td><code>photo</code></td><td>No</td><td>No</td></tr></tbody></table>
+<h3><code>product</code></h3>
+<table><thead><tr><th>Field</th><th>Type</th><th>UID</th><th>Localize</th><th>Required</th></tr></thead><tbody><tr><td>Title</td><td>Single line</td><td><code>title</code></td><td>Yes</td><td>Yes</td></tr><tr><td>Slug</td><td>Single line (unique)</td><td><code>slug</code></td><td>No</td><td>Yes</td></tr><tr><td>SKU</td><td>Single line (unique)</td><td><code>sku</code></td><td>No</td><td>Yes</td></tr><tr><td>Price</td><td>Number</td><td><code>price</code></td><td>No</td><td>Yes</td></tr><tr><td>Description</td><td>JSON RTE</td><td><code>description</code></td><td>Yes</td><td>No</td></tr><tr><td>Hero image</td><td>File</td><td><code>hero_image</code></td><td>No</td><td>No</td></tr><tr><td>Category</td><td>Reference → <code>category</code></td><td><code>category</code></td><td>No</td><td>Yes</td></tr><tr><td>Related products</td><td>Reference → <code>product</code> (multiple)</td><td><code>related_products</code></td><td>No</td><td>No</td></tr><tr><td>Featured</td><td>Boolean</td><td><code>featured</code></td><td>No</td><td>No</td></tr><tr><td>Fixture</td><td>Boolean</td><td><code>is_fixture</code></td><td>No</td><td>No</td></tr></tbody></table>
+<h3><code>landing_page</code></h3>
+<table><thead><tr><th>Field</th><th>Type</th><th>UID</th><th>Notes</th></tr></thead><tbody><tr><td>Title</td><td>Single line</td><td><code>title</code></td><td>Localize</td></tr><tr><td>Slug</td><td>Single line unique</td><td><code>slug</code></td><td>Not localize</td></tr><tr><td>Sections</td><td>Modular blocks</td><td><code>sections</code></td><td>Blocks below</td></tr></tbody></table>
+<p><strong>Blocks</strong></p>
+<ol>
+<li><code>hero</code> — <code>heading</code> (single), <code>subheading</code> (single), <code>background_image</code> (file), <code>cta_label</code>, <code>cta_url</code></li>
+<li><code>product_grid</code> — <code>heading</code>, <code>products</code> (reference multiple → product)</li>
+<li><code>cta</code> — <code>heading</code>, <code>button_text</code>, <code>button_url</code></li>
+<li><code>rich_text</code> — <code>body</code> (JSON RTE)</li>
+</ol>
+<p>If you cannot create a global SEO field yet, skip it. Do not block the lab.</p>
+<hr>
+<h2 id="2-create-entries-save-only">2. Create entries (save only)</h2>
+<ol>
+<li>Category: Title <code>Apparel</code>, slug <code>apparel</code>. Note UID.</li>
+<li>Author: <code>Jordan Hale</code>. Upload any photo. <strong>Publish the asset</strong> if the UI asks; do not publish the author entry yet.</li>
+<li>Product: Title <code>[QA-FIXTURE] Linen Overshirt</code>, slug <code>linen-overshirt</code>, SKU <code>HM-OSH-001</code>, price <code>129</code>, category Apparel, featured <code>true</code>, is_fixture <code>true</code>. Add one paragraph in Description.</li>
+<li>Leave <code>related_products</code> empty for now.</li>
+</ol>
+<p>Record in <code>notes/lab-uids.md</code>:</p>
+<pre><code>category.apparel =
+author.jordan =
+product.linen-overshirt =</code></pre>
+<hr>
+<h2 id="3-negative-authoring-checks">3. Negative authoring checks</h2>
+<table><thead><tr><th>Action</th><th>Expected</th></tr></thead><tbody><tr><td>Save product without slug</td><td>Validation error</td></tr><tr><td>Second product with SKU <code>HM-OSH-001</code></td><td>Unique error</td></tr><tr><td>Change field <strong>label</strong> Title → Product name</td><td>UID <code>title</code> unchanged</td></tr><tr><td>Do not publish any entry</td><td>CDA still empty (Lab 04 will prove)</td></tr></tbody></table>
+<hr>
+<h2 id="4-pass">4. Pass</h2>
+<ul>
+<li>Types match the UID table</li>
+<li>Product saved; version ≥ 1</li>
+<li>No entry published to <code>production</code></li>
+<li>UIDs written down</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="03-publish.html">Lab 03 — Environments and publish</a></p>
+      <div class="pager">
+        <a href="01-orientation.html">← Lab 01</a>
+        <a href="03-publish.html">Lab 03 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

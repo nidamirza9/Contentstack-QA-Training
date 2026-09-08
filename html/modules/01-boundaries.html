@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 01 — Boundaries · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a class="active" href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Modules / 01</div>
+      <h1>Module 01 — Headless CMS and Contentstack Boundaries</h1>
+<p><strong>Time:</strong> 2 hours  </p>
+<p><strong>Goal:</strong> Explain why QA tests CMS + API + app, and what Contentstack will never do.</p>
+<hr>
+<h2 id="1-coupled-cms-vs-headless-cms">1. Coupled CMS vs headless CMS</h2>
+<p>In a traditional (coupled) CMS, the same system stores content <strong>and</strong> renders HTML. Testers click Preview in the CMS and often treat that as the site.</p>
+<p>In a <strong>headless</strong> CMS:</p>
+<ul>
+<li>Content is stored as structured fields (JSON).</li>
+<li>Any channel (web, iOS, email, in-store screen) requests that JSON.</li>
+<li>The channel decides layout, URLs, caching, and personalization.</li>
+</ul>
+<p>Contentstack is headless. <strong>CMS UI correctness does not prove site correctness.</strong></p>
+<h3>QA consequence</h3>
+<p>Every user story that says “editor updates X” needs at least two checks:</p>
+<ol>
+<li>The entry fields, workflow, and publish state in Contentstack.</li>
+<li>The same values on the Delivery API for the target environment and locale, then on the channel.</li>
+</ol>
+<hr>
+<h2 id="2-the-five-primitives">2. The five primitives</h2>
+<p>Every Contentstack project is built on:</p>
+<table><thead><tr><th>Primitive</th><th>One-sentence definition</th></tr></thead><tbody><tr><td><strong>Stack</strong></td><td>Isolated project: types, entries, assets, environments, tokens</td></tr><tr><td><strong>Content type</strong></td><td>Schema. This <strong>is</strong> the API contract</td></tr><tr><td><strong>Entry</strong></td><td>One filled-in instance of a content type</td></tr><tr><td><strong>Asset</strong></td><td>File stored and delivered from Contentstack’s CDN</td></tr><tr><td><strong>Environment</strong></td><td>Named publish target (<code>development</code>, <code>staging</code>, <code>production</code>)</td></tr></tbody></table>
+<p>The fundamental loop:</p>
+<pre><code>Model content types → create entries → publish to environments → deliver via API</code></pre>
+<p>QA tests every arrow in that loop.</p>
+<hr>
+<h2 id="3-what-contentstack-does-test-these">3. What Contentstack does (test these)</h2>
+<ul>
+<li>Stores structured content with <strong>version history</strong> on entries and content types.</li>
+<li>Runs <strong>workflows</strong>: stages, role assignment, publish rules, notifications.</li>
+<li>Publishes <strong>per environment</strong> and <strong>per locale</strong>.</li>
+<li>Serves <strong>REST CDA</strong>, <strong>GraphQL CDA</strong>, <strong>CMA</strong>, and <strong>Preview API</strong>.</li>
+<li>Hosts assets and supports image transforms via URL parameters.</li>
+<li>Emits <strong>webhooks</strong> / Automation Hub events (publish, unpublish, workflow change).</li>
+<li>Offers <strong>Live Preview</strong>, <strong>Visual Builder</strong>, <strong>Timeline</strong>, and <strong>Releases</strong>.</li>
+<li>Supports <strong>branches</strong> for parallel schema work.</li>
+</ul>
+<hr>
+<h2 id="4-what-contentstack-does-not-do-do-not-file-as-cms-bugs">4. What Contentstack does not do (do not file as CMS bugs)</h2>
+<table><thead><tr><th>Not in CMS</th><th>Where it actually lives</th><th>How QA should test</th></tr></thead><tbody><tr><td>Website hosting</td><td>Launch, Vercel, Azure, etc.</td><td>Deploy + cache + 404s</td></tr><tr><td>URL routing and redirects</td><td>Frontend / CDN</td><td>Slug field is only a string</td></tr><tr><td>End-user login</td><td>Auth0, Cognito, custom</td><td>CMS users ≠ site users</td></tr><tr><td>Cart, tax, payment</td><td>Commerce platform</td><td>CMS holds product *content*</td></tr><tr><td>Search index</td><td>Algolia, Elasticsearch</td><td>Webhook freshness</td></tr><tr><td>Cron / batch jobs</td><td>App infra</td><td>Scheduled <strong>publish</strong> is CMS; reports are not</td></tr><tr><td>Feature flags / app config</td><td>Flag service or env vars</td><td>Do not store flags as content unless the team agreed</td></tr></tbody></table>
+<hr>
+<h2 id="5-three-layer-defect-model">5. Three-layer defect model</h2>
+<p>When something looks wrong, classify it before you file:</p>
+<h3>Layer A — CMS (authoring)</h3>
+<p>Examples: required field missing, wrong reference, workflow stuck, role cannot see a locale, asset not published, modular block order wrong in the entry.</p>
+<h3>Layer B — Delivery contract (API)</h3>
+<p>Examples: CDA returns old version; GraphQL missing a field; reference is a UID only because <code>include[]</code> was omitted; Preview shows draft that CDA correctly hides; locale fallback unexpected.</p>
+<h3>Layer C — Experience (app)</h3>
+<p>Examples: field present in JSON but not mapped; cache TTL stale; image transform URL wrong; date format ignores locale; Visual Builder highlight on wrong DOM node.</p>
+<p><strong>Rule:</strong> attach evidence from the layer you claim. A screenshot of the site alone is not enough for Layer B.</p>
+<hr>
+<h2 id="6-environments-are-not-folders">6. Environments are not “folders”</h2>
+<p>Environments are <strong>publish destinations</strong>, each with its own delivery token.</p>
+<ul>
+<li>An entry can be published to <code>staging</code> and unpublished from <code>production</code>.</li>
+<li>Environments are <strong>global</strong> across branches: creating <code>staging</code> on main makes it available on other branches.</li>
+<li>“I published it” is an incomplete sentence. Always say <strong>which environment</strong> and <strong>which locale</strong>.</li>
+</ul>
+<p>Typical promotion path QA must verify:</p>
+<pre><code>Save (draft) → Preview → Publish staging → UAT → Publish production</code></pre>
+<hr>
+<h2 id="7-knowledge-check">7. Knowledge check</h2>
+<p>Answer without looking back:</p>
+<ol>
+<li>Why can a perfect CMS preview still fail on the production site?</li>
+<li>Name the five primitives.</li>
+<li>Which token would you use to prove production homepage JSON?</li>
+<li>Is “Approved” in workflow the same as published to production?</li>
+<li>Who owns URL redirects — Contentstack or the app?</li>
+</ol>
+<p>Expected answers are in <a href="../labs/01-orientation.html#knowledge-check-answers">labs/lab-01-stack-orientation.md</a>.</p>
+<hr>
+<p><strong>Next:</strong> <a href="02-model-publish.html">Module 02 — Content model, authoring, publish</a></p>
+      <div class="pager">
+        <a href="../summary.html">← Training summary</a>
+        <a href="02-model-publish.html">Module 02 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

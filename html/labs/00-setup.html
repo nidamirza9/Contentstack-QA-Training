@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 00 — Setup · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a class="active" href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 00</div>
+      <h1>Lab setup — Horizon Market sandbox</h1>
+<p><strong>Time:</strong> 45–60 minutes  </p>
+<p><strong>You need:</strong> a Contentstack trial or training organization, Postman or curl, and a notes file for UIDs.</p>
+<p>Do <strong>not</strong> use a client production stack for these labs.</p>
+<hr>
+<h2 id="1-create-the-stack">1. Create the stack</h2>
+<ol>
+<li>Sign in at <a href="https://app.contentstack.com">app.contentstack.com</a> (or your region’s app host).</li>
+<li>Create stack <strong>Horizon Market QA</strong>.</li>
+<li>Note <strong>Stack API key</strong> and <strong>region</strong> (NA / EU / Azure / GCP).</li>
+<li>Settings → Environments → create:</li>
+<ul>
+<li><code>development</code></li>
+<li><code>staging</code></li>
+<li><code>production</code></li>
+</ul>
+<li>Settings → Languages → add <code>French - France</code> (<code>fr-fr</code>) and <code>German - Germany</code> (<code>de-de</code>) with fallback <code>en-us</code>.</li>
+<li>Settings → Tokens:</li>
+<ul>
+<li>Delivery token named <code>cda-staging</code> scoped to <code>staging</code></li>
+<li>Delivery token named <code>cda-production</code> scoped to <code>production</code></li>
+<li>Preview token for <code>staging</code> (if offered with the delivery token)</li>
+<li>Management token <strong>only if</strong> you are allowed to create types via API; otherwise use the UI</li>
+</ul>
+</ol>
+<p>Store tokens in a local <code>.env</code> that is <strong>never committed</strong>.</p>
+<pre><code>CS_API_KEY=
+CS_DELIVERY_STAGING=
+CS_DELIVERY_PRODUCTION=
+CS_PREVIEW_STAGING=
+CS_REGION_CDA_HOST=https://cdn.contentstack.io</code></pre>
+<hr>
+<h2 id="2-create-roles-if-you-have-admin">2. Create roles (if you have admin)</h2>
+<table><thead><tr><th>Role</th><th>Entries</th><th>Publish</th><th>Languages</th></tr></thead><tbody><tr><td>HM Author</td><td>Create/Update selected types</td><td>None or development only</td><td>All</td></tr><tr><td>HM Reviewer</td><td>Read + workflow</td><td>None</td><td>All</td></tr><tr><td>HM Publisher</td><td>Read</td><td>staging + production</td><td>All</td></tr><tr><td>HM QA</td><td>Read all</td><td>staging only</td><td>All</td></tr><tr><td>HM Translator FR</td><td>Update</td><td>None</td><td><code>fr-fr</code> only</td></tr></tbody></table>
+<p>Invite a second browser profile or teammate for negative role tests. If you cannot create roles, skip Lab 05 role cases and still do workflow as Admin (note the limitation).</p>
+<hr>
+<h2 id="3-optional-workflow">3. Optional workflow</h2>
+<p>Settings → Workflows → <strong>Horizon Review</strong>:</p>
+<p><code>Draft → In Review → Approved → Published</code></p>
+<p>Assign to <code>product</code>, <code>article</code>, <code>landing_page</code>, <code>promo_banner</code>.</p>
+<p>Add a publish rule: production publish allowed only from <strong>Approved</strong> or <strong>Published</strong> (match your org’s pattern).</p>
+<hr>
+<h2 id="4-tools">4. Tools</h2>
+<ul>
+<li>Browser + Contentstack app</li>
+<li><a href="https://www.postman.com/">Postman</a> or curl</li>
+<li>JSON viewer</li>
+<li>Spreadsheet or <code>notes/lab-uids.md</code> for UIDs</li>
+</ul>
+<h3>Postman header preset</h3>
+<pre><code>api_key: {{CS_API_KEY}}
+access_token: {{CS_DELIVERY_STAGING}}</code></pre>
+<hr>
+<h2 id="5-definition-of-setup-done">5. Definition of setup done</h2>
+<ul>
+<li>Three environments exist</li>
+<li>Two locales + fallback exist</li>
+<li>Staging and production delivery tokens work (<code>GET /v3/content_types</code> or a later entry call)</li>
+<li>You know your region hosts</li>
+<li>You will not publish lab junk to any <strong>client</strong> production stack</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="01-orientation.html">Lab 01 — Stack orientation</a></p>
+      <div class="pager">
+        <a href="index.html">← Lab index</a>
+        <a href="01-orientation.html">Lab 01 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

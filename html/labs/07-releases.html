@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 07 — Releases · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a class="active" href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Labs / 07</div>
+      <h1>Lab 07 — Releases and campaign go-live</h1>
+<p><strong>Time:</strong> 75 minutes  </p>
+<p><strong>Layer:</strong> CMS + API  </p>
+<p><strong>Exit:</strong> A Spring Edit landing page ships as one Release on staging; production stays unchanged.</p>
+<hr>
+<h2 id="1-build-campaign-content">1. Build campaign content</h2>
+<ol>
+<li>Publish <code>author</code> Jordan Hale to staging if not already.</li>
+<li>Create <code>landing_page</code>:</li>
+<ul>
+<li>Title <code>[QA-FIXTURE] Spring Edit</code></li>
+<li>Slug <code>spring-edit</code></li>
+<li>Block hero: heading <code>The Spring Edit</code>, CTA Shop now → <code>/products/linen-overshirt</code></li>
+<li>Block product_grid: reference Linen Overshirt and Canvas Tote (publish tote to staging if needed)</li>
+<li>Block cta: <code>Join the list</code> → <code>/newsletter</code></li>
+</ul>
+<li>Create <code>promo_banner</code> <code>[QA-FIXTURE] Spring 10%</code> with a date window and message. Save only.</li>
+</ol>
+<p>Do <strong>not</strong> publish the landing page or banner yet.</p>
+<hr>
+<h2 id="2-assemble-release">2. Assemble Release</h2>
+<ol>
+<li>Releases → Create <strong>QA Spring Edit Staging</strong>.</li>
+<li>Add:</li>
+<ul>
+<li><code>landing_page</code> spring-edit — action <strong>Publish</strong> — locale <code>en-us</code> (add <code>fr-fr</code> if you localized it)</li>
+<li><code>promo_banner</code> — <strong>Publish</strong></li>
+<li>Any unpublished referenced products/assets — <strong>Publish</strong></li>
+</ul>
+<li>Do <strong>not</strong> add unrelated products.</li>
+<li>Deploy the Release to <strong><code>staging</code> only</strong>.</li>
+</ol>
+<hr>
+<h2 id="3-verify-atomic-result">3. Verify atomic result</h2>
+<p>Staging CDA:</p>
+<pre><code>GET {CDA}/v3/content_types/landing_page/entries
+  ?environment=staging
+  &amp;query={&quot;slug&quot;:&quot;spring-edit&quot;}
+  &amp;include[]=sections.product_grid.products</code></pre>
+<p>(Adjust include path to your modular-block field UIDs.)</p>
+<p><strong>Expected:</strong></p>
+<ul>
+<li>Landing page present</li>
+<li>Product grid resolves titles</li>
+<li>Banner present if you query <code>promo_banner</code></li>
+<li>Production CDA still has <strong>no</strong> <code>spring-edit</code></li>
+</ul>
+<p>If the page exists but product grid is empty, a child was not in the Release or not already live.</p>
+<hr>
+<h2 id="4-unpublish-via-release">4. Unpublish via Release</h2>
+<ol>
+<li>Create Release <strong>QA Spring Edit Takedown</strong>.</li>
+<li>Add landing page + banner with action <strong>Unpublish</strong>.</li>
+<li>Deploy to staging.</li>
+<li>Staging CDA no longer returns <code>spring-edit</code>.</li>
+<li>Recreate/redeploy a publish Release so Lab 08 still has a page — or leave unpublished if you will rebuild in Lab 08.</li>
+</ol>
+<hr>
+<h2 id="5-workflow-gate-if-configured">5. Workflow gate (if configured)</h2>
+<p>Put the landing page in <strong>In Review</strong>, add it to a Release, deploy.</p>
+<p>Document: skipped vs failed vs published. That behaviour is what you will explain to a release manager on a real project.</p>
+<hr>
+<h2 id="6-campaign-rehearsal-script-copy-to-client-projects">6. Campaign rehearsal script (copy to client projects)</h2>
+<ol>
+<li>Freeze new edits 30 minutes before deploy.</li>
+<li>Export Release item list (UID, locale, action).</li>
+<li>Confirm all references and assets are in the list or already on the target environment.</li>
+<li>Deploy to staging; wait cache/webhook SLA.</li>
+<li>Run <a href="../checklists/acceptance.html">acceptance pack</a> smoke.</li>
+<li>Only then deploy the <strong>same item set</strong> to production (or a production Release cloned from staging).</li>
+<li>Production CDA + 3 smoke URLs.</li>
+<li>Keep a takedown Release ready.</li>
+</ol>
+<hr>
+<h2 id="pass">Pass</h2>
+<ul>
+<li>Staging has (or had) <code>spring-edit</code> via Release, not ad-hoc publish-all</li>
+<li>Production never received the campaign during the lab</li>
+<li>At least one missing-child or unpublish experiment documented</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> <a href="08-defects.html">Lab 08 — Regression and defects</a></p>
+      <div class="pager">
+        <a href="06-localization.html">← Lab 06</a>
+        <a href="08-defects.html">Lab 08 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
