@@ -2,7 +2,11 @@
 
 Hands-on learning material for QA testers who will test **real Contentstack projects**: content models, editorial workflows, publish/preview, Delivery APIs, localization, releases, and frontend rendering.
 
-**Open the HTML course (browser, no server):**  
+**Public course (GitHub Pages):** https://nidamirza9.github.io/Contentstack-QA-Training/html/
+
+**GitHub repo:** https://github.com/nidamirza9/Contentstack-QA-Training
+
+**Open the HTML course locally (browser, no server):**  
 `C:\Users\nmirza.HZI\OneDrive - Horizontal Integration Inc\Documents\CNE+GSE\Contentstack-Learning\Contentstack-QA-Training.html`
 
 **HTML home:**  
