@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" role="img">
+  <rect width="920" height="220" fill="#fffdf8"/>
+  <text x="460" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1c1914">If French has no translation, show English. SKU stays the same.</text>
+  <rect x="40" y="60" width="240" height="120" rx="12" fill="#0f4c5c"/>
+  <text x="160" y="110" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#fff">en-us</text>
+  <text x="160" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#e8f3f5">Linen Overshirt</text>
+  <text x="300" y="128" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">’</text>
+  <rect x="340" y="60" width="240" height="120" rx="12" fill="#12262c"/>
+  <text x="460" y="110" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#fff">fr-fr</text>
+  <text x="460" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#d7e6e4">Surchemise en lin</text>
+  <text x="600" y="128" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">’</text>
+  <rect x="640" y="60" width="240" height="120" rx="12" fill="#ece6da" stroke="#d8d0c2"/>
+  <text x="760" y="110" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#1c1914">de-de</text>
+  <text x="760" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">falls back to EN</text>
+</svg>

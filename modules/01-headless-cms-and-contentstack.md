@@ -5,6 +5,10 @@
 
 ![Horizon Market QA stack home — Entries, Assets, Releases, and environment chips](screens/cs-stack-home.png)
 
+![Headless: CMS stores content, the website fetches JSON](diagrams/headless.svg)
+
+![Always test CMS, then API, then the website](diagrams/three-layers.svg)
+
 ---
 
 ## 1. Coupled CMS vs headless CMS

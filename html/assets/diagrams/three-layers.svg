@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" role="img">
+  <rect width="920" height="220" fill="#fffdf8"/>
+  <rect x="20" y="48" width="260" height="124" rx="12" fill="#12262c"/>
+  <text x="150" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" fill="#9bb8b4">Layer A</text>
+  <text x="150" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#fff">CMS</text>
+  <text x="150" y="150" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#d7e6e4">Editor fills a form</text>
+  <text x="296" y="118" font-family="Segoe UI, sans-serif" font-size="28" fill="#0f4c5c">’</text>
+  <rect x="330" y="48" width="260" height="124" rx="12" fill="#0f4c5c"/>
+  <text x="460" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" fill="#e8f3f5">Layer B</text>
+  <text x="460" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#fff">API (JSON)</text>
+  <text x="460" y="150" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#e8f3f5">Published to an environment</text>
+  <text x="606" y="118" font-family="Segoe UI, sans-serif" font-size="28" fill="#0f4c5c">’</text>
+  <rect x="640" y="48" width="260" height="124" rx="12" fill="#8a4b12"/>
+  <text x="770" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" fill="#f7eee4">Layer C</text>
+  <text x="770" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#fff">Website / app</text>
+  <text x="770" y="150" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#f7eee4">Renders the JSON</text>
+  <text x="460" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1c1914">A bug can sit in any box. Check all three.</text>
+</svg>

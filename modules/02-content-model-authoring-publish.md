@@ -5,6 +5,10 @@
 
 ![Content type builder for product — field UIDs, types, and Localize this field](screens/cs-content-type-builder.png)
 
+![Content type is the blank form. Entry is one filled form.](diagrams/type-vs-entry.svg)
+
+![Save is not publish. Staging is not production.](diagrams/save-vs-publish.svg)
+
 ---
 
 ## 1. Content type = API contract

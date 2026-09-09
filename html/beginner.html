@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start here — pictures · Contentstack QA</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a class="active" href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Start here</div>
+      <h1>Start here — Contentstack in simple pictures</h1>
+<p><strong>Time:</strong> 25 minutes  </p>
+<p><strong>For:</strong> first-day testers who have never used a headless CMS</p>
+<p>Read this page before Module 01. Each picture is one idea. Then you will see the same idea again as a real CMS screenshot in the labs.</p>
+<p>---</p>
+<h2 id="1-what-is-contentstack">1. What is Contentstack?</h2>
+<p>Contentstack is a <strong>headless CMS</strong>. That means:</p>
+<ul>
+<li>Editors type content in Contentstack (forms, not a finished website).</li>
+<li>The website is a <strong>separate</strong> app. It asks Contentstack for JSON and draws the page.</li>
+</ul>
+<figure class="shot"><img src="assets/diagrams/headless.svg" alt="Old CMS keeps content and the website in one box. Headless CMS stores content and sends JSON to any channel." loading="lazy"><figcaption>Old CMS keeps content and the website in one box. Headless CMS stores content and sends JSON to any channel.</figcaption></figure>
+<p><strong>In the real CMS you open:</strong> your stack (project). Left menu: Entries, Assets, Releases, Settings.</p>
+<figure class="shot"><img src="assets/screens/cs-stack-home.png" alt="Stack home — this is the project container" loading="lazy"><figcaption>Stack home — this is the project container</figcaption></figure>
+<p>---</p>
+<h2 id="2-qa-checks-three-places-not-one-screen">2. QA checks three places, not one screen</h2>
+<p>If the homepage looks empty, do not stop at a screenshot of the site.</p>
+<ol>
+<li><strong>CMS</strong> — is the entry saved, published, and are references filled?</li>
+<li><strong>API</strong> — does staging JSON show the new values?</li>
+<li><strong>Website</strong> — does the app map those fields after cache time?</li>
+</ol>
+<figure class="shot"><img src="assets/diagrams/three-layers.svg" alt="Layer A CMS, Layer B API, Layer C website. A bug can sit in any box." loading="lazy"><figcaption>Layer A CMS, Layer B API, Layer C website. A bug can sit in any box.</figcaption></figure>
+<p>---</p>
+<h2 id="3-content-type-vs-entry-form-vs-filled-form">3. Content type vs entry (form vs filled form)</h2>
+<ul>
+<li><strong>Content type</strong> = the blank form (<code>product</code> has title, slug, sku, price).</li>
+<li><strong>Entry</strong> = one product you filled in (Linen Overshirt).</li>
+</ul>
+<figure class="shot"><img src="assets/diagrams/type-vs-entry.svg" alt="Content type is the form. Entry is one filled form." loading="lazy"><figcaption>Content type is the form. Entry is one filled form.</figcaption></figure>
+<p><strong>In the real CMS:</strong> Content Models (the form) vs Entries (the data).</p>
+<figure class="shot"><img src="assets/screens/cs-content-type-builder.png" alt="Product content type builder — field UIDs are the API names" loading="lazy"><figcaption>Product content type builder — field UIDs are the API names</figcaption></figure>
+<p>---</p>
+<h2 id="4-save-vs-publish-vs-production">4. Save vs publish vs production</h2>
+<ul>
+<li><strong>Save</strong> = draft. Shoppers never see this.</li>
+<li><strong>Publish to staging</strong> = QA can see it on the staging API and staging site.</li>
+<li><strong>Publish to production</strong> = live. QA usually must not do this.</li>
+</ul>
+<figure class="shot"><img src="assets/diagrams/save-vs-publish.svg" alt="Save → publish staging → UAT → production" loading="lazy"><figcaption>Save → publish staging → UAT → production</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-publish-dialog.png" alt="Always uncheck production in the publish dialog during labs" loading="lazy"><figcaption>Always uncheck production in the publish dialog during labs</figcaption></figure>
+<p>Always say: *I published version 4 to staging, en-us* — not “I published it.”</p>
+<p>---</p>
+<h2 id="5-three-keys-tokens">5. Three keys (tokens)</h2>
+<p>Think of tokens as door keys.</p>
+<figure class="shot"><img src="assets/diagrams/tokens.svg" alt="Delivery = shopper site. Preview = drafts. Management = writes. Never mix them." loading="lazy"><figcaption>Delivery = shopper site. Preview = drafts. Management = writes. Never mix them.</figcaption></figure>
+<p><strong>In the real CMS:</strong> Settings → Tokens. Create <code>cda-staging</code> and <code>cda-production</code>.</p>
+<figure class="shot"><img src="assets/screens/cs-tokens.png" alt="Delivery tokens are scoped to one environment" loading="lazy"><figcaption>Delivery tokens are scoped to one environment</figcaption></figure>
+<p>---</p>
+<h2 id="6-languages-translate-some-fields-share-others">6. Languages: translate some fields, share others</h2>
+<ul>
+<li>Translate: title, description.</li>
+<li>Do <strong>not</strong> translate: SKU, price, slug (unless the project says so).</li>
+<li>If German has no translation, the site can <strong>fall back</strong> to English.</li>
+</ul>
+<figure class="shot"><img src="assets/diagrams/fallback.svg" alt="en-us master, fr-fr translated, de-de falls back to English" loading="lazy"><figcaption>en-us master, fr-fr translated, de-de falls back to English</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-languages.png" alt="Settings → Languages — set fallback to en-us" loading="lazy"><figcaption>Settings → Languages — set fallback to en-us</figcaption></figure>
+<p>---</p>
+<h2 id="7-why-a-card-is-blank-missing-include">7. Why a card is blank: missing include</h2>
+<p>A product <strong>points</strong> at a category. The API returns only an ID unless you ask it to <strong>include</strong> the category fields.</p>
+<p>![Without include you get a UID. With include[]=category you get Apparel.](assets/diagrams/include.svg)</p>
+<figure class="shot"><img src="assets/screens/cs-cda-include.png" alt="Same idea in Postman / CDA" loading="lazy"><figcaption>Same idea in Postman / CDA</figcaption></figure>
+<p>---</p>
+<h2 id="8-a-campaign-is-a-box-of-items-release">8. A campaign is a box of items (Release)</h2>
+<p>If you publish the landing page but forget the products or images, the hero or grid is empty. Put <strong>parents + children + assets</strong> in the same Release. Deploy <strong>staging first</strong>.</p>
+<figure class="shot"><img src="assets/diagrams/release.svg" alt="Release must include landing page, products, and images" loading="lazy"><figcaption>Release must include landing page, products, and images</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-releases.png" alt="CMS Releases screen" loading="lazy"><figcaption>CMS Releases screen</figcaption></figure>
+<p>---</p>
+<h2 id="9-preview-is-not-the-live-site">9. Preview is not the live site</h2>
+<p>Live Preview can show a <strong>draft</strong>. The Delivery API shows only <strong>published</strong> content. If QA signs off in Preview only, staging can still be old.</p>
+<figure class="shot"><img src="assets/screens/cs-live-preview.png" alt="Split view: draft in Preview, old title on CDA" loading="lazy"><figcaption>Split view: draft in Preview, old title on CDA</figcaption></figure>
+<p>---</p>
+<h2 id="remember-these-five-sentences">Remember these five sentences</h2>
+<ol>
+<li>Contentstack stores content. The website draws it.</li>
+<li>Save ≠ publish. Staging ≠ production.</li>
+<li>Approved in workflow is not live.</li>
+<li>Delivery token proves what shoppers get.</li>
+<li>Empty module? Check unpublished reference, missing include, or cache.</li>
+</ol>
+<p><strong>Next:</strong> <a href="modules/01-boundaries.html">Module 01</a> or <a href=".labs/00-setup.html">Lab setup</a>.</p>
+      <div class="pager">
+        <a href="index.html">← Home</a>
+        <a href="modules/01-boundaries.html">Module 01 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -221,10 +221,27 @@ li { margin: 4px 0; }
   color: var(--ink-muted);
   padding: 8px 12px 12px;
 }
+.shot img[src$=".svg"] {
+  background: #fffdf8;
+}
+
+.learn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+.learn div {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.learn strong { display: block; margin-bottom: 6px; color: var(--accent); }
 
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .nav { position: relative; height: auto; }
   .main { padding: 24px 18px 48px; }
-  .card-row, .tile-grid { grid-template-columns: 1fr 1fr; }
+  .card-row, .tile-grid, .learn { grid-template-columns: 1fr 1fr; }
 }

@@ -13,6 +13,7 @@
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
 <li><a href="../index.html">Home</a></li>
+<li><a href="../beginner.html">Start here (pictures)</a></li>
 <li><a href="../paths.html">Full paths</a></li>
 <li><a href="../summary.html">Training summary</a></li>
 <li class="group">Modules</li>
@@ -43,6 +44,8 @@
 <p><strong>Time:</strong> 3 hours  </p>
 <p><strong>Goal:</strong> Pick the correct API for each QA check and prove publish, preview, and campaign releases.</p>
 <figure class="shot"><img src="../assets/screens/cs-tokens.png" alt="Delivery vs Preview vs Management tokens — never mix these" loading="lazy"><figcaption>Delivery vs Preview vs Management tokens — never mix these</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/tokens.svg" alt="Three keys: delivery for the shopper site, preview for drafts, management for writes" loading="lazy"><figcaption>Three keys: delivery for the shopper site, preview for drafts, management for writes</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/include.svg" alt="Without include you get an ID. With include you get the name." loading="lazy"><figcaption>Without include you get an ID. With include you get the name.</figcaption></figure>
 <p>---</p>
 <h2 id="1-three-apis-three-jobs">1. Three APIs, three jobs</h2>
 <table><thead><tr><th>API</th><th>Read/Write</th><th>Data state</th><th>Auth</th><th>QA use</th></tr></thead><tbody><tr><td><strong>REST CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Delivery token</td><td>Contract and regression</td></tr><tr><td><strong>GraphQL CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Same delivery token</td><td>Field-level contract, over-fetch checks</td></tr><tr><td><strong>Preview API</strong></td><td>Read</td><td>Draft + Timeline + live preview hash</td><td>Preview token</td><td>Preview UAT, embargo Timeline</td></tr><tr><td><strong>CMA</strong></td><td>Read/Write</td><td>All states, admin operations</td><td>Management token</td><td>Setup, workflow, Releases — <strong>not</strong> runtime proof</td></tr></tbody></table>
@@ -108,6 +111,7 @@ access_token: &lt;environment delivery token&gt;</code></pre>
 <p>If Live Preview and the public staging site disagree, do not immediately blame the frontend. Confirm which API each surface calls.</p>
 <p>---</p>
 <figure class="shot"><img src="../assets/screens/cs-releases.png" alt="Release QA Spring Edit Staging — deploy to staging only; include child entries and assets" loading="lazy"><figcaption>Release QA Spring Edit Staging — deploy to staging only; include child entries and assets</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/release.svg" alt="A Release is one box. Forgotten children make empty grids." loading="lazy"><figcaption>A Release is one box. Forgotten children make empty grids.</figcaption></figure>
 <h2 id="5-releases-and-scheduled-publish">5. Releases and scheduled publish</h2>
 <p>A <strong>Release</strong> is a named set of items, each with <code>publish</code> or <code>unpublish</code>, deployed together to one or more environments.</p>
 <p>QA must verify:</p>

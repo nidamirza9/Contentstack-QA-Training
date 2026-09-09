@@ -5,6 +5,10 @@
 
 ![Delivery vs Preview vs Management tokens — never mix these](screens/cs-tokens.png)
 
+![Three keys: delivery for the shopper site, preview for drafts, management for writes](diagrams/tokens.svg)
+
+![Without include you get an ID. With include you get the name.](diagrams/include.svg)
+
 ---
 
 ## 1. Three APIs, three jobs
@@ -143,6 +147,8 @@ If Live Preview and the public staging site disagree, do not immediately blame t
 ---
 
 ![Release QA Spring Edit Staging — deploy to staging only; include child entries and assets](screens/cs-releases.png)
+
+![A Release is one box. Forgotten children make empty grids.](diagrams/release.svg)
 
 ## 5. Releases and scheduled publish
 

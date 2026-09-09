@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" role="img">
+  <rect width="920" height="240" fill="#fffdf8"/>
+  <rect x="40" y="40" width="380" height="168" rx="12" fill="#e7eef0" stroke="#0f4c5c"/>
+  <text x="230" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#0f4c5c">Content type = the form</text>
+  <text x="230" y="112" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#1c1914">Like a blank product sheet</text>
+  <text x="230" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">title · slug · sku · price · image</text>
+  <text x="230" y="176" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#5c564c">UID is the API name (product)</text>
+  <rect x="500" y="40" width="380" height="168" rx="12" fill="#12262c"/>
+  <text x="690" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#fff">Entry = one filled form</text>
+  <text x="690" y="112" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#d7e6e4">Linen Overshirt</text>
+  <text x="690" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#d7e6e4">sku HM-OSH-001 · $129</text>
+  <text x="690" y="176" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#9bb8b4">Many entries share one type</text>
+</svg>

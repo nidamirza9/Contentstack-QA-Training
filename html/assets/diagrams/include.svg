@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" role="img">
+  <rect width="920" height="240" fill="#fffdf8"/>
+  <text x="460" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1c1914">Without include[] you only get an ID. With include[] you get the name.</text>
+  <rect x="40" y="56" width="400" height="152" rx="12" fill="#ece6da" stroke="#d8d0c2"/>
+  <text x="240" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1c1914">Missing include</text>
+  <text x="240" y="130" text-anchor="middle" font-family="Consolas, monospace" font-size="15" fill="#6b1d1d">category: blt9a1 (ID only)</text>
+  <text x="240" y="166" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">Site card looks blank</text>
+  <rect x="480" y="56" width="400" height="152" rx="12" fill="#e7eef0" stroke="#0f4c5c"/>
+  <text x="680" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#0f4c5c">include[]=category</text>
+  <text x="680" y="130" text-anchor="middle" font-family="Consolas, monospace" font-size="15" fill="#1f5c3a">"title": "Apparel"</text>
+  <text x="680" y="166" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">Use the field UID, not the type name</text>
+</svg>

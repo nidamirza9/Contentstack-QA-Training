@@ -11,6 +11,7 @@ const LAUNCHER_PATH = path.join(ROOT, "Contentstack-QA-Training.html");
 
 const NAV = [
   ["home", "Home", "index.html"],
+  ["beginner", "Start here (pictures)", "beginner.html"],
   ["paths", "Full paths", "paths.html"],
   ["summary", "Training summary", "summary.html"],
   ["group", "Modules"],
@@ -37,8 +38,9 @@ const NAV = [
 ];
 
 const PAGES = [
-  ["summary", "TRAINING-SUMMARY.md", "summary.html", "Training summary", "Home / Training summary", ["index.html", "Home"], ["modules/01-boundaries.html", "Module 01"]],
-  ["m01", "modules/01-headless-cms-and-contentstack.md", "modules/01-boundaries.html", "Module 01 — Boundaries", "Home / Modules / 01", ["../summary.html", "Training summary"], ["02-model-publish.html", "Module 02"]],
+  ["beginner", "modules/00-beginner-visual-guide.md", "beginner.html", "Start here — pictures", "Home / Start here", ["index.html", "Home"], ["modules/01-boundaries.html", "Module 01"]],
+  ["summary", "TRAINING-SUMMARY.md", "summary.html", "Training summary", "Home / Training summary", ["beginner.html", "Start here"], ["modules/01-boundaries.html", "Module 01"]],
+  ["m01", "modules/01-headless-cms-and-contentstack.md", "modules/01-boundaries.html", "Module 01 — Boundaries", "Home / Modules / 01", ["../beginner.html", "Start here"], ["02-model-publish.html", "Module 02"]],
   ["m02", "modules/02-content-model-authoring-publish.md", "modules/02-model-publish.html", "Module 02 — Model and publish", "Home / Modules / 02", ["01-boundaries.html", "Module 01"], ["03-apis-releases.html", "Module 03"]],
   ["m03", "modules/03-apis-preview-releases.md", "modules/03-apis-releases.html", "Module 03 — APIs and releases", "Home / Modules / 03", ["02-model-publish.html", "Module 02"], ["04-qa-strategy.html", "Module 04"]],
   ["m04", "modules/04-qa-strategy-real-projects.md", "modules/04-qa-strategy.html", "Module 04 — QA strategy", "Home / Modules / 04", ["03-apis-releases.html", "Module 03"], ["../labs/00-setup.html", "Lab setup"]],
@@ -85,6 +87,7 @@ const LINK_MAP = [
   [/\.\.\/labs\/lab-08-regression-and-defects\.md/g, "../labs/08-defects.html"],
   [/\.\.\/TRAINING-SUMMARY\.md/g, "../summary.html"],
   [/\.\/TRAINING-SUMMARY\.md/g, "summary.html"],
+  [/\.\/01-headless-cms-and-contentstack\.md/g, "modules/01-boundaries.html"],
   [/\.\/00-lab-setup\.md/g, "00-setup.html"],
 ];
 
@@ -98,8 +101,10 @@ function esc(s) {
 
 function rewriteLinks(text, dest) {
   for (const [re, to] of LINK_MAP) text = text.replace(re, to);
-  const shot = dest.includes("/") ? "../assets/screens/" : "assets/screens/";
-  return text.replace(/\(screens\//g, `(${shot}`);
+  const prefix = dest.includes("/") ? "../assets/" : "assets/";
+  return text
+    .replace(/\(screens\//g, `(${prefix}screens/`)
+    .replace(/\(diagrams\//g, `(${prefix}diagrams/`);
 }
 
 function inline(text) {
@@ -303,8 +308,9 @@ function homeHtml() {
     <main class="main">
       <div class="crumb">Contentstack Learning / HTML</div>
       <h1>Contentstack QA tester training</h1>
-      <p class="meta">Hands-on pack for testers on real Contentstack projects. Open this file in any browser. No server required. Each chapter includes a Contentstack-style CMS screenshot so you can match the real UI.</p>
-      <figure class="shot"><img src="assets/screens/cs-stack-home.png" alt="Horizon Market QA stack home" loading="lazy"><figcaption>Horizon Market QA stack home — Entries, Assets, Releases, environments</figcaption></figure>
+      <p class="meta">A hands-on pack for testers new to Contentstack. Start with pictures, then labs on a trial stack.</p>
+      <figure class="shot"><img src="assets/diagrams/three-layers.svg" alt="Three QA layers"><figcaption>New learners: check CMS, then JSON, then the website. A bug can sit in any box.</figcaption></figure>
+      <figure class="shot"><img src="assets/screens/cs-stack-home.png" alt="Horizon Market QA stack home" loading="lazy"><figcaption>Same idea in the CMS — your stack home.</figcaption></figure>
       <div class="card-row">
         <div class="stat"><b>4 days</b><span>Concept + labs</span></div>
         <div class="stat"><b>8 labs</b><span>On a real stack</span></div>
@@ -312,11 +318,12 @@ function homeHtml() {
         <div class="stat"><b>30 cases</b><span>Reusable test IDs</span></div>
       </div>
       <div class="callout">
-        <strong>Start here.</strong> Read the training summary, then Module 01, then Lab setup.
-        Do not skip API labs. Most production defects are published-vs-draft, environment, locale, or unresolved references.
+        <strong>New to Contentstack?</strong> Open <a href="beginner.html">Start here (pictures)</a> first.
+        Then Lab setup. Do not skip API labs.
       </div>
       <h2>Open these pages</h2>
       <div class="tile-grid">
+        <a class="tile" href="beginner.html"><strong>Start here (pictures)</strong><span>Simple diagrams for new learners — read this first</span></a>
         <a class="tile" href="summary.html"><strong>Training summary</strong><span>Outcomes, ownership, syllabus, definition of done</span></a>
         <a class="tile" href="modules/01-boundaries.html"><strong>Module 01</strong><span>Headless CMS and Contentstack boundaries</span></a>
         <a class="tile" href="labs/00-setup.html"><strong>Lab setup</strong><span>Create the Horizon Market sandbox stack</span></a>
@@ -325,12 +332,9 @@ function homeHtml() {
         <a class="tile" href="paths.html"><strong>Full paths</strong><span>Copy-paste locations for every HTML file and the canvas</span></a>
       </div>
       <h2>How QA on Contentstack is different</h2>
-      <p>Contentstack is a headless CMS. Editors create structured content. A website or app fetches published JSON and renders it. CMS preview is not the live site unless Live Preview is built.</p>
-      <pre><code>Editor action in Contentstack
-        ↓
-Published JSON on CDA / GraphQL (per environment + locale)
-        ↓
-Frontend / app rendering + cache + personalization</code></pre>
+      <p>Editors type in Contentstack. The website is a separate app that fetches JSON. A perfect CMS screen can still fail on the live site.</p>
+      <figure class="shot"><img src="assets/diagrams/headless.svg" alt="Coupled vs headless"></figure>
+      <figure class="shot"><img src="assets/diagrams/save-vs-publish.svg" alt="Save versus publish"></figure>
       <h2>Recommended path</h2>
       <ol>
         <li><a href="summary.html">Training summary</a> — 30–40 minutes</li>

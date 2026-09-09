@@ -8,6 +8,8 @@ Use `[QA-FIXTURE] Linen Overshirt` (published on staging).
 
 ![Switch language to French — localize title; SKU stays shared](screens/cs-languages.png)
 
+![If German has no translation, it can fall back to English](diagrams/fallback.svg)
+
 ---
 
 ## 1. Confirm field localization

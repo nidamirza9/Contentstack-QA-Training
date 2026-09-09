@@ -21,7 +21,7 @@ Hands-on learning material for QA testers who will test **real Contentstack proj
 **Canvas (keep beside chat):**  
 `C:\Users\nmirza.HZI\.cursor\projects\c-Users-nmirza-HZI-OneDrive-Horizontal-Integration-Inc-Documents-CNE-GSE-Contentstack-Learning\canvases\qa-training-summary.canvas.tsx`
 
-Each chapter includes a **Contentstack-style CMS screenshot** (stack home, content types, entries, publish, locales, workflow, tokens, Releases, Live Preview, CDA). Use them to match the real UI in your trial stack.
+**New learners:** start with the [visual picture guide](https://contentstack-qa-training.vercel.app/beginner). Each chapter also has simple diagrams plus CMS screenshots.
 
 **All paths on one page:** [html/paths.html](./html/paths.html)
 
