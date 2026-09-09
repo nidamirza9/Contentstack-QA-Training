@@ -33,6 +33,7 @@ const NAV = [
   ["acc", "Acceptance pack", "checklists/acceptance.html"],
   ["tc", "Sample test cases", "checklists/test-cases.html"],
   ["def", "Defect taxonomy", "checklists/defects.html"],
+  ["issues", "Component / template issues", "issues/component-template-qa.html"],
 ];
 
 const PAGES = [
@@ -53,7 +54,8 @@ const PAGES = [
   ["l08", "labs/lab-08-regression-and-defects.md", "labs/08-defects.html", "Lab 08 — Defects", "Home / Labs / 08", ["07-releases.html", "Lab 07"], ["../checklists/acceptance.html", "Acceptance pack"]],
   ["acc", "checklists/qa-acceptance-pack.md", "checklists/acceptance.html", "Acceptance pack", "Home / Checklists / Acceptance", ["../labs/08-defects.html", "Lab 08"], ["test-cases.html", "Test cases"]],
   ["tc", "checklists/sample-test-cases.md", "checklists/test-cases.html", "Sample test cases", "Home / Checklists / Test cases", ["acceptance.html", "Acceptance pack"], ["defects.html", "Defect taxonomy"]],
-  ["def", "checklists/defect-taxonomy.md", "checklists/defects.html", "Defect taxonomy", "Home / Checklists / Defects", ["test-cases.html", "Test cases"], ["../index.html", "Home"]],
+  ["def", "checklists/defect-taxonomy.md", "checklists/defects.html", "Defect taxonomy", "Home / Checklists / Defects", ["test-cases.html", "Test cases"], ["../issues/component-template-qa.html", "Component issues"]],
+  ["issues", "checklists/component-template-qa-issues.md", "issues/component-template-qa.html", "Component and template QA issues", "Home / Real project issues", ["../checklists/defects.html", "Defect taxonomy"], ["../index.html", "Home"]],
 ];
 
 const LINK_MAP = [
@@ -78,6 +80,9 @@ const LINK_MAP = [
   [/\.\/lab-08-regression-and-defects\.md/g, "08-defects.html"],
   [/\.\.\/checklists\/qa-acceptance-pack\.md/g, "../checklists/acceptance.html"],
   [/\.\.\/checklists\/defect-taxonomy\.md/g, "../checklists/defects.html"],
+  [/\.\/defect-taxonomy\.md/g, "../checklists/defects.html"],
+  [/\.\/sample-test-cases\.md/g, "../checklists/test-cases.html"],
+  [/\.\.\/labs\/lab-08-regression-and-defects\.md/g, "../labs/08-defects.html"],
   [/\.\.\/TRAINING-SUMMARY\.md/g, "../summary.html"],
   [/\.\/TRAINING-SUMMARY\.md/g, "summary.html"],
   [/\.\/00-lab-setup\.md/g, "00-setup.html"],
@@ -310,6 +315,7 @@ function homeHtml() {
         <a class="tile" href="modules/01-boundaries.html"><strong>Module 01</strong><span>Headless CMS and Contentstack boundaries</span></a>
         <a class="tile" href="labs/00-setup.html"><strong>Lab setup</strong><span>Create the Horizon Market sandbox stack</span></a>
         <a class="tile" href="checklists/acceptance.html"><strong>Acceptance pack</strong><span>Use on the first real project go-live</span></a>
+        <a class="tile" href="issues/component-template-qa.html"><strong>Component / template issues</strong><span>41 real project defects when UAT-ing blocks and page templates</span></a>
         <a class="tile" href="paths.html"><strong>Full paths</strong><span>Copy-paste locations for every HTML file and the canvas</span></a>
       </div>
       <h2>How QA on Contentstack is different</h2>
@@ -325,6 +331,7 @@ Frontend / app rendering + cache + personalization</code></pre>
         <li>Modules 01–04 — about 1 day</li>
         <li>Labs 00–08 on a trial stack — 2–3 days</li>
         <li>Checklists on the first client project</li>
+        <li><a href="issues/component-template-qa.html">Component / template QA issues</a> — use during template UAT</li>
       </ol>
       <h2>Horizon Market sandbox</h2>
       <table>
@@ -359,6 +366,7 @@ Frontend / app rendering + cache + personalization</code></pre>
 fs.mkdirSync(path.join(HTML_DIR, "modules"), { recursive: true });
 fs.mkdirSync(path.join(HTML_DIR, "labs"), { recursive: true });
 fs.mkdirSync(path.join(HTML_DIR, "checklists"), { recursive: true });
+fs.mkdirSync(path.join(HTML_DIR, "issues"), { recursive: true });
 
 for (const page of PAGES) {
   const src = fs.readFileSync(path.join(ROOT, page[1]), "utf8");
@@ -392,6 +400,7 @@ const allFiles = [
   ["Acceptance pack", path.join(HTML_DIR, "checklists", "acceptance.html")],
   ["Test cases", path.join(HTML_DIR, "checklists", "test-cases.html")],
   ["Defect taxonomy", path.join(HTML_DIR, "checklists", "defects.html")],
+  ["Component / template issues", path.join(HTML_DIR, "issues", "component-template-qa.html")],
   ["Stylesheet", path.join(HTML_DIR, "assets", "app.css")],
   ["Canvas (keep in Cursor)", CANVAS_PATH],
 ];

@@ -81,7 +81,7 @@ Contentstack is the **system of record for editorial content**. It does **not** 
 | Lab 08 | [Regression and defect writing](./labs/lab-08-regression-and-defects.md) | 3 | Five defects filed with layer + evidence |
 | Capstone | Mini go-live of Horizon Market spring campaign | 4 | Checklist signed; no unpublished reference on production |
 
-Use [checklists/](./checklists/) during Days 3–4. Do not invent a new process on the first client project.
+Use [checklists/](./checklists/) during Days 3–4. On template UAT, use [component and template QA issues](./checklists/component-template-qa-issues.md) (`CS-CMP-01`–`41`). Do not invent a new process on the first client project.
 
 ---
 

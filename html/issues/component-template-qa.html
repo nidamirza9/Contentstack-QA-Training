@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component and template QA issues · Contentstack QA</title>
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="../index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+<li><a class="active" href="../issues/component-template-qa.html">Component / template issues</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Real project issues</div>
+      <h1>Real project QA issues — components and templates</h1>
+<p><strong>Time:</strong> 90 minutes to read · use on every template UAT  </p>
+<p><strong>Goal:</strong> Recognize the defects that actually ship when a Contentstack page is built from <strong>content types + modular blocks + a frontend template</strong>.</p>
+<p>On a real project, “component” usually means a <strong>modular block</strong> or a <strong>referenced entry</strong> (hero, product card, CTA, quote). “Template” means the <strong>frontend page type</strong> that maps those fields (homepage, PDP, article, landing page, listing). QA must test the <strong>pair</strong>, not only the CMS form.</p>
+<pre><code>Content type / modular block (schema)
+        ↓
+Entry published to env + locale
+        ↓
+CDA / GraphQL JSON (includes, embeds, assets)
+        ↓
+Frontend template / React component</code></pre>
+<p>If any arrow is wrong, the page looks “randomly broken.” File the issue with a <strong>layer</strong> and a <strong>CDA snippet</strong>, not only a screenshot.</p>
+<hr>
+<h2 id="how-to-uat-a-new-template-do-this-first">How to UAT a new template (do this first)</h2>
+<ol>
+<li>Open the content type. List every field UID the template claims to render.</li>
+<li>Create or use a <code>[QA-FIXTURE]</code> entry with <strong>every</strong> optional block filled once, and a second entry with <strong>minimum</strong> required fields only.</li>
+<li>Publish <strong>staging</strong> only. Confirm production CDA does not have the fixture.</li>
+<li>GET the entry with the same <code>include[]</code> / <code>include_embedded_items[]</code> the app uses.</li>
+<li>Walk the staging URL: desktop, mobile, one second locale.</li>
+<li>Save a draft change. Preview must update. Staging site must <strong>not</strong>.</li>
+<li>Unpublish one referenced child. The parent must degrade safely (no blank hero, no 500).</li>
+</ol>
+<p>If you skip step 4, you will file Layer C bugs that are actually unpublished refs or missing includes.</p>
+<hr>
+<h2 id="issue-catalog">Issue catalog</h2>
+<p>IDs use <code>CS-CMP-##</code>. Clone them into ADO/Jira. Severity: S1 live-breaking · S2 staging/UAT blocker · S3 functional · S4 polish.</p>
+<h3>Modular blocks and page builder</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom on the template</th><th>What actually happened</th><th>How QA proves it</th></tr></thead><tbody><tr><td>CS-CMP-01</td><td>S2</td><td>A / B</td><td>Landing page hero is empty; later sections render</td><td>Hero block references an unpublished <code>promo_banner</code> or product</td><td>Parent CDA has a UID; child GET on that env returns 404</td></tr><tr><td>CS-CMP-02</td><td>S2</td><td>A</td><td>Legal disclaimer sits above the hero</td><td>Editor reordered modular blocks; app renders array order</td><td>CMS block order matches JSON array and the page</td></tr><tr><td>CS-CMP-03</td><td>S3</td><td>A / C</td><td>Extra whitespace or empty card chrome</td><td>Optional block added with no inner fields; template still mounts the wrapper</td><td>JSON has an empty block object; UI should hide it</td></tr><tr><td>CS-CMP-04</td><td>S2</td><td>C</td><td>New “video” block saved in CMS, page ignores it</td><td>Frontend switch has no case for the new block UID</td><td>CDA contains the block; DOM does not</td></tr><tr><td>CS-CMP-05</td><td>S2</td><td>A</td><td>Two CTAs look identical</td><td>Duplicate block types allowed; editor stacked two <code>cta</code> blocks</td><td>Count blocks in CMS vs design brief</td></tr><tr><td>CS-CMP-06</td><td>S3</td><td>A</td><td>“Add section” lets editors pick a deprecated block</td><td>Content type still lists an old block the app removed</td><td>Compare allowed blocks vs component map</td></tr></tbody></table>
+<h3>References, includes, and cards</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-07</td><td>S2</td><td>B</td><td>Product card shows a raw UID or blank title</td><td>App or query omitted <code>include[]=category</code> (field UID, not type UID)</td><td>Same entry with <code>include[]=category</code> returns <code>title</code></td></tr><tr><td>CS-CMP-08</td><td>S2</td><td>B</td><td>Related products strip is empty</td><td>Nested ref not included (<code>related_products.category</code>)</td><td>CDA without nested include vs with</td></tr><tr><td>CS-CMP-09</td><td>S1</td><td>A / B</td><td>Homepage 500 or infinite spinner</td><td>Template assumes every reference is present; one child unpublished</td><td>Unpublish child; parent request + browser console</td></tr><tr><td>CS-CMP-10</td><td>S2</td><td>A</td><td>FR PDP shows a different category than EN</td><td>Reference field was marked localizable</td><td>Compare <code>category.uid</code> on <code>en-us</code> vs <code>fr-fr</code></td></tr><tr><td>CS-CMP-11</td><td>S3</td><td>B</td><td>Listing page shows 0 items; entries exist in CMS</td><td>Query uses unpublished env, wrong locale, or <code>featured=true</code> when fixtures are false</td><td>REST query the app uses, not CMA</td></tr></tbody></table>
+<h3>Assets and media components</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-12</td><td>S2</td><td>A</td><td>Hero image 404 after campaign Release</td><td>Entry published; <strong>asset</strong> not in the Release</td><td>Asset publish status vs entry; image URL status</td></tr><tr><td>CS-CMP-13</td><td>S3</td><td>B / C</td><td>Image is cropped on the face / logo</td><td>Template uses a hard crop; CMS has no focal point</td><td>Compare <code>hero_image</code> dimensions vs CSS</td></tr><tr><td>CS-CMP-14</td><td>S3</td><td>C</td><td>Huge LCP / slow PDP</td><td>App requests original asset, no <code>?width=&amp;format=webp</code></td><td>Network waterfall</td></tr><tr><td>CS-CMP-15</td><td>S3</td><td>A</td><td>New image uploaded; site still shows old photo</td><td>Entry not republished, or CDN cache</td><td><code>hero_image.url</code> / <code>filename</code> vs page</td></tr><tr><td>CS-CMP-16</td><td>S4</td><td>A / C</td><td>Missing alt on product image</td><td>File field has no alt, or template ignores <code>title</code></td><td>CMS field + rendered <code>alt</code></td></tr></tbody></table>
+<h3>Field UID and template mapping</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-17</td><td>S1</td><td>B / C</td><td>Entire section vanished after “small CMS tweak”</td><td>Field <strong>UID</strong> renamed (<code>cta_label</code> → <code>cta_text</code>); label change is safe</td><td>Diff content type schema; CDA key missing</td></tr><tr><td>CS-CMP-18</td><td>S2</td><td>C</td><td>CMS has subtitle; template does not show it</td><td>Mapper never bound <code>subheading</code></td><td>Field in JSON, absent in DOM</td></tr><tr><td>CS-CMP-19</td><td>S2</td><td>C</td><td>Boolean “featured” ignored on listing</td><td>Default false vs unset; GraphQL name differs from REST</td><td>Both APIs + component prop</td></tr><tr><td>CS-CMP-20</td><td>S2</td><td>C</td><td>New Select option “dark” has no styles</td><td>Frontend switch does not handle the new enum</td><td>Select value in CDA vs CSS class</td></tr><tr><td>CS-CMP-21</td><td>S2</td><td>B</td><td>GraphQL playground works; site empty</td><td>App still calls REST with different field names</td><td>Pair the two payloads</td></tr><tr><td>CS-CMP-22</td><td>S2</td><td>A / C</td><td>Global SEO title missing on a new template</td><td>Global field added to type; new page template not wired</td><td><code>seo.meta_title</code> in JSON vs <code>&lt;title&gt;</code></td></tr></tbody></table>
+<h3>Localization in templates</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-23</td><td>S2</td><td>B</td><td>FR URL shows English hero</td><td>FR entry not localized <strong>or</strong> not published to staging</td><td><code>locale=fr-fr</code> CDA vs <code>en-us</code></td></tr><tr><td>CS-CMP-24</td><td>S2</td><td>B</td><td>DE page is empty (no fallback)</td><td>App omitted <code>include_fallback</code> / locale fallback handling</td><td>Same slug with and without fallback</td></tr><tr><td>CS-CMP-25</td><td>S3</td><td>C</td><td>Price <code>129</code> shows <code>1 29</code> or wrong currency</td><td>CMS stores a number; <strong>app</strong> formats money</td><td>Number in JSON vs rendered string</td></tr><tr><td>CS-CMP-26</td><td>S3</td><td>C</td><td>Date is one day off on US vs EU sites</td><td>UTC stored; template uses browser TZ</td><td><code>publish_date</code> raw vs display</td></tr><tr><td>CS-CMP-27</td><td>S2</td><td>A</td><td>Mixed EN/FR in one RTE</td><td>Partial localize; some nodes still fallback</td><td>RTE JSON per locale</td></tr><tr><td>CS-CMP-28</td><td>S3</td><td>C</td><td>RTL locale not flipped</td><td>Template CSS ignores <code>dir</code></td><td>Locale + computed style</td></tr></tbody></table>
+<h3>Preview, Visual Builder, Live Preview</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-29</td><td>S2</td><td>B</td><td>QA signed off in Preview; staging site is old</td><td>Preview token / hash vs delivery token</td><td>Preview API vs CDA side by side</td></tr><tr><td>CS-CMP-30</td><td>S3</td><td>C</td><td>Clicking the CTA in Visual Builder edits the title</td><td>Wrong <code>data-cslp</code> path on the button</td><td>Inspector on the tagged node</td></tr><tr><td>CS-CMP-31</td><td>S2</td><td>C</td><td>Preview locale switch does not change copy</td><td>Preview SDK not sending <code>locale</code></td><td>Preview request headers</td></tr><tr><td>CS-CMP-32</td><td>S2</td><td>B</td><td>Timeline “tomorrow” looks live today</td><td>Testers used Preview timestamp, thought CDA changed</td><td>CDA unchanged until schedule/Release</td></tr></tbody></table>
+<h3>Listing, search, and shared components</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-33</td><td>S3</td><td>B</td><td>Listing page only shows 6 of 20 products</td><td><code>limit</code> default; no pagination in template</td><td><code>skip</code> / <code>limit</code> on the query</td></tr><tr><td>CS-CMP-34</td><td>S3</td><td>B</td><td>Sort order ≠ CMS</td><td>App sorts by title; editors use <code>sort_order</code> number</td><td>Compare field vs rendered order</td></tr><tr><td>CS-CMP-35</td><td>S2</td><td>B</td><td>Taxonomy filter “Apparel” returns nothing</td><td>Term not attached, or query uses display name not UID</td><td>Taxonomy in CDA</td></tr><tr><td>CS-CMP-36</td><td>S2</td><td>C</td><td>Header nav wrong on one template only</td><td><code>site_settings</code> single type fetched on home, hardcoded on PDP</td><td>Two templates, one entry</td></tr><tr><td>CS-CMP-37</td><td>S2</td><td>A</td><td>Editing the SEO global field breaks 40 pages</td><td>Global field change; not all templates tolerate a new required inner field</td><td>One consumer per template after the change</td></tr></tbody></table>
+<h3>Releases, cache, and “I published it”</h3>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-38</td><td>S1</td><td>B</td><td>Campaign page live, product grid empty</td><td>Release had the landing page, not the products</td><td>Release item list vs CDA children</td></tr><tr><td>CS-CMP-39</td><td>S2</td><td>C</td><td>CDA is new; HTML is 10 minutes old</td><td>Webhook / ISR / CDN TTL</td><td>Publish time vs rebuild vs <code>cache-control</code></td></tr><tr><td>CS-CMP-40</td><td>S2</td><td>A</td><td>Workflow “In Review” item skipped in Release</td><td>Stage not publishable</td><td>Release log + entry stage</td></tr><tr><td>CS-CMP-41</td><td>S3</td><td>B</td><td>Unpublish in CMS, URL still 200</td><td>Cache or ISR did not revalidate the slug</td><td>CDA 0 entries + site still 200</td></tr></tbody></table>
+<hr>
+<h2 id="component-test-matrix-copy-per-template">Component test matrix (copy per template)</h2>
+<p>Use one row per <strong>block or referenced component</strong> on the page.</p>
+<table><thead><tr><th>Component</th><th>Field UIDs used</th><th>Required?</th><th>Localizable?</th><th>Needs include / embed?</th><th>Empty-state expected</th><th>Fixture entry UID</th><th>Pass?</th></tr></thead><tbody><tr><td>Hero</td><td><code>heading</code>, <code>subheading</code>, <code>background_image</code>, <code>cta_label</code>, <code>cta_url</code></td><td>heading, image</td><td>heading, subheading, CTA label</td><td>asset published</td><td>Hide CTA if label or URL empty</td><td></td><td></td></tr><tr><td>Product grid</td><td><code>heading</code>, <code>products</code></td><td>products ≥ 1</td><td>heading</td><td><code>include[]</code> on products + category</td><td>Hide grid if all children unpublished</td><td></td><td></td></tr><tr><td>CTA</td><td><code>heading</code>, <code>button_text</code>, <code>button_url</code></td><td>all three</td><td>all text</td><td>none</td><td>Hide block if any missing</td><td></td><td></td></tr><tr><td>Rich text</td><td><code>body</code></td><td>body</td><td>yes</td><td><code>include_embedded_items[]=body</code></td><td>Hide if empty document</td><td></td><td></td></tr><tr><td>Cards from refs</td><td><code>title</code>, <code>slug</code>, <code>hero_image</code></td><td>title, slug</td><td>title</td><td>child published same env+locale</td><td>Skip card, do not 500</td><td></td><td></td></tr></tbody></table>
+<hr>
+<h2 id="defect-title-pattern-for-template-bugs">Defect title pattern for template bugs</h2>
+<pre><code>[stack][env][locale][CS-CMP-##][template] short fact</code></pre>
+<p>Example:</p>
+<pre><code>[horizon-market][staging][en-us][CS-CMP-01][landing_page] hero empty; promo_banner blt999 unpublished</code></pre>
+<p>Body must include: template name, block UID, entry UID, version, environment, locale, CDA snippet (redact tokens), and whether Preview differs from the site.</p>
+<hr>
+<h2 id="negative-tests-every-template-must-fail-safe">Negative tests every template must fail-safe</h2>
+<ol>
+<li>Unpublish one referenced product used in a grid.</li>
+<li>Leave an optional modular block empty.</li>
+<li>Publish parent, do not publish the new hero asset.</li>
+<li>Localize only the title; leave RTE on fallback.</li>
+<li>Rename nothing in UAT — if a UID changes, treat it as a contract break (CS-CMP-17).</li>
+<li>Open the page with the <strong>production</strong> delivery token by mistake (expect empty/403), then with staging.</li>
+<li>After a Release, hit the site <strong>before</strong> and <strong>after</strong> the documented cache SLA.</li>
+</ol>
+<hr>
+<h2 id="what-to-say-in-stand-up">What to say in stand-up</h2>
+<ul>
+<li>“CS-CMP-07 on PDP: category is a UID; include uses field UID <code>category</code>.”</li>
+<li>“CS-CMP-29: Preview shows v8; staging CDA still v7 — not a frontend bug.”</li>
+<li>“CS-CMP-38: Spring Edit Release missing two product UIDs; grid will be empty on prod.”</li>
+</ul>
+<p>Do not say “homepage is broken” without a CS-CMP id, layer, and UID.</p>
+<hr>
+<h2 id="next">Next</h2>
+<p>Use <a href="../checklists/defects.html">defect taxonomy</a> for the ticket template and <a href="../checklists/test-cases.html">sample test cases</a> for API-level IDs (<code>HM-QA-##</code>). Run <a href="../labs/08-defects.html">Lab 08</a> to plant these bugs on purpose.</p>
+      <div class="pager">
+        <a href="../checklists/defects.html">← Defect taxonomy</a>
+        <a href="../index.html">Home →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

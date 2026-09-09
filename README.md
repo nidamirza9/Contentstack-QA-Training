@@ -4,6 +4,8 @@ Hands-on learning material for QA testers who will test **real Contentstack proj
 
 **Public course (GitHub Pages):** https://nidamirza9.github.io/Contentstack-QA-Training/html/
 
+**Component / template QA issues:** https://nidamirza9.github.io/Contentstack-QA-Training/html/issues/component-template-qa.html
+
 **GitHub repo:** https://github.com/nidamirza9/Contentstack-QA-Training
 
 **Open the HTML course locally (browser, no server):**  
@@ -41,7 +43,7 @@ Do not skip the API labs. Most production Contentstack defects are **published v
 | [TRAINING-SUMMARY.md](./TRAINING-SUMMARY.md) | Outcomes, syllabus, QA ownership, project readiness |
 | [modules/](./modules/) | Concept lessons |
 | [labs/](./labs/) | Hands-on exercises on a real stack |
-| [checklists/](./checklists/) | Acceptance pack, test cases, defect taxonomy |
+| [checklists/](./checklists/) | Acceptance pack, test cases, defect taxonomy, [component/template issues](./checklists/component-template-qa-issues.md) |
 | [html/](./html/) | Browser-ready HTML site (same content) |
 | [Contentstack-QA-Training.html](./Contentstack-QA-Training.html) | Double-click launcher into `html/index.html` |
 

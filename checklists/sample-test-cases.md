@@ -36,3 +36,5 @@ IDs use `HM-QA-##`. Clone and change stack names on a client project.
 | HM-QA-30 | All | Campaign smoke | After Release: CDA + hero + 2 PDPs | All green; tokens not in bugs |
 
 Add automation later for **HM-QA-03, 04, 05, 10, 17** first (highest signal, lowest UI flake).
+
+For component and template UAT on a real project, use [component-template-qa-issues.md](./component-template-qa-issues.md) (`CS-CMP-01` … `CS-CMP-41`).
