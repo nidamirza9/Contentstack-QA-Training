@@ -89,7 +89,7 @@ Think of tokens as door keys.
 
 A product **points** at a category. The API returns only an ID unless you ask it to **include** the category fields.
 
-![Without include you get a UID. With include[]=category you get Apparel.](diagrams/include.svg)
+![Without include you get a UID. With include=category you get Apparel.](diagrams/include.svg)
 
 ![Same idea in Postman / CDA](screens/cs-cda-include.png)
 

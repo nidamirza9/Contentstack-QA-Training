@@ -7,5 +7,9 @@
     { "source": "/html", "destination": "/", "permanent": false },
     { "source": "/html/", "destination": "/", "permanent": false },
     { "source": "/html/:path*", "destination": "/:path*", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/:page/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/:dir/:page/assets/:path*", "destination": "/assets/:path*" }
   ]
 }

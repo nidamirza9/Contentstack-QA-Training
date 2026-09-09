@@ -4,39 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lab 06 — Localization · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a class="active" href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a class="active" href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 06</div>
@@ -45,8 +60,8 @@
 <p><strong>Layer:</strong> CMS + API  </p>
 <p><strong>Exit:</strong> You can predict CDA output for <code>en-us</code>, localized <code>fr-fr</code>, and unlocalized <code>de-de</code>.</p>
 <p>Use <code>[QA-FIXTURE] Linen Overshirt</code> (published on staging).</p>
-<figure class="shot"><img src="../assets/screens/cs-languages.png" alt="Switch language to French — localize title; SKU stays shared" loading="lazy"><figcaption>Switch language to French — localize title; SKU stays shared</figcaption></figure>
-<figure class="shot"><img src="../assets/diagrams/fallback.svg" alt="If German has no translation, it can fall back to English" loading="lazy"><figcaption>If German has no translation, it can fall back to English</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-languages.png" alt="Switch language to French — localize title; SKU stays shared" loading="lazy"><figcaption>Switch language to French — localize title; SKU stays shared</figcaption></figure>
+<figure class="shot"><img src="assets/diagrams/fallback.svg" alt="If German has no translation, it can fall back to English" loading="lazy"><figcaption>If German has no translation, it can fall back to English</figcaption></figure>
 <p>---</p>
 <h2 id="1-confirm-field-localization">1. Confirm field localization</h2>
 <p>On <code>product</code>:</p>
@@ -105,10 +120,10 @@
 <li>Price change propagated to FR</li>
 </ul>
 <p>---</p>
-<p><strong>Next:</strong> <a href="07-releases.html">Lab 07 — Releases and campaign</a></p>
+<p><strong>Next:</strong> <a href="labs/07-releases.html">Lab 07 — Releases and campaign</a></p>
       <div class="pager">
-        <a href="05-workflow-preview.html">← Lab 05</a>
-        <a href="07-releases.html">Lab 07 →</a>
+        <a href="labs/05-workflow-preview.html">← Lab 05</a>
+        <a href="labs/07-releases.html">Lab 07 →</a>
       </div>
     </main>
   </div>

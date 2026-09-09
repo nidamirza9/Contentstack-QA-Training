@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="240" viewBox="0 0 920 240" role="img">
   <rect width="920" height="240" fill="#fffdf8"/>
   <text x="460" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1c1914">A Release is one box. If a child is left out, the page looks empty.</text>
   <rect x="50" y="56" width="820" height="150" rx="14" fill="#e7eef0" stroke="#0f4c5c"/>
-  <text x="460" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#0f4c5c">QA Spring Edit · deploy staging only</text>
+  <text x="460" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#0f4c5c">QA Spring Edit - deploy staging only</text>
   <rect x="80" y="110" width="170" height="70" rx="8" fill="#12262c"/>
   <text x="165" y="152" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#fff">Landing page</text>
   <rect x="270" y="110" width="170" height="70" rx="8" fill="#12262c"/>

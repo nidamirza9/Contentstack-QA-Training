@@ -40,24 +40,24 @@ const NAV = [
 const PAGES = [
   ["beginner", "modules/00-beginner-visual-guide.md", "beginner.html", "Start here — pictures", "Home / Start here", ["index.html", "Home"], ["modules/01-boundaries.html", "Module 01"]],
   ["summary", "TRAINING-SUMMARY.md", "summary.html", "Training summary", "Home / Training summary", ["beginner.html", "Start here"], ["modules/01-boundaries.html", "Module 01"]],
-  ["m01", "modules/01-headless-cms-and-contentstack.md", "modules/01-boundaries.html", "Module 01 — Boundaries", "Home / Modules / 01", ["../beginner.html", "Start here"], ["02-model-publish.html", "Module 02"]],
-  ["m02", "modules/02-content-model-authoring-publish.md", "modules/02-model-publish.html", "Module 02 — Model and publish", "Home / Modules / 02", ["01-boundaries.html", "Module 01"], ["03-apis-releases.html", "Module 03"]],
-  ["m03", "modules/03-apis-preview-releases.md", "modules/03-apis-releases.html", "Module 03 — APIs and releases", "Home / Modules / 03", ["02-model-publish.html", "Module 02"], ["04-qa-strategy.html", "Module 04"]],
-  ["m04", "modules/04-qa-strategy-real-projects.md", "modules/04-qa-strategy.html", "Module 04 — QA strategy", "Home / Modules / 04", ["03-apis-releases.html", "Module 03"], ["../labs/00-setup.html", "Lab setup"]],
-  ["labs", "labs/README.md", "labs/index.html", "Hands-on labs", "Home / Labs", ["../modules/04-qa-strategy.html", "Module 04"], ["00-setup.html", "Lab setup"]],
-  ["l00", "labs/00-lab-setup.md", "labs/00-setup.html", "Lab 00 — Setup", "Home / Labs / 00", ["index.html", "Lab index"], ["01-orientation.html", "Lab 01"]],
-  ["l01", "labs/lab-01-stack-orientation.md", "labs/01-orientation.html", "Lab 01 — Stack orientation", "Home / Labs / 01", ["00-setup.html", "Lab setup"], ["02-model-entry.html", "Lab 02"]],
-  ["l02", "labs/lab-02-model-and-entry.md", "labs/02-model-entry.html", "Lab 02 — Model and entry", "Home / Labs / 02", ["01-orientation.html", "Lab 01"], ["03-publish.html", "Lab 03"]],
-  ["l03", "labs/lab-03-environments-and-publish.md", "labs/03-publish.html", "Lab 03 — Publish", "Home / Labs / 03", ["02-model-entry.html", "Lab 02"], ["04-delivery-api.html", "Lab 04"]],
-  ["l04", "labs/lab-04-delivery-api.md", "labs/04-delivery-api.html", "Lab 04 — Delivery API", "Home / Labs / 04", ["03-publish.html", "Lab 03"], ["05-workflow-preview.html", "Lab 05"]],
-  ["l05", "labs/lab-05-workflow-roles-preview.md", "labs/05-workflow-preview.html", "Lab 05 — Workflow and preview", "Home / Labs / 05", ["04-delivery-api.html", "Lab 04"], ["06-localization.html", "Lab 06"]],
-  ["l06", "labs/lab-06-localization.md", "labs/06-localization.html", "Lab 06 — Localization", "Home / Labs / 06", ["05-workflow-preview.html", "Lab 05"], ["07-releases.html", "Lab 07"]],
-  ["l07", "labs/lab-07-releases-and-campaign.md", "labs/07-releases.html", "Lab 07 — Releases", "Home / Labs / 07", ["06-localization.html", "Lab 06"], ["08-defects.html", "Lab 08"]],
-  ["l08", "labs/lab-08-regression-and-defects.md", "labs/08-defects.html", "Lab 08 — Defects", "Home / Labs / 08", ["07-releases.html", "Lab 07"], ["../checklists/acceptance.html", "Acceptance pack"]],
-  ["acc", "checklists/qa-acceptance-pack.md", "checklists/acceptance.html", "Acceptance pack", "Home / Checklists / Acceptance", ["../labs/08-defects.html", "Lab 08"], ["test-cases.html", "Test cases"]],
-  ["tc", "checklists/sample-test-cases.md", "checklists/test-cases.html", "Sample test cases", "Home / Checklists / Test cases", ["acceptance.html", "Acceptance pack"], ["defects.html", "Defect taxonomy"]],
-  ["def", "checklists/defect-taxonomy.md", "checklists/defects.html", "Defect taxonomy", "Home / Checklists / Defects", ["test-cases.html", "Test cases"], ["../issues/component-template-qa.html", "Component issues"]],
-  ["issues", "checklists/component-template-qa-issues.md", "issues/component-template-qa.html", "Component and template QA issues", "Home / Real project issues", ["../checklists/defects.html", "Defect taxonomy"], ["../index.html", "Home"]],
+  ["m01", "modules/01-headless-cms-and-contentstack.md", "modules/01-boundaries.html", "Module 01 — Boundaries", "Home / Modules / 01", ["beginner.html", "Start here"], ["modules/02-model-publish.html", "Module 02"]],
+  ["m02", "modules/02-content-model-authoring-publish.md", "modules/02-model-publish.html", "Module 02 — Model and publish", "Home / Modules / 02", ["modules/01-boundaries.html", "Module 01"], ["modules/03-apis-releases.html", "Module 03"]],
+  ["m03", "modules/03-apis-preview-releases.md", "modules/03-apis-releases.html", "Module 03 — APIs and releases", "Home / Modules / 03", ["modules/02-model-publish.html", "Module 02"], ["modules/04-qa-strategy.html", "Module 04"]],
+  ["m04", "modules/04-qa-strategy-real-projects.md", "modules/04-qa-strategy.html", "Module 04 — QA strategy", "Home / Modules / 04", ["modules/03-apis-releases.html", "Module 03"], ["labs/00-setup.html", "Lab setup"]],
+  ["labs", "labs/README.md", "labs/index.html", "Hands-on labs", "Home / Labs", ["modules/04-qa-strategy.html", "Module 04"], ["labs/00-setup.html", "Lab setup"]],
+  ["l00", "labs/00-lab-setup.md", "labs/00-setup.html", "Lab 00 — Setup", "Home / Labs / 00", ["labs/index.html", "Lab index"], ["labs/01-orientation.html", "Lab 01"]],
+  ["l01", "labs/lab-01-stack-orientation.md", "labs/01-orientation.html", "Lab 01 — Stack orientation", "Home / Labs / 01", ["labs/00-setup.html", "Lab setup"], ["labs/02-model-entry.html", "Lab 02"]],
+  ["l02", "labs/lab-02-model-and-entry.md", "labs/02-model-entry.html", "Lab 02 — Model and entry", "Home / Labs / 02", ["labs/01-orientation.html", "Lab 01"], ["labs/03-publish.html", "Lab 03"]],
+  ["l03", "labs/lab-03-environments-and-publish.md", "labs/03-publish.html", "Lab 03 — Publish", "Home / Labs / 03", ["labs/02-model-entry.html", "Lab 02"], ["labs/04-delivery-api.html", "Lab 04"]],
+  ["l04", "labs/lab-04-delivery-api.md", "labs/04-delivery-api.html", "Lab 04 — Delivery API", "Home / Labs / 04", ["labs/03-publish.html", "Lab 03"], ["labs/05-workflow-preview.html", "Lab 05"]],
+  ["l05", "labs/lab-05-workflow-roles-preview.md", "labs/05-workflow-preview.html", "Lab 05 — Workflow and preview", "Home / Labs / 05", ["labs/04-delivery-api.html", "Lab 04"], ["labs/06-localization.html", "Lab 06"]],
+  ["l06", "labs/lab-06-localization.md", "labs/06-localization.html", "Lab 06 — Localization", "Home / Labs / 06", ["labs/05-workflow-preview.html", "Lab 05"], ["labs/07-releases.html", "Lab 07"]],
+  ["l07", "labs/lab-07-releases-and-campaign.md", "labs/07-releases.html", "Lab 07 — Releases", "Home / Labs / 07", ["labs/06-localization.html", "Lab 06"], ["labs/08-defects.html", "Lab 08"]],
+  ["l08", "labs/lab-08-regression-and-defects.md", "labs/08-defects.html", "Lab 08 — Defects", "Home / Labs / 08", ["labs/07-releases.html", "Lab 07"], ["checklists/acceptance.html", "Acceptance pack"]],
+  ["acc", "checklists/qa-acceptance-pack.md", "checklists/acceptance.html", "Acceptance pack", "Home / Checklists / Acceptance", ["labs/08-defects.html", "Lab 08"], ["checklists/test-cases.html", "Test cases"]],
+  ["tc", "checklists/sample-test-cases.md", "checklists/test-cases.html", "Sample test cases", "Home / Checklists / Test cases", ["checklists/acceptance.html", "Acceptance pack"], ["checklists/defects.html", "Defect taxonomy"]],
+  ["def", "checklists/defect-taxonomy.md", "checklists/defects.html", "Defect taxonomy", "Home / Checklists / Defects", ["checklists/test-cases.html", "Test cases"], ["issues/component-template-qa.html", "Component issues"]],
+  ["issues", "checklists/component-template-qa-issues.md", "issues/component-template-qa.html", "Component and template QA issues", "Home / Real project issues", ["checklists/defects.html", "Defect taxonomy"], ["index.html", "Home"]],
 ];
 
 const LINK_MAP = [
@@ -66,29 +66,29 @@ const LINK_MAP = [
   [/\.\/modules\/03-apis-preview-releases\.md/g, "modules/03-apis-releases.html"],
   [/\.\/modules\/04-qa-strategy-real-projects\.md/g, "modules/04-qa-strategy.html"],
   [/\.\/labs\/00-lab-setup\.md/g, "labs/00-setup.html"],
-  [/\.\.\/labs\/00-lab-setup\.md/g, "../labs/00-setup.html"],
-  [/\.\.\/labs\/lab-01-stack-orientation\.md#knowledge-check-answers/g, "../labs/01-orientation.html#knowledge-check-answers"],
-  [/\.\.\/labs\/lab-01-stack-orientation\.md/g, "../labs/01-orientation.html"],
-  [/\.\/02-content-model-authoring-publish\.md/g, "02-model-publish.html"],
-  [/\.\/03-apis-preview-releases\.md/g, "03-apis-releases.html"],
-  [/\.\/04-qa-strategy-real-projects\.md/g, "04-qa-strategy.html"],
-  [/\.\/lab-01-stack-orientation\.md/g, "01-orientation.html"],
-  [/\.\/lab-02-model-and-entry\.md/g, "02-model-entry.html"],
-  [/\.\/lab-03-environments-and-publish\.md/g, "03-publish.html"],
-  [/\.\/lab-04-delivery-api\.md/g, "04-delivery-api.html"],
-  [/\.\/lab-05-workflow-roles-preview\.md/g, "05-workflow-preview.html"],
-  [/\.\/lab-06-localization\.md/g, "06-localization.html"],
-  [/\.\/lab-07-releases-and-campaign\.md/g, "07-releases.html"],
-  [/\.\/lab-08-regression-and-defects\.md/g, "08-defects.html"],
-  [/\.\.\/checklists\/qa-acceptance-pack\.md/g, "../checklists/acceptance.html"],
-  [/\.\.\/checklists\/defect-taxonomy\.md/g, "../checklists/defects.html"],
-  [/\.\/defect-taxonomy\.md/g, "../checklists/defects.html"],
-  [/\.\/sample-test-cases\.md/g, "../checklists/test-cases.html"],
-  [/\.\.\/labs\/lab-08-regression-and-defects\.md/g, "../labs/08-defects.html"],
-  [/\.\.\/TRAINING-SUMMARY\.md/g, "../summary.html"],
+  [/\.\.\/labs\/00-lab-setup\.md/g, "labs/00-setup.html"],
+  [/\.\.\/labs\/lab-01-stack-orientation\.md#knowledge-check-answers/g, "labs/01-orientation.html#knowledge-check-answers"],
+  [/\.\.\/labs\/lab-01-stack-orientation\.md/g, "labs/01-orientation.html"],
+  [/\.\/02-content-model-authoring-publish\.md/g, "modules/02-model-publish.html"],
+  [/\.\/03-apis-preview-releases\.md/g, "modules/03-apis-releases.html"],
+  [/\.\/04-qa-strategy-real-projects\.md/g, "modules/04-qa-strategy.html"],
+  [/\.\/lab-01-stack-orientation\.md/g, "labs/01-orientation.html"],
+  [/\.\/lab-02-model-and-entry\.md/g, "labs/02-model-entry.html"],
+  [/\.\/lab-03-environments-and-publish\.md/g, "labs/03-publish.html"],
+  [/\.\/lab-04-delivery-api\.md/g, "labs/04-delivery-api.html"],
+  [/\.\/lab-05-workflow-roles-preview\.md/g, "labs/05-workflow-preview.html"],
+  [/\.\/lab-06-localization\.md/g, "labs/06-localization.html"],
+  [/\.\/lab-07-releases-and-campaign\.md/g, "labs/07-releases.html"],
+  [/\.\/lab-08-regression-and-defects\.md/g, "labs/08-defects.html"],
+  [/\.\.\/checklists\/qa-acceptance-pack\.md/g, "checklists/acceptance.html"],
+  [/\.\.\/checklists\/defect-taxonomy\.md/g, "checklists/defects.html"],
+  [/\.\/defect-taxonomy\.md/g, "checklists/defects.html"],
+  [/\.\/sample-test-cases\.md/g, "checklists/test-cases.html"],
+  [/\.\.\/labs\/lab-08-regression-and-defects\.md/g, "labs/08-defects.html"],
+  [/\.\.\/TRAINING-SUMMARY\.md/g, "summary.html"],
   [/\.\/TRAINING-SUMMARY\.md/g, "summary.html"],
   [/\.\/01-headless-cms-and-contentstack\.md/g, "modules/01-boundaries.html"],
-  [/\.\/00-lab-setup\.md/g, "00-setup.html"],
+  [/\.\/00-lab-setup\.md/g, "labs/00-setup.html"],
 ];
 
 function esc(s) {
@@ -101,10 +101,9 @@ function esc(s) {
 
 function rewriteLinks(text, dest) {
   for (const [re, to] of LINK_MAP) text = text.replace(re, to);
-  const prefix = dest.includes("/") ? "../assets/" : "assets/";
   return text
-    .replace(/\(screens\//g, `(${prefix}screens/`)
-    .replace(/\(diagrams\//g, `(${prefix}diagrams/`);
+    .replace(/\(screens\//g, "(assets/screens/")
+    .replace(/\(diagrams\//g, "(assets/diagrams/");
 }
 
 function inline(text) {
@@ -237,12 +236,32 @@ function mdToHtml(md) {
   return out.join("\n");
 }
 
-function cssHref(dest) {
-  return dest.includes("/") ? "../assets/app.css" : "assets/app.css";
+const BASE_SCRIPT = `<script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\\/html\\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>`;
+
+function cssHref() {
+  return "assets/app.css";
 }
 
-function navPrefix(dest) {
-  return dest.includes("/") ? "../" : "";
+function navPrefix() {
+  return "";
+}
+
+function toRoot(html) {
+  return html.replace(/(href|src)="(?:\.\.\/)+/g, "$1=\"");
 }
 
 function renderNav(active, dest) {
@@ -274,14 +293,15 @@ function wrap(page, body) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} · Contentstack QA</title>
-  <link rel="stylesheet" href="${cssHref(dest)}">
+  ${BASE_SCRIPT}
+  <link rel="stylesheet" href="${cssHref()}">
 </head>
 <body>
   <div class="layout">
     ${renderNav(id, dest)}
     <main class="main">
       <div class="crumb">${esc(crumb)}</div>
-      ${body}
+      ${toRoot(body)}
       <div class="pager">
         <a href="${prev[0]}">← ${esc(prev[1])}</a>
         <a href="${next[0]}">${esc(next[1])} →</a>
@@ -300,6 +320,7 @@ function homeHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contentstack QA tester training</title>
+  ${BASE_SCRIPT}
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
@@ -422,6 +443,7 @@ const pathsPage = `<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Full paths · Contentstack QA</title>
+  ${BASE_SCRIPT}
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>

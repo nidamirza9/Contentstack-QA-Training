@@ -4,46 +4,61 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Module 04 — QA strategy · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a class="active" href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a class="active" href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Modules / 04</div>
       <h1>Module 04 — QA Strategy on Real Contentstack Projects</h1>
 <p><strong>Time:</strong> 2 hours  </p>
 <p><strong>Goal:</strong> Plan tests the way a delivery team actually ships: model change, content UAT, campaign, localization, regression.</p>
-<figure class="shot"><img src="../assets/screens/cs-workflow.png" alt="Horizon Review workflow — Draft → In Review → Approved → Published. Approved is not live." loading="lazy"><figcaption>Horizon Review workflow — Draft → In Review → Approved → Published. Approved is not live.</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-workflow.png" alt="Horizon Review workflow — Draft → In Review → Approved → Published. Approved is not live." loading="lazy"><figcaption>Horizon Review workflow — Draft → In Review → Approved → Published. Approved is not live.</figcaption></figure>
 <p>---</p>
 <h2 id="1-test-strategy-in-one-page">1. Test strategy in one page</h2>
 <table><thead><tr><th>Layer</th><th>Technique</th><th>When</th></tr></thead><tbody><tr><td>Content type schema</td><td>Contract snapshot of CDA/GraphQL schema or sample JSON</td><td>Every merge of a branch or type edit</td></tr><tr><td>Entry rules</td><td>Manual + required-field / workflow negative tests</td><td>New type or workflow</td></tr><tr><td>Delivery JSON</td><td>REST/GraphQL assertions in CI against fixture UIDs</td><td>Every pipeline</td></tr><tr><td>Preview</td><td>Scripted Playwright only for high-value paths</td><td>Preview or Visual Builder change</td></tr><tr><td>Channel UI</td><td>Functional + visual on staging</td><td>Every content template</td></tr><tr><td>Campaign</td><td>Release rehearsal on staging, then production window</td><td>Every coordinated go-live</td></tr><tr><td>Localization</td><td>Fallback matrix + app formatting</td><td>New locale or localized field</td></tr><tr><td>Roles</td><td>Negative publish / language tests</td><td>New role or publish rule</td></tr></tbody></table>
@@ -100,7 +115,7 @@ QA re-checks production CDA + smoke (not full regression)</code></pre>
 <p><strong>Day 2:</strong> Walk one happy-path entry per major type. Capture fixture UIDs. Import sample CDA JSON into the test repo.</p>
 <p><strong>Day 3:</strong> Negative tests: unpublished ref, wrong locale, role publish, empty modular block.</p>
 <p><strong>Day 4:</strong> Preview vs site, one Release rehearsal, webhook/cache SLA written in Confluence/ADO.</p>
-<p><strong>Day 5:</strong> Sign the <a href="../checklists/acceptance.html">acceptance pack</a> for “QA is unblocked.”</p>
+<p><strong>Day 5:</strong> Sign the <a href="checklists/acceptance.html">acceptance pack</a> for “QA is unblocked.”</p>
 <p>---</p>
 <h2 id="8-what-done-looks-like-for-a-content-ticket">8. What “done” looks like for a content ticket</h2>
 <ul>
@@ -116,8 +131,8 @@ QA re-checks production CDA + smoke (not full regression)</code></pre>
 <p>---</p>
 <p><strong>Next:</strong> <a href=".labs/00-setup.html">Lab setup</a></p>
       <div class="pager">
-        <a href="03-apis-releases.html">← Module 03</a>
-        <a href="../labs/00-setup.html">Lab setup →</a>
+        <a href="modules/03-apis-releases.html">← Module 03</a>
+        <a href="labs/00-setup.html">Lab setup →</a>
       </div>
     </main>
   </div>

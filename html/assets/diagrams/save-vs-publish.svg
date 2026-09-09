@@ -1,20 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 260" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="260" viewBox="0 0 920 260" role="img">
   <rect width="920" height="260" fill="#fffdf8"/>
   <text x="460" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1c1914">Save is not publish. Staging is not production.</text>
   <rect x="24" y="56" width="200" height="160" rx="12" fill="#ece6da" stroke="#d8d0c2"/>
   <text x="124" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#1c1914">1. Save</text>
   <text x="124" y="132" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">Draft version</text>
   <text x="124" y="156" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">Website: no change</text>
-  <text x="236" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">’</text>
+  <text x="236" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">&gt;</text>
   <rect x="268" y="56" width="200" height="160" rx="12" fill="#e7eef0" stroke="#0f4c5c"/>
   <text x="368" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#0f4c5c">2. Publish</text>
   <text x="368" y="132" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#1c1914">staging + en-us</text>
   <text x="368" y="156" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#5c564c">QA site can show it</text>
-  <text x="480" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">’</text>
+  <text x="480" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">&gt;</text>
   <rect x="512" y="56" width="180" height="160" rx="12" fill="#12262c"/>
   <text x="602" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#fff">3. UAT</text>
   <text x="602" y="132" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#d7e6e4">API + staging site</text>
-  <text x="704" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">’</text>
+  <text x="704" y="140" font-family="Segoe UI, sans-serif" font-size="22" fill="#0f4c5c">&gt;</text>
   <rect x="736" y="56" width="160" height="160" rx="12" fill="#8a4b12"/>
   <text x="816" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#fff">4. Live</text>
   <text x="816" y="132" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" fill="#f7eee4">Publish production</text>

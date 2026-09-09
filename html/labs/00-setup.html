@@ -4,39 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lab 00 — Setup · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a class="active" href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a class="active" href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 00</div>
@@ -44,7 +59,7 @@
 <p><strong>Time:</strong> 45–60 minutes  </p>
 <p><strong>You need:</strong> a Contentstack trial or training organization, Postman or curl, and a notes file for UIDs.</p>
 <p>Do <strong>not</strong> use a client production stack for these labs.</p>
-<figure class="shot"><img src="../assets/screens/cs-environments.png" alt="Create development, staging, and production before you author a single entry" loading="lazy"><figcaption>Create development, staging, and production before you author a single entry</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-environments.png" alt="Create development, staging, and production before you author a single entry" loading="lazy"><figcaption>Create development, staging, and production before you author a single entry</figcaption></figure>
 <p>---</p>
 <h2 id="1-create-the-stack">1. Create the stack</h2>
 <ol>
@@ -73,8 +88,8 @@ CS_DELIVERY_PRODUCTION=
 CS_PREVIEW_STAGING=
 CS_REGION_CDA_HOST=https://cdn.contentstack.io</code></pre>
 <p>---</p>
-<figure class="shot"><img src="../assets/screens/cs-languages.png" alt="Add fr-fr and de-de with fallback en-us" loading="lazy"><figcaption>Add fr-fr and de-de with fallback en-us</figcaption></figure>
-<figure class="shot"><img src="../assets/screens/cs-tokens.png" alt="Create cda-staging and cda-production delivery tokens" loading="lazy"><figcaption>Create cda-staging and cda-production delivery tokens</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-languages.png" alt="Add fr-fr and de-de with fallback en-us" loading="lazy"><figcaption>Add fr-fr and de-de with fallback en-us</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-tokens.png" alt="Create cda-staging and cda-production delivery tokens" loading="lazy"><figcaption>Create cda-staging and cda-production delivery tokens</figcaption></figure>
 <h2 id="2-create-roles-if-you-have-admin">2. Create roles (if you have admin)</h2>
 <table><thead><tr><th>Role</th><th>Entries</th><th>Publish</th><th>Languages</th></tr></thead><tbody><tr><td>HM Author</td><td>Create/Update selected types</td><td>None or development only</td><td>All</td></tr><tr><td>HM Reviewer</td><td>Read + workflow</td><td>None</td><td>All</td></tr><tr><td>HM Publisher</td><td>Read</td><td>staging + production</td><td>All</td></tr><tr><td>HM QA</td><td>Read all</td><td>staging only</td><td>All</td></tr><tr><td>HM Translator FR</td><td>Update</td><td>None</td><td><code>fr-fr</code> only</td></tr></tbody></table>
 <p>Invite a second browser profile or teammate for negative role tests. If you cannot create roles, skip Lab 05 role cases and still do workflow as Admin (note the limitation).</p>
@@ -105,10 +120,10 @@ access_token: {{CS_DELIVERY_STAGING}}</code></pre>
 <li>You will not publish lab junk to any <strong>client</strong> production stack</li>
 </ul>
 <p>---</p>
-<p><strong>Next:</strong> <a href="01-orientation.html">Lab 01 — Stack orientation</a></p>
+<p><strong>Next:</strong> <a href="labs/01-orientation.html">Lab 01 — Stack orientation</a></p>
       <div class="pager">
-        <a href="index.html">← Lab index</a>
-        <a href="01-orientation.html">Lab 01 →</a>
+        <a href="labs/index.html">← Lab index</a>
+        <a href="labs/01-orientation.html">Lab 01 →</a>
       </div>
     </main>
   </div>

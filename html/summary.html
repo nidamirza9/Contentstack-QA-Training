@@ -4,6 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Training summary · Contentstack QA</title>
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>

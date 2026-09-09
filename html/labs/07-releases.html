@@ -4,39 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lab 07 — Releases · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a class="active" href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a class="active" href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 07</div>
@@ -44,7 +59,7 @@
 <p><strong>Time:</strong> 75 minutes  </p>
 <p><strong>Layer:</strong> CMS + API  </p>
 <p><strong>Exit:</strong> A Spring Edit landing page ships as one Release on staging; production stays unchanged.</p>
-<figure class="shot"><img src="../assets/screens/cs-modular-blocks.png" alt="Assemble Spring Edit blocks, then add every child to the Release" loading="lazy"><figcaption>Assemble Spring Edit blocks, then add every child to the Release</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-modular-blocks.png" alt="Assemble Spring Edit blocks, then add every child to the Release" loading="lazy"><figcaption>Assemble Spring Edit blocks, then add every child to the Release</figcaption></figure>
 <p>---</p>
 <h2 id="1-build-campaign-content">1. Build campaign content</h2>
 <ol>
@@ -61,7 +76,7 @@
 </ol>
 <p>Do <strong>not</strong> publish the landing page or banner yet.</p>
 <p>---</p>
-<figure class="shot"><img src="../assets/screens/cs-releases.png" alt="Release item list — landing page, banner, products, assets — staging only" loading="lazy"><figcaption>Release item list — landing page, banner, products, assets — staging only</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-releases.png" alt="Release item list — landing page, banner, products, assets — staging only" loading="lazy"><figcaption>Release item list — landing page, banner, products, assets — staging only</figcaption></figure>
 <h2 id="2-assemble-release">2. Assemble Release</h2>
 <ol>
 <li>Releases → Create <strong>QA Spring Edit Staging</strong>.</li>
@@ -110,7 +125,7 @@
 <li>Export Release item list (UID, locale, action).</li>
 <li>Confirm all references and assets are in the list or already on the target environment.</li>
 <li>Deploy to staging; wait cache/webhook SLA.</li>
-<li>Run <a href="../checklists/acceptance.html">acceptance pack</a> smoke.</li>
+<li>Run <a href="checklists/acceptance.html">acceptance pack</a> smoke.</li>
 <li>Only then deploy the <strong>same item set</strong> to production (or a production Release cloned from staging).</li>
 <li>Production CDA + 3 smoke URLs.</li>
 <li>Keep a takedown Release ready.</li>
@@ -123,10 +138,10 @@
 <li>At least one missing-child or unpublish experiment documented</li>
 </ul>
 <p>---</p>
-<p><strong>Next:</strong> <a href="08-defects.html">Lab 08 — Regression and defects</a></p>
+<p><strong>Next:</strong> <a href="labs/08-defects.html">Lab 08 — Regression and defects</a></p>
       <div class="pager">
-        <a href="06-localization.html">← Lab 06</a>
-        <a href="08-defects.html">Lab 08 →</a>
+        <a href="labs/06-localization.html">← Lab 06</a>
+        <a href="labs/08-defects.html">Lab 08 →</a>
       </div>
     </main>
   </div>

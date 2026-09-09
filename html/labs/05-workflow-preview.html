@@ -4,39 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lab 05 — Workflow and preview · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a class="active" href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a class="active" href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 05</div>
@@ -44,7 +59,7 @@
 <p><strong>Time:</strong> 60 minutes  </p>
 <p><strong>Layer:</strong> CMS + Preview  </p>
 <p><strong>Exit:</strong> You can separate workflow stage from publish, and draft from CDA.</p>
-<figure class="shot"><img src="../assets/screens/cs-workflow.png" alt="Move the tote through Draft → In Review → Approved, then publish" loading="lazy"><figcaption>Move the tote through Draft → In Review → Approved, then publish</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-workflow.png" alt="Move the tote through Draft → In Review → Approved, then publish" loading="lazy"><figcaption>Move the tote through Draft → In Review → Approved, then publish</figcaption></figure>
 <p>---</p>
 <h2 id="1-workflow-happy-path">1. Workflow happy path</h2>
 <p>If Horizon Review is assigned to <code>product</code>:</p>
@@ -65,7 +80,7 @@
 <table><thead><tr><th>Attempt</th><th>Expected</th></tr></thead><tbody><tr><td>Edit <code>en-us</code> title</td><td>Denied</td></tr><tr><td>Edit <code>fr-fr</code> title</td><td>Allowed</td></tr></tbody></table>
 <p>File any mismatch as a <strong>role defect</strong> with role name + permission screenshot.</p>
 <p>---</p>
-<figure class="shot"><img src="../assets/screens/cs-live-preview.png" alt="Preview shows DRAFT; staging CDA must still show the last published title" loading="lazy"><figcaption>Preview shows DRAFT; staging CDA must still show the last published title</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-live-preview.png" alt="Preview shows DRAFT; staging CDA must still show the last published title" loading="lazy"><figcaption>Preview shows DRAFT; staging CDA must still show the last published title</figcaption></figure>
 <h2 id="3-preview-vs-cda">3. Preview vs CDA</h2>
 <ol>
 <li>As QA/Admin, change tote title to <code>Canvas Tote — DRAFT</code> and <strong>Save</strong>.</li>
@@ -97,10 +112,10 @@
 <li>Production left clean (tote unpublished from production)</li>
 </ul>
 <p>---</p>
-<p><strong>Next:</strong> <a href="06-localization.html">Lab 06 — Localization</a></p>
+<p><strong>Next:</strong> <a href="labs/06-localization.html">Lab 06 — Localization</a></p>
       <div class="pager">
-        <a href="04-delivery-api.html">← Lab 04</a>
-        <a href="06-localization.html">Lab 06 →</a>
+        <a href="labs/04-delivery-api.html">← Lab 04</a>
+        <a href="labs/06-localization.html">Lab 06 →</a>
       </div>
     </main>
   </div>

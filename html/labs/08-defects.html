@@ -4,39 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lab 08 — Defects · Contentstack QA</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="../index.html">Contentstack QA Training</a>
+<a class="brand" href="index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="../index.html">Home</a></li>
-<li><a href="../beginner.html">Start here (pictures)</a></li>
-<li><a href="../paths.html">Full paths</a></li>
-<li><a href="../summary.html">Training summary</a></li>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="../labs/index.html">Lab index</a></li>
-<li><a href="../labs/00-setup.html">00 · Setup</a></li>
-<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="../labs/03-publish.html">03 · Publish</a></li>
-<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="../labs/06-localization.html">06 · Localization</a></li>
-<li><a href="../labs/07-releases.html">07 · Releases</a></li>
-<li><a class="active" href="../labs/08-defects.html">08 · Defects</a></li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a class="active" href="labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 08</div>
@@ -44,10 +59,10 @@
 <p><strong>Time:</strong> 90 minutes  </p>
 <p><strong>Layer:</strong> All three  </p>
 <p><strong>Exit:</strong> Five defects (or simulated defects) written to the project standard.</p>
-<figure class="shot"><img src="../assets/screens/cs-cda-include.png" alt="Use CDA evidence like this when you file CS-CMP / HM-QA defects" loading="lazy"><figcaption>Use CDA evidence like this when you file CS-CMP / HM-QA defects</figcaption></figure>
+<figure class="shot"><img src="assets/screens/cs-cda-include.png" alt="Use CDA evidence like this when you file CS-CMP / HM-QA defects" loading="lazy"><figcaption>Use CDA evidence like this when you file CS-CMP / HM-QA defects</figcaption></figure>
 <p>---</p>
 <h2 id="1-plant-bugs-on-purpose">1. Plant bugs (on purpose)</h2>
-<p>Perform these on staging only. Write a defect for each using <a href="../checklists/defects.html">defect-taxonomy.md</a>.</p>
+<p>Perform these on staging only. Write a defect for each using <a href="checklists/defects.html">defect-taxonomy.md</a>.</p>
 <table><thead><tr><th>#</th><th>Plant</th><th>Layer you should assign</th></tr></thead><tbody><tr><td>1</td><td>Publish landing page that references an <strong>unpublished</strong> product</td><td>A / B</td></tr><tr><td>2</td><td>Save a title change; do not publish; claim “site is wrong” if you only looked at Preview</td><td>B (not a bug if CDA is old)</td></tr><tr><td>3</td><td>Localize FR title; forget to publish FR</td><td>B</td></tr><tr><td>4</td><td>Rename a field <strong>UID</strong> <code>cta_label</code> → <code>cta_text</code> on <code>hero</code></td><td>B + C (contract break)</td></tr><tr><td>5</td><td>Publish new asset; entry still points at old published asset</td><td>A</td></tr></tbody></table>
 <p>Revert the UID rename after you capture the defect — it will break later demos.</p>
 <p>---</p>
@@ -91,10 +106,10 @@
 <li>You can explain why Preview ≠ CDA in one sentence</li>
 </ul>
 <p>---</p>
-<p><strong>Training complete.</strong> Use <a href="../checklists/">checklists/</a> on the first real project. Re-read <a href="../summary.html">TRAINING-SUMMARY.md</a> definition of done and self-score.</p>
+<p><strong>Training complete.</strong> Use <a href="checklists/">checklists/</a> on the first real project. Re-read <a href="summary.html">TRAINING-SUMMARY.md</a> definition of done and self-score.</p>
       <div class="pager">
-        <a href="07-releases.html">← Lab 07</a>
-        <a href="../checklists/acceptance.html">Acceptance pack →</a>
+        <a href="labs/07-releases.html">← Lab 07</a>
+        <a href="checklists/acceptance.html">Acceptance pack →</a>
       </div>
     </main>
   </div>
