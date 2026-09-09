@@ -3,7 +3,11 @@
 **Time:** 4 hours  
 **Goal:** Read a content type like a contract, author clean entries, and publish without leaking to production.
 
-![Content type builder for product — field UIDs, types, and Localize this field](screens/cs-content-type-builder.png)
+![Official Create New Content Type — Name vs UID vs Single/Multiple](official/create-content-type.png)
+
+![Official Content Type Builder — add fields with +, then open the gear](official/content-type-builder.png)
+
+![Official field properties — Display Name vs Unique ID on Body](official/about-fields.png)
 
 ![Content type is the blank form. Entry is one filled form.](diagrams/type-vs-entry.svg)
 
@@ -89,7 +93,7 @@ Test:
 
 ---
 
-![Entry editor for Linen Overshirt — Save is not Publish; workflow still Draft](screens/cs-entry-editor.png)
+![Official entry editor — Save vs Publish, plus Developer Tools JSON](official/developer-json.png)
 
 ## 5. Entries, versions, and save vs publish
 

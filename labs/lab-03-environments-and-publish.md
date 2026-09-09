@@ -4,7 +4,9 @@
 **Layer:** CMS + (light) API  
 **Exit:** Product is on staging only; production CDA does not return it.
 
-![Publish dialog — staging checked, production unchecked](screens/cs-publish-dialog.png)
+![Official Publish Review — Environments and Languages must match what you tested](official/publish-review.png)
+
+![Official Validate Items — Publish Now only after children are ready](official/publish-validate.png)
 
 ---
 

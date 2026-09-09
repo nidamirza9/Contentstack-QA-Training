@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMS screens (labeled) · Contentstack QA</title>
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a class="active" href="cms-visual.html">CMS screens (labeled)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+</ul></nav>
+    <main class="main">
+      
+      <div class="crumb">Home / CMS visual field guide</div>
+      <h1>Contentstack CMS — labeled screens for QA</h1>
+      <p class="meta">Official Contentstack UI. Each red number is a control testers must be able to name. Screenshots from <a href="https://www.contentstack.com/docs">Contentstack Docs</a>.</p>
+      <div class="callout">
+        <strong>How to use this page.</strong> Open the same screen in your trial stack. Point at each number and say the QA sentence out loud.
+      </div>
+
+      <h2 id="nav">1. Top navigation — where you are</h2>
+      <p>Every official screenshot uses this bar. Learn the names before you click anything.</p>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/create-content-type.png" alt="Content Models with Create New Content Type modal" loading="lazy">
+    <span class="pin" style="left:8%;top:5%">1</span><span class="pin" style="left:18%;top:5%">2</span><span class="pin" style="left:28%;top:5%">3</span><span class="pin" style="left:40%;top:5%">4</span><span class="pin" style="left:52%;top:5%">5</span><span class="pin" style="left:64%;top:5%">6</span><span class="pin" style="left:50%;top:36%">7</span><span class="pin" style="left:50%;top:48%">8</span><span class="pin" style="left:42%;top:68%">9</span><span class="pin" style="left:62%;top:86%">10</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Dashboard</strong> — activity overview. Not the Entries list.</li>
+    <li><b>2.</b> <strong>Entries</strong> — filled content. This is the daily QA dashboard.</li>
+    <li><b>3.</b> <strong>Assets</strong> — images/PDFs. They have their own publish lifecycle.</li>
+    <li><b>4.</b> <strong>Content Models</strong> — blank forms (schema). Changing Unique ID here breaks the site.</li>
+    <li><b>5.</b> <strong>Visual Experience</strong> — Visual Builder / canvas. Looks like the website. It is <em>not</em> proof of Delivery API.</li>
+    <li><b>6.</b> <strong>Publish Queue / Releases / Settings</strong> — jobs, campaign boxes, environments, tokens, languages.</li>
+    <li><b>7.</b> <strong>Name</strong> — editor label. Safe to change later.</li>
+    <li><b>8.</b> <strong>UID</strong> — API name. Docs say: cannot be changed once saved. Testers query this, not the Name.</li>
+    <li><b>9.</b> <strong>Type Single vs Multiple</strong> — Single = one entry (header, homepage). Multiple = many (products, articles).</li>
+    <li><b>10.</b> <strong>Save and proceed</strong> — opens the Content Type Builder. Does not create an entry.</li>
+  </ol>
+</figure>
+      <div class="qa-box"><strong>QA sentence:</strong> “Content type Name is Product, UID is <code>product</code>, Type is Multiple.”</div>
+
+      <h2 id="builder">2. Content Type Builder — the visual content model</h2>
+      <p>This is the <strong>blank form</strong>. You are not writing a product yet. You are deciding which boxes the form will have.</p>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/content-type-builder.png" alt="Empty Content Type Builder for Sample" loading="lazy">
+    <span class="pin" style="left:22%;top:16%">1</span><span class="pin" style="left:48%;top:16%">2</span><span class="pin" style="left:72%;top:16%">3</span><span class="pin" style="left:50%;top:32%">4</span><span class="pin" style="left:50%;top:42%">5</span><span class="pin" style="left:78%;top:92%">6</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Back</strong> — returns to the Content Types list.</li>
+    <li><b>2.</b> <strong>Content type title</strong> (Sample) — click the gear beside it for type-level settings.</li>
+    <li><b>3.</b> <strong>Field Visibility Rules</strong> — hide/show fields from other field values. High bug area in UAT.</li>
+    <li><b>4.</b> <strong>Title</strong> — default field. Always exists. Used as the name in the Entries list.</li>
+    <li><b>5.</b> <strong>+ Insert a field</strong> — hover under Title and click plus. This adds SKU, price, reference, modular blocks, and so on.</li>
+    <li><b>6.</b> <strong>Save / Save and Close</strong> — saves the <em>schema</em>, not an entry. The website does not change.</li>
+  </ol>
+</figure>
+      <div class="qa-box"><strong>QA sentence:</strong> “I saved the content type. No entry exists yet. CDA is still empty.”</div>
+
+      <h2 id="fields">3. Fields — Display Name vs Unique ID</h2>
+      <p>Official News Article example. The purple box is <strong>field properties</strong> (the gear).</p>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/about-fields.png" alt="News Article fields with Rich Text Editor Properties" loading="lazy">
+    <span class="pin" style="left:28%;top:28%">1</span><span class="pin" style="left:28%;top:38%">2</span><span class="pin" style="left:28%;top:48%">3</span><span class="pin" style="left:28%;top:58%">4</span><span class="pin" style="left:72%;top:36%">5</span><span class="pin" style="left:72%;top:48%">6</span><span class="pin" style="left:72%;top:60%">7</span><span class="pin" style="left:80%;top:92%">8</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Title</strong> — Single Line Textbox. Default field. Display name for the entry.</li>
+    <li><b>2.</b> <strong>URL</strong> — default path field. CMS does not create the website route; the app does.</li>
+    <li><b>3.</b> <strong>Date</strong> — date/time. Timezone is usually an <em>app</em> concern.</li>
+    <li><b>4.</b> <strong>Body</strong> — Rich Text / JSON RTE. Highlighted because its properties are open.</li>
+    <li><b>5.</b> <strong>Display Name</strong> = <code>Body</code> — what editors see. Safe to rename.</li>
+    <li><b>6.</b> <strong>Unique ID</strong> = <code>body</code> — JSON key. Frontend and tests use this. Never rename after wiring.</li>
+    <li><b>7.</b> <strong>Instruction / Help text</strong> — editor hints. Not shown on the shopper site.</li>
+    <li><b>8.</b> <strong>Save</strong> — still schema only. Open the gear on every field and check Mandatory, Unique, and Localize.</li>
+  </ol>
+</figure>
+      <table>
+        <thead><tr><th>Property testers open</th><th>What to check</th></tr></thead>
+        <tbody>
+          <tr><td>Mandatory</td><td>Can editors save a draft without it? Required-too-early causes workflow deadlock.</td></tr>
+          <tr><td>Unique</td><td>SKU and slug usually on. Duplicate SKU is a defect.</td></tr>
+          <tr><td>Localize this field</td><td>On for title/body. Off for sku, price, slug unless the project says otherwise.</td></tr>
+          <tr><td>Multiple</td><td>List fields. Empty list vs missing key in JSON.</td></tr>
+          <tr><td>Default value</td><td>Boolean default false vs unset.</td></tr>
+        </tbody>
+      </table>
+      <div class="qa-box"><strong>QA language:</strong> “Field Unique ID <code>price</code> is 129. Display Name can say Product price. I do not file bugs on the label.”</div>
+
+      <h2 id="dashboard">4. Entries list — the content dashboard</h2>
+      <p>Left menu <strong>Entries</strong>. This is where QA spends most of the day. It is not the marketing Dashboard.</p>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/entries-list.png" alt="Entries list with publish status and languages" loading="lazy">
+    <span class="pin" style="left:16%;top:5%">1</span><span class="pin" style="left:84%;top:12%">2</span><span class="pin" style="left:92%;top:12%">3</span><span class="pin" style="left:16%;top:42%">4</span><span class="pin" style="left:32%;top:42%">5</span><span class="pin" style="left:48%;top:42%">6</span><span class="pin" style="left:62%;top:42%">7</span><span class="pin" style="left:76%;top:42%">8</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Entries</strong> in the top nav — you are on the content dashboard.</li>
+    <li><b>2.</b> <strong>Language</strong> — locale of the list (<code>en-us</code> is not <code>fr-fr</code>).</li>
+    <li><b>3.</b> <strong>+ New Entry</strong> — creates a filled form from a content type.</li>
+    <li><b>4.</b> <strong>Title</strong> — entry name. Search and defects use this plus Entry UID.</li>
+    <li><b>5.</b> <strong>Entry ID</strong> — <code>blt…</code>. Copy this when you call CDA.</li>
+    <li><b>6.</b> <strong>Content Type</strong> — which form it uses (Article, Product).</li>
+    <li><b>7.</b> <strong>Version / Draft tag</strong> — unsaved or newer than published. Draft ≠ live.</li>
+    <li><b>8.</b> <strong>Publish Status</strong> — which <em>environments</em> it is on (preview, production). Workflow stage is a different column.</li>
+  </ol>
+</figure>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/entries-list-actions.png" alt="Entries list with locale dropdown and environment dots" loading="lazy">
+    <span class="pin" style="left:88%;top:14%">1</span><span class="pin" style="left:10%;top:42%">2</span><span class="pin" style="left:68%;top:48%">3</span><span class="pin" style="left:92%;top:14%">4</span><span class="pin" style="left:50%;top:8%">5</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Locale dropdown</strong> — English (M) = master. Switch to French/German to test translations.</li>
+    <li><b>2.</b> <strong>Content Type Views</strong> — filter to Article, Home Page, CTA. Use this before you say “it is missing.”</li>
+    <li><b>3.</b> <strong>Publish Status dots</strong> — green next to preview/production means published there. No dot = not on that environment.</li>
+    <li><b>4.</b> <strong>+ New Entry</strong> — same as above.</li>
+    <li><b>5.</b> <strong>Stack + branch</strong> (Compass Starter / main) — confirm you are not in the wrong stack before you file a bug.</li>
+  </ol>
+</figure>
+      <div class="qa-box"><strong>QA sentence:</strong> “Entry <em>Linen Overshirt</em>, UID copied, locale en-us, published to staging, not production, workflow still In Review.”</div>
+
+      <h2 id="create-entry">5. Create Entry — pick the form, then fill it</h2>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/create-entry.png" alt="Select Content Type after New Entry" loading="lazy">
+    <span class="pin" style="left:88%;top:22%">1</span><span class="pin" style="left:50%;top:48%">2</span><span class="pin" style="left:62%;top:72%">3</span><span class="pin" style="left:70%;top:38%">4</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>+ New Entry</strong> opened this modal.</li>
+    <li><b>2.</b> <strong>Select Content Type</strong> — you are picking the blank form (Sample), not typing the product yet.</li>
+    <li><b>3.</b> <strong>Proceed</strong> — opens the entry editor (Title, URL, body, references).</li>
+    <li><b>4.</b> <strong>Publish Status on existing rows</strong> — “Not Published” means Save happened, CDA is still empty.</li>
+  </ol>
+</figure>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/reference-field.png" alt="Create new Entry — choose Docs Article" loading="lazy">
+    <span class="pin" style="left:50%;top:42%">1</span><span class="pin" style="left:62%;top:78%">2</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Content type dropdown</strong> — another Create Entry dialog (Docs Article). Same idea: pick the schema first.</li>
+    <li><b>2.</b> <strong>Create</strong> — opens the editor. After save, this is still a draft until you Publish.</li>
+  </ol>
+</figure>
+      <div class="qa-box"><strong>Lab proof:</strong> Save only. Staging CDA must stay empty. That is how you prove Save ≠ Publish.</div>
+
+      <h2 id="entry-json">6. Entry editor + Developer JSON</h2>
+      <p>This is the <strong>filled form</strong> plus the JSON the website will map. Visual Experience / Preview can look “right” while this JSON is still old.</p>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/developer-api.png" alt="Home entry with Developer Tools API Details" loading="lazy">
+    <span class="pin" style="left:22%;top:28%">1</span><span class="pin" style="left:38%;top:22%">2</span><span class="pin" style="left:78%;top:22%">3</span><span class="pin" style="left:28%;top:42%">4</span><span class="pin" style="left:28%;top:54%">5</span><span class="pin" style="left:28%;top:66%">6</span><span class="pin" style="left:86%;top:40%">7</span><span class="pin" style="left:86%;top:55%">8</span><span class="pin" style="left:62%;top:92%">9</span><span class="pin" style="left:80%;top:92%">10</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Content Types &gt; Home</strong> — single-type entry (one Home).</li>
+    <li><b>2.</b> <strong>Widgets / Visual Experience</strong> — canvas edit. Treat as Preview, not CDA.</li>
+    <li><b>3.</b> <strong>Locale</strong> — English - United States. Always write the locale in the defect.</li>
+    <li><b>4.</b> <strong>Title (required)</strong> — Display Name. JSON key is usually <code>title</code>.</li>
+    <li><b>5.</b> <strong>URL (required)</strong> — <code>/home</code>. App routing, not a CMS page.</li>
+    <li><b>6.</b> <strong>Body</strong> — rich/long text. Same value must appear in JSON <code>body</code>.</li>
+    <li><b>7.</b> <strong>Developer Tools → API Details</strong> — copy the CDA URL. Add environment + delivery token yourself.</li>
+    <li><b>8.</b> <strong>Get this entry / Get all entries</strong> — QA evidence. Do not sign off the site from Preview only.</li>
+    <li><b>9.</b> <strong>Save</strong> — new version, still draft for CDA.</li>
+    <li><b>10.</b> <strong>Publish</strong> — choose environment + locale. This is the action that changes the shopper API.</li>
+  </ol>
+</figure>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/developer-json.png" alt="Same Home entry with JSON view open" loading="lazy">
+    <span class="pin" style="left:28%;top:42%">1</span><span class="pin" style="left:28%;top:54%">2</span><span class="pin" style="left:86%;top:38%">3</span><span class="pin" style="left:86%;top:55%">4</span><span class="pin" style="left:86%;top:70%">5</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Title field value</strong> Home — must match JSON <code>title</code>.</li>
+    <li><b>2.</b> <strong>URL field</strong> /home — must match JSON <code>url</code>.</li>
+    <li><b>3.</b> <strong>JSON view tab</strong> — Layer B evidence. If JSON is right and the page is wrong, that is a frontend mapper bug (Layer C).</li>
+    <li><b>4.</b> <strong>Keys testers quote</strong> — <code>title</code>, <code>url</code>, <code>body</code>, <code>locale: en-us</code>, <code>_version</code>.</li>
+    <li><b>5.</b> <strong>uid / publish_details</strong> — system fields. Use uid in CDA. publish_details tells you environment + time.</li>
+  </ol>
+</figure>
+      <div class="callout warn"><strong>Warning.</strong> JSON view is often CMA/draft JSON. Confirm the same values on <strong>CDA</strong> with the staging delivery token before you pass the website.</div>
+
+      <h2 id="publish">7. Publish — environments, locales, children</h2>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/publish-review.png" alt="Publish Review modal" loading="lazy">
+    <span class="pin" style="left:28%;top:14%">1</span><span class="pin" style="left:22%;top:22%">2</span><span class="pin" style="left:38%;top:22%">3</span><span class="pin" style="left:28%;top:48%">4</span><span class="pin" style="left:72%;top:48%">5</span><span class="pin" style="left:62%;top:88%">6</span><span class="pin" style="left:82%;top:88%">7</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Publish Review</strong> — last screen before content can appear on an environment.</li>
+    <li><b>2.</b> <strong>Environments: 1</strong> — hover/open this. Labs: staging only. Production = live shoppers.</li>
+    <li><b>3.</b> <strong>Languages: 1</strong> — must match the locale you tested.</li>
+    <li><b>4.</b> <strong>Version</strong> — “Version 8” is what you publish. Say the version number in the bug.</li>
+    <li><b>5.</b> <strong>Workflow Status</strong> — editorial stage (Test / Draft / Approved). Approved is still not live.</li>
+    <li><b>6.</b> <strong>Validate and Publish</strong> — checks referenced entries and assets.</li>
+    <li><b>7.</b> <strong>Send All References</strong> — parent + children. Sending the parent alone causes empty cards (CS-CMP-01).</li>
+  </ol>
+</figure>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/publish-validate.png" alt="Validate Items — Publish Now" loading="lazy">
+    <span class="pin" style="left:50%;top:20%">1</span><span class="pin" style="left:28%;top:48%">2</span><span class="pin" style="left:62%;top:48%">3</span><span class="pin" style="left:82%;top:88%">4</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>Validation complete</strong> — mandatory fields and references passed. Still check the environment list.</li>
+    <li><b>2.</b> <strong>Locale + Version</strong> — English - United States (M) | Version 8.</li>
+    <li><b>3.</b> <strong>Publish Ready = Yes</strong> — if No, expand “Show more” for the failing child or asset.</li>
+    <li><b>4.</b> <strong>Publish Now</strong> — this is the click that changes CDA. Not Save. Not workflow Approved.</li>
+  </ol>
+</figure>
+      <div class="qa-box"><strong>QA sentence:</strong> “Published version 4 to staging, en-us. Production unchecked. Child category and hero asset included.”</div>
+
+      <h2 id="environments">8. Environments — not folders</h2>
+      <figure class="shot labeled">
+  <div class="shot-frame">
+    <img src="assets/official/environments.png" alt="Contentstack environments flow" loading="lazy">
+    <span class="pin" style="left:50%;top:8%">1</span><span class="pin" style="left:18%;top:58%">2</span><span class="pin" style="left:50%;top:58%">3</span><span class="pin" style="left:82%;top:58%">4</span><span class="pin" style="left:82%;top:88%">5</span>
+  </div>
+  <ol class="legend">
+    <li><b>1.</b> <strong>CMS</strong> — where you Save. Shoppers never see this by default.</li>
+    <li><b>2.</b> <strong>Development</strong> — developers. Own delivery token.</li>
+    <li><b>3.</b> <strong>Staging</strong> — QA + editorial UAT. Your usual publish target.</li>
+    <li><b>4.</b> <strong>Production</strong> — live. Staging token never proves production.</li>
+    <li><b>5.</b> <strong>End users</strong> — only content published to production (and fetched by the production app).</li>
+  </ol>
+</figure>
+      <p>In the real CMS this list lives at <strong>Settings → Environments</strong>. Each row is a publish destination, not a folder of drafts.</p>
+
+      <h2 id="visual">9. Visual Experience vs Delivery API</h2>
+      <p>The top nav item <strong>Visual Experience</strong> (and “Edit in Visual Builder” on an entry) is a canvas that can show <em>drafts</em>.</p>
+      <div class="learn">
+        <div>
+          <strong>Visual Experience / Preview</strong>
+          Draft or latest saved fields in an iframe. Good for layout. Not Layer B proof.
+        </div>
+        <div>
+          <strong>Developer Tools + CDA</strong>
+          Published JSON for one environment + locale. This is what the website is allowed to render.
+        </div>
+      </div>
+      <div class="qa-box"><strong>Defect pattern:</strong> “Looks fine in Visual Experience, staging site is old” → you signed off Preview, not CDA.</div>
+
+      <h2 id="walk">10. One-page QA walk (every new template)</h2>
+      <ol>
+        <li>Content Models — Unique IDs stable? Localize / Mandatory / Unique correct?</li>
+        <li>Entries list — locale, publish status dots, workflow stage, version</li>
+        <li>Open entry — required fields, references, assets</li>
+        <li>Publish Review — staging only, correct locale, validate children</li>
+        <li>Developer JSON + CDA — same values, <code>include[]</code> resolved</li>
+        <li>Website — after cache SLA</li>
+      </ol>
+      <p class="attr">Images © Contentstack Docs, used here to train testers to read the real UI.</p>
+
+      <div class="pager">
+        <a href="index.html">← Home</a>
+        <a href="beginner.html">Start here (pictures) →</a>
+      </div>
+    </main>
+  </div>
+  <script>
+(function () {
+  function send(hypothesisId, message, data) {
+    // #region agent log
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "post-fix",
+        hypothesisId: hypothesisId,
+        location: location.pathname || "html/index.html",
+        message: message,
+        data: data,
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+    // #endregion
+  }
+  var official = 0, screens = 0, diagrams = 0;
+  Array.prototype.slice.call(document.images).forEach(function (img, i) {
+    var src = img.getAttribute("src") || "";
+    if (src.indexOf("official/") !== -1) official += 1;
+    if (src.indexOf("screens/") !== -1) screens += 1;
+    if (src.indexOf("diagrams/") !== -1) diagrams += 1;
+    function report(when) {
+      var hid = src.indexOf("official/") !== -1 ? "H1" : src.indexOf("diagrams/") !== -1 ? "H5" : "H3";
+      send(hid, "img-" + when, {
+        i: i,
+        alt: img.alt,
+        attrSrc: src,
+        currentSrc: img.currentSrc,
+        complete: img.complete,
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
+      });
+    }
+    if (img.complete && img.naturalWidth) report("load");
+    img.addEventListener("load", function () { report("load"); });
+    img.addEventListener("error", function () { report("error"); });
+  });
+  send("H2", "page-asset-mix", {
+    href: location.href,
+    pathname: location.pathname,
+    official: official,
+    screens: screens,
+    diagrams: diagrams,
+    labeled: document.querySelectorAll(".labeled").length,
+    pins: document.querySelectorAll(".pin").length,
+  });
+})();
+</script>
+</body>
+</html>

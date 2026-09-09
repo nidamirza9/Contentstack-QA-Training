@@ -3,7 +3,7 @@
 **Time:** 25 minutes  
 **For:** first-day testers who have never used a headless CMS
 
-Read this page before Module 01. Each picture is one idea. Then you will see the same idea again as a real CMS screenshot in the labs.
+Read this page before Module 01. Each picture is one idea. Then open **[CMS screens (labeled)](cms-visual.html)** for official Contentstack UI with numbered fields.
 
 ---
 
@@ -18,7 +18,7 @@ Contentstack is a **headless CMS**. That means:
 
 **In the real CMS you open:** your stack (project). Left menu: Entries, Assets, Releases, Settings.
 
-![Stack home — this is the project container](screens/cs-stack-home.png)
+![Official Entries list — this is the content dashboard QA uses every day](official/entries-list.png)
 
 ---
 
@@ -43,7 +43,9 @@ If the homepage looks empty, do not stop at a screenshot of the site.
 
 **In the real CMS:** Content Models (the form) vs Entries (the data).
 
-![Product content type builder — field UIDs are the API names](screens/cs-content-type-builder.png)
+![Official Content Type Builder — Title is the default field; click + to add more](official/content-type-builder.png)
+
+![Official field properties — Display Name is the editor label; Unique ID is the JSON key](official/about-fields.png)
 
 ---
 
@@ -55,7 +57,7 @@ If the homepage looks empty, do not stop at a screenshot of the site.
 
 ![Save → publish staging → UAT → production](diagrams/save-vs-publish.svg)
 
-![Always uncheck production in the publish dialog during labs](screens/cs-publish-dialog.png)
+![Official Publish Review — check Environments and Languages before Send](official/publish-review.png)
 
 Always say: *I published version 4 to staging, en-us* — not “I published it.”
 

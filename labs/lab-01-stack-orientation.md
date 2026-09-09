@@ -4,7 +4,7 @@
 **Layer:** CMS  
 **Exit:** You can name every primitive in *this* stack and find tokens without guessing.
 
-![Match this layout in your trial stack: Entries, Assets, Releases, Settings](screens/cs-stack-home.png)
+![Official Entries list — match Entries, language, and publish status in your trial stack](official/entries-list.png)
 
 ---
 

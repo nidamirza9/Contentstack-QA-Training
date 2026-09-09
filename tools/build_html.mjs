@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { cmsVisualBody } from "./cms_visual.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const HTML_DIR = path.join(ROOT, "html");
@@ -12,9 +13,11 @@ const LAUNCHER_PATH = path.join(ROOT, "Contentstack-QA-Training.html");
 const NAV = [
   ["home", "Home", "index.html"],
   ["beginner", "Start here (pictures)", "beginner.html"],
+  ["visual", "CMS screens (labeled)", "cms-visual.html"],
   ["paths", "Full paths", "paths.html"],
   ["summary", "Training summary", "summary.html"],
   ["group", "Modules"],
+  ["m05", "05 · CMS visual guide", "modules/05-cms-visual.html"],
   ["m01", "01 · Boundaries", "modules/01-boundaries.html"],
   ["m02", "02 · Model & publish", "modules/02-model-publish.html"],
   ["m03", "03 · APIs & releases", "modules/03-apis-releases.html"],
@@ -38,7 +41,8 @@ const NAV = [
 ];
 
 const PAGES = [
-  ["beginner", "modules/00-beginner-visual-guide.md", "beginner.html", "Start here — pictures", "Home / Start here", ["index.html", "Home"], ["modules/01-boundaries.html", "Module 01"]],
+  ["beginner", "modules/00-beginner-visual-guide.md", "beginner.html", "Start here — pictures", "Home / Start here", ["index.html", "Home"], ["cms-visual.html", "CMS screens"]],
+  ["m05", "modules/05-cms-visual-field-guide.md", "modules/05-cms-visual.html", "Module 05 — CMS visual guide", "Home / Modules / 05", ["cms-visual.html", "Labeled screens"], ["modules/01-boundaries.html", "Module 01"]],
   ["summary", "TRAINING-SUMMARY.md", "summary.html", "Training summary", "Home / Training summary", ["beginner.html", "Start here"], ["modules/01-boundaries.html", "Module 01"]],
   ["m01", "modules/01-headless-cms-and-contentstack.md", "modules/01-boundaries.html", "Module 01 — Boundaries", "Home / Modules / 01", ["beginner.html", "Start here"], ["modules/02-model-publish.html", "Module 02"]],
   ["m02", "modules/02-content-model-authoring-publish.md", "modules/02-model-publish.html", "Module 02 — Model and publish", "Home / Modules / 02", ["modules/01-boundaries.html", "Module 01"], ["modules/03-apis-releases.html", "Module 03"]],
@@ -89,6 +93,8 @@ const LINK_MAP = [
   [/\.\/TRAINING-SUMMARY\.md/g, "summary.html"],
   [/\.\/01-headless-cms-and-contentstack\.md/g, "modules/01-boundaries.html"],
   [/\.\/00-lab-setup\.md/g, "labs/00-setup.html"],
+  [/\.\.\/modules\/00-beginner-visual-guide\.md/g, "beginner.html"],
+  [/\.\/05-cms-visual-field-guide\.md/g, "modules/05-cms-visual.html"],
 ];
 
 function esc(s) {
@@ -103,7 +109,8 @@ function rewriteLinks(text, dest) {
   for (const [re, to] of LINK_MAP) text = text.replace(re, to);
   return text
     .replace(/\(screens\//g, "(assets/screens/")
-    .replace(/\(diagrams\//g, "(assets/diagrams/");
+    .replace(/\(diagrams\//g, "(assets/diagrams/")
+    .replace(/\(official\//g, "(assets/official/");
 }
 
 function inline(text) {
@@ -313,6 +320,59 @@ function wrap(page, body) {
 `;
 }
 
+const DEBUG_SCRIPT = `<script>
+(function () {
+  function send(hypothesisId, message, data) {
+    // #region agent log
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "post-fix",
+        hypothesisId: hypothesisId,
+        location: location.pathname || "html/index.html",
+        message: message,
+        data: data,
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+    // #endregion
+  }
+  var official = 0, screens = 0, diagrams = 0;
+  Array.prototype.slice.call(document.images).forEach(function (img, i) {
+    var src = img.getAttribute("src") || "";
+    if (src.indexOf("official/") !== -1) official += 1;
+    if (src.indexOf("screens/") !== -1) screens += 1;
+    if (src.indexOf("diagrams/") !== -1) diagrams += 1;
+    function report(when) {
+      var hid = src.indexOf("official/") !== -1 ? "H1" : src.indexOf("diagrams/") !== -1 ? "H5" : "H3";
+      send(hid, "img-" + when, {
+        i: i,
+        alt: img.alt,
+        attrSrc: src,
+        currentSrc: img.currentSrc,
+        complete: img.complete,
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
+      });
+    }
+    if (img.complete && img.naturalWidth) report("load");
+    img.addEventListener("load", function () { report("load"); });
+    img.addEventListener("error", function () { report("error"); });
+  });
+  send("H2", "page-asset-mix", {
+    href: location.href,
+    pathname: location.pathname,
+    official: official,
+    screens: screens,
+    diagrams: diagrams,
+    labeled: document.querySelectorAll(".labeled").length,
+    pins: document.querySelectorAll(".pin").length,
+  });
+})();
+</script>`;
+
 function homeHtml() {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -329,9 +389,28 @@ function homeHtml() {
     <main class="main">
       <div class="crumb">Contentstack Learning / HTML</div>
       <h1>Contentstack QA tester training</h1>
-      <p class="meta">A hands-on pack for testers new to Contentstack. Start with pictures, then labs on a trial stack.</p>
-      <figure class="shot"><img src="assets/diagrams/three-layers.svg" alt="Three QA layers"><figcaption>New learners: check CMS, then JSON, then the website. A bug can sit in any box.</figcaption></figure>
-      <figure class="shot"><img src="assets/screens/cs-stack-home.png" alt="Horizon Market QA stack home" loading="lazy"><figcaption>Same idea in the CMS — your stack home.</figcaption></figure>
+      <p class="meta">A hands-on pack for testers new to Contentstack. Start with labeled CMS screens, then labs on a trial stack.</p>
+      <div class="layers" aria-label="Three QA layers">
+        <div class="layer a"><span>Layer A</span><strong>CMS</strong><em>Editor fills a form and publishes</em></div>
+        <div class="layer b"><span>Layer B</span><strong>API (JSON)</strong><em>Published to one environment + locale</em></div>
+        <div class="layer c"><span>Layer C</span><strong>Website / app</strong><em>Renders that JSON after cache</em></div>
+      </div>
+      <p class="meta">A bug can sit in any box. Check all three.</p>
+      <figure class="shot labeled">
+        <div class="shot-frame">
+          <img src="assets/official/entries-list.png" alt="Official Contentstack Entries list — QA dashboard">
+          <span class="pin" style="left:16%;top:5%">1</span>
+          <span class="pin" style="left:84%;top:12%">2</span>
+          <span class="pin" style="left:16%;top:42%">3</span>
+          <span class="pin" style="left:76%;top:42%">4</span>
+        </div>
+        <ol class="legend">
+          <li><b>1.</b> <strong>Entries</strong> — this is the content dashboard (not the marketing Dashboard).</li>
+          <li><b>2.</b> <strong>Language</strong> — locale you are viewing (<code>en-us</code> ≠ <code>fr-fr</code>).</li>
+          <li><b>3.</b> <strong>Title + Entry ID</strong> — copy the <code>blt…</code> id for CDA.</li>
+          <li><b>4.</b> <strong>Publish Status</strong> — which environments are live. Draft is not published.</li>
+        </ol>
+      </figure>
       <div class="card-row">
         <div class="stat"><b>4 days</b><span>Concept + labs</span></div>
         <div class="stat"><b>8 labs</b><span>On a real stack</span></div>
@@ -339,11 +418,12 @@ function homeHtml() {
         <div class="stat"><b>30 cases</b><span>Reusable test IDs</span></div>
       </div>
       <div class="callout">
-        <strong>New to Contentstack?</strong> Open <a href="beginner.html">Start here (pictures)</a> first.
-        Then Lab setup. Do not skip API labs.
+        <strong>New to Contentstack?</strong> Open <a href="cms-visual.html">CMS screens (labeled)</a> to learn every field and button on the real UI.
+        Then <a href="beginner.html">Start here (pictures)</a>. Do not skip API labs.
       </div>
       <h2>Open these pages</h2>
       <div class="tile-grid">
+        <a class="tile" href="cms-visual.html"><strong>CMS screens (labeled)</strong><span>Official Contentstack UI — fields, content model, dashboard, publish</span></a>
         <a class="tile" href="beginner.html"><strong>Start here (pictures)</strong><span>Simple diagrams for new learners — read this first</span></a>
         <a class="tile" href="summary.html"><strong>Training summary</strong><span>Outcomes, ownership, syllabus, definition of done</span></a>
         <a class="tile" href="modules/01-boundaries.html"><strong>Module 01</strong><span>Headless CMS and Contentstack boundaries</span></a>
@@ -358,8 +438,9 @@ function homeHtml() {
       <figure class="shot"><img src="assets/diagrams/save-vs-publish.svg" alt="Save versus publish"></figure>
       <h2>Recommended path</h2>
       <ol>
+        <li><a href="cms-visual.html">CMS screens (labeled)</a> — learn the real UI first</li>
         <li><a href="summary.html">Training summary</a> — 30–40 minutes</li>
-        <li>Modules 01–04 — about 1 day</li>
+        <li>Modules 01–05 — about 1 day</li>
         <li>Labs 00–08 on a trial stack — 2–3 days</li>
         <li>Checklists on the first client project</li>
         <li><a href="issues/component-template-qa.html">Component / template QA issues</a> — use during template UAT</li>
@@ -389,6 +470,34 @@ function homeHtml() {
       <div class="pathbox">${esc(CANVAS_PATH)}</div>
     </main>
   </div>
+  ${DEBUG_SCRIPT}
+</body>
+</html>
+`;
+}
+
+function cmsVisualHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMS screens (labeled) · Contentstack QA</title>
+  ${BASE_SCRIPT}
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    ${renderNav("visual", "cms-visual.html")}
+    <main class="main">
+      ${cmsVisualBody()}
+      <div class="pager">
+        <a href="index.html">← Home</a>
+        <a href="beginner.html">Start here (pictures) →</a>
+      </div>
+    </main>
+  </div>
+  ${DEBUG_SCRIPT}
 </body>
 </html>
 `;
@@ -409,12 +518,17 @@ for (const page of PAGES) {
 
 fs.writeFileSync(HOME_PATH, homeHtml(), "utf8");
 console.log("wrote", HOME_PATH);
+const visualDest = path.join(HTML_DIR, "cms-visual.html");
+fs.writeFileSync(visualDest, cmsVisualHtml(), "utf8");
+console.log("wrote", visualDest);
 
 const allFiles = [
   ["Launcher (double-click this first)", LAUNCHER_PATH],
   ["HTML home", HOME_PATH],
+  ["CMS visual guide (labeled)", path.join(HTML_DIR, "cms-visual.html")],
   ["Training summary", path.join(HTML_DIR, "summary.html")],
   ["Module 01", path.join(HTML_DIR, "modules", "01-boundaries.html")],
+  ["Module 05 CMS visual", path.join(HTML_DIR, "modules", "05-cms-visual.html")],
   ["Module 02", path.join(HTML_DIR, "modules", "02-model-publish.html")],
   ["Module 03", path.join(HTML_DIR, "modules", "03-apis-releases.html")],
   ["Module 04", path.join(HTML_DIR, "modules", "04-qa-strategy.html")],
@@ -434,6 +548,7 @@ const allFiles = [
   ["Component / template issues", path.join(HTML_DIR, "issues", "component-template-qa.html")],
   ["Stylesheet", path.join(HTML_DIR, "assets", "app.css")],
   ["CMS screenshots folder", path.join(HTML_DIR, "assets", "screens")],
+  ["Official Contentstack screenshots", path.join(HTML_DIR, "assets", "official")],
   ["Canvas (keep in Cursor)", CANVAS_PATH],
 ];
 

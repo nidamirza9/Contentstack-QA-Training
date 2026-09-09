@@ -3,7 +3,7 @@
 **Time:** 3 hours  
 **Goal:** Pick the correct API for each QA check and prove publish, preview, and campaign releases.
 
-![Delivery vs Preview vs Management tokens — never mix these](screens/cs-tokens.png)
+![Official Developer Tools API Details — copy the CDA URL, then add environment + delivery token](official/developer-api.png)
 
 ![Three keys: delivery for the shopper site, preview for drafts, management for writes](diagrams/tokens.svg)
 

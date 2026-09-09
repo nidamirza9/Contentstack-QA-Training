@@ -3,7 +3,7 @@
 **Time:** 2 hours  
 **Goal:** Explain why QA tests CMS + API + app, and what Contentstack will never do.
 
-![Horizon Market QA stack home — Entries, Assets, Releases, and environment chips](screens/cs-stack-home.png)
+![Official Contentstack Entries list — daily QA dashboard](official/entries-list.png)
 
 ![Headless: CMS stores content, the website fetches JSON](diagrams/headless.svg)
 
@@ -103,7 +103,7 @@ Examples: field present in JSON but not mapped; cache TTL stale; image transform
 
 ## 6. Environments are not “folders”
 
-![Settings → Environments: development, staging, production — each has its own delivery token](screens/cs-environments.png)
+![Official environments flow — Development, Staging, Production are publish destinations](official/environments.png)
 
 Environments are **publish destinations**, each with its own delivery token.
 

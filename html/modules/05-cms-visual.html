@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 05 — CMS visual guide · Contentstack QA</title>
+  <script>
+(function () {
+  var el = document.createElement("base");
+  var href = location.href.split("#")[0].split("?")[0];
+  if (location.protocol === "file:") {
+    var m = href.match(/^(.*\/html\/)/i);
+    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
+  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
+    el.href = "/Contentstack-QA-Training/html/";
+  } else {
+    el.href = "/";
+  }
+  document.head.insertBefore(el, document.head.firstChild);
+})();
+</script>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="nav">
+<a class="brand" href="index.html">Contentstack QA Training</a>
+<div class="tag">Horizon Market · offline HTML</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="beginner.html">Start here (pictures)</a></li>
+<li><a href="cms-visual.html">CMS screens (labeled)</a></li>
+<li><a href="paths.html">Full paths</a></li>
+<li><a href="summary.html">Training summary</a></li>
+<li class="group">Modules</li>
+<li><a class="active" href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
+<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li class="group">Labs</li>
+<li><a href="labs/index.html">Lab index</a></li>
+<li><a href="labs/00-setup.html">00 · Setup</a></li>
+<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="labs/03-publish.html">03 · Publish</a></li>
+<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="labs/06-localization.html">06 · Localization</a></li>
+<li><a href="labs/07-releases.html">07 · Releases</a></li>
+<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li class="group">Checklists</li>
+<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+</ul></nav>
+    <main class="main">
+      <div class="crumb">Home / Modules / 05</div>
+      <h1>Contentstack CMS — visual field guide for QA</h1>
+<p><strong>Time:</strong> 40 minutes  </p>
+<p><strong>Source:</strong> Official screenshots from <a href="https://www.contentstack.com/docs">Contentstack Docs</a>. Open the same screens in your trial stack.</p>
+<p>Use this page to learn <strong>what each label and button means for testers</strong>. Do not memorize the marketing names — memorize what you must check.</p>
+<p>---</p>
+<h2 id="1-content-models-create-a-content-type">1. Content Models — create a content type</h2>
+<p><strong>Where:</strong> left menu <strong>Content Models</strong> → <strong>+ New Content Type</strong> → <strong>Create New</strong></p>
+<figure class="shot"><img src="assets/official/create-content-type.png" alt="Official Contentstack: Create New Content Type modal" loading="lazy"><figcaption>Official Contentstack: Create New Content Type modal</figcaption></figure>
+<table><thead><tr><th>Label on screen</th><th>What QA must know</th></tr></thead><tbody><tr><td><strong>Name</strong></td><td>What editors see (safe to change)</td></tr><tr><td><strong>Unique ID</strong></td><td>What APIs and tests use (<code>product</code>, <code>landing_page</code>). Changing this later <strong>breaks</strong> the site</td></tr><tr><td><strong>Description</strong></td><td>Optional. Helps editors. Not on the website</td></tr><tr><td><strong>Type: Single</strong></td><td>Only one entry (header, site settings)</td></tr><tr><td><strong>Type: Multiple</strong></td><td>Many entries (products, articles)</td></tr></tbody></table>
+<p><strong>QA check:</strong> after save, write down the Unique ID. Testers query that UID, not the Name.</p>
+<p>---</p>
+<h2 id="2-content-type-builder-the-visual-content-model">2. Content Type Builder — the visual content model</h2>
+<p><strong>Where:</strong> click the content type title. This is the <strong>schema</strong> (the blank form).</p>
+<figure class="shot"><img src="assets/official/content-type-builder.png" alt="Official Contentstack: Content Type Builder with fields" loading="lazy"><figcaption>Official Contentstack: Content Type Builder with fields</figcaption></figure>
+<table><thead><tr><th>Control</th><th>QA meaning</th></tr></thead><tbody><tr><td><strong>Title</strong> field</td><td>Always present. Used in Entries list</td></tr><tr><td><strong>+ Insert a field</strong></td><td>Adds a new box to the form</td></tr><tr><td><strong>Gear / Settings</strong></td><td>Field properties: Mandatory, Unique, Localize, Help text</td></tr><tr><td><strong>Display Name</strong></td><td>Editor label (safe to change)</td></tr><tr><td><strong>Unique ID</strong></td><td>JSON key (<code>hero_title</code>). Never rename after the frontend is wired</td></tr><tr><td><strong>Save / Save and Close</strong></td><td>Saves the <strong>schema</strong>, not an entry</td></tr></tbody></table>
+<p><strong>QA check:</strong> open the gear on <code>sku</code>, <code>slug</code>, <code>price</code>. Confirm <strong>Localize</strong> is off. Confirm <strong>Unique</strong> is on for SKU and slug.</p>
+<p>---</p>
+<h2 id="3-fields-what-each-box-stores">3. Fields — what each box stores</h2>
+<p><strong>Where:</strong> same builder. Official docs show a News Article example.</p>
+<figure class="shot"><img src="assets/official/about-fields.png" alt="Official Contentstack: fields on a content type (Title, URL, Date, Body)" loading="lazy"><figcaption>Official Contentstack: fields on a content type (Title, URL, Date, Body)</figcaption></figure>
+<table><thead><tr><th>Field you will see</th><th>Stores</th><th>Typical QA test</th></tr></thead><tbody><tr><td>Single Line (Title)</td><td>Short text</td><td>Required? Unique?</td></tr><tr><td>URL / slug</td><td>Path string</td><td>CMS does not create the route — the app does</td></tr><tr><td>Date</td><td>Date/time</td><td>Timezone on the <strong>site</strong>, not in the CMS</td></tr><tr><td>Body / JSON RTE</td><td>Rich text</td><td>Embedded entries need <code>include_embedded_items[]</code></td></tr><tr><td>File</td><td>Image/PDF</td><td><strong>Asset</strong> must be published too</td></tr><tr><td>Number</td><td>Price, sort</td><td>Empty vs zero</td></tr><tr><td>Boolean</td><td>Featured</td><td>Default false vs unset</td></tr><tr><td>Reference</td><td>Link to another entry</td><td>Child must be published on the same environment</td></tr><tr><td>Modular Blocks</td><td>Page sections</td><td>Order in CMS = order on page</td></tr><tr><td>Select</td><td>Theme, size</td><td>New option must exist in the frontend</td></tr></tbody></table>
+<p><strong>QA language:</strong> “Field Unique ID <code>price</code> is 129 in the entry. Display Name can say Product price.”</p>
+<p>---</p>
+<h2 id="4-entries-list-the-content-dashboard">4. Entries list — the content dashboard</h2>
+<p><strong>Where:</strong> left menu <strong>Entries</strong>. This is the daily QA screen.</p>
+<figure class="shot"><img src="assets/official/entries-list.png" alt="Official Contentstack: Entries list with filters and publish status" loading="lazy"><figcaption>Official Contentstack: Entries list with filters and publish status</figcaption></figure>
+<table><thead><tr><th>Column / filter</th><th>What to read</th></tr></thead><tbody><tr><td><strong>Title</strong></td><td>Entry name</td></tr><tr><td><strong>Language</strong></td><td>Locale (<code>en-us</code>, <code>fr-fr</code>)</td></tr><tr><td><strong>Content Type</strong></td><td>Which form it uses</td></tr><tr><td><strong>Publish Status</strong></td><td>Which <strong>environments</strong> it is live on</td></tr><tr><td><strong>Workflow Stage</strong></td><td>Draft / Review / Approved — <strong>not</strong> the same as published</td></tr><tr><td><strong>Last Modified</strong></td><td>Who changed it</td></tr></tbody></table>
+<figure class="shot"><img src="assets/official/entries-list-actions.png" alt="Official Contentstack: entry row actions (Edit, Preview, Publish, Unpublish)" loading="lazy"><figcaption>Official Contentstack: entry row actions (Edit, Preview, Publish, Unpublish)</figcaption></figure>
+<table><thead><tr><th>Action</th><th>QA use</th></tr></thead><tbody><tr><td><strong>Edit</strong></td><td>Open the form</td></tr><tr><td><strong>Preview</strong></td><td>Draft in the site iframe — <strong>not</strong> proof of CDA</td></tr><tr><td><strong>Publish</strong></td><td>Choose environment + locale</td></tr><tr><td><strong>Unpublish</strong></td><td>Must disappear from that environment’s API</td></tr><tr><td><strong>Copy</strong></td><td>Creates a new entry — do not copy fixtures into production</td></tr></tbody></table>
+<p>---</p>
+<h2 id="5-create-entry-filling-the-form">5. Create Entry — filling the form</h2>
+<p><strong>Where:</strong> Entries → <strong>+ New Entry</strong> → pick content type.</p>
+<figure class="shot"><img src="assets/official/create-entry.png" alt="Official Contentstack: Create New Entry — pick a content type" loading="lazy"><figcaption>Official Contentstack: Create New Entry — pick a content type</figcaption></figure>
+<p>Then you get the form generated from the content type. Fill Title, URL, body, references. Click <strong>Save</strong> (draft) or <strong>Publish</strong>.</p>
+<p><strong>QA check:</strong> Save only. Staging CDA must still be empty. That proves Save ≠ Publish.</p>
+<p>---</p>
+<h2 id="6-reference-field-why-cards-go-blank">6. Reference field — why cards go blank</h2>
+<p><strong>Where:</strong> inside an entry, a field that <strong>links</strong> another entry (category, author, product).</p>
+<figure class="shot"><img src="assets/official/reference-field.png" alt="Official Contentstack: create/select an entry from a Reference field" loading="lazy"><figcaption>Official Contentstack: create/select an entry from a Reference field</figcaption></figure>
+<table><thead><tr><th>If you see this</th><th>Defect</th></tr></thead><tbody><tr><td>Parent published, child still draft</td><td>Homepage module empty (CS-CMP-01)</td></tr><tr><td>API returns only a UID</td><td>Missing <code>include[]=field_uid</code> (CS-CMP-07)</td></tr><tr><td>FR entry points to a different category</td><td>Reference was localizable (CS-CMP-10)</td></tr></tbody></table>
+<p><strong>QA check:</strong> publish <strong>child first</strong>, then parent, same environment and locale.</p>
+<p>---</p>
+<h2 id="7-publish-environments-and-locales">7. Publish — environments and locales</h2>
+<p><strong>Where:</strong> bottom of the entry, or row menu → <strong>Publish</strong>.</p>
+<figure class="shot"><img src="assets/official/publish-review.png" alt="Official Contentstack: Publish Entry — choose environments and languages" loading="lazy"><figcaption>Official Contentstack: Publish Entry — choose environments and languages</figcaption></figure>
+<table><thead><tr><th>Label</th><th>QA rule</th></tr></thead><tbody><tr><td><strong>Environments</strong></td><td>Tick <strong>staging</strong> only in labs. Production = live</td></tr><tr><td><strong>Languages</strong></td><td>Tick the locale you actually tested (<code>en-us</code> ≠ <code>fr-fr</code>)</td></tr><tr><td><strong>Now / Later</strong></td><td>Scheduled publish is not live until the time fires</td></tr><tr><td><strong>Send</strong></td><td>This is the action that changes CDA</td></tr></tbody></table>
+<figure class="shot"><img src="assets/official/publish-validate.png" alt="Official Contentstack: Validate and Publish related items" loading="lazy"><figcaption>Official Contentstack: Validate and Publish related items</figcaption></figure>
+<p><strong>Validate and Publish</strong> lists referenced entries and assets. If a child is not ready, <strong>do not</strong> send the parent alone.</p>
+<p><strong>QA sentence:</strong> “Published version 4 to staging, en-us. Production unchecked.”</p>
+<p>---</p>
+<h2 id="8-environments-not-folders">8. Environments — not folders</h2>
+<p><strong>Where:</strong> <strong>Settings</strong> → <strong>Environments</strong></p>
+<figure class="shot"><img src="assets/official/environments.png" alt="Official Contentstack: Environments list" loading="lazy"><figcaption>Official Contentstack: Environments list</figcaption></figure>
+<p>Each environment is a <strong>publish destination</strong> with its own delivery token.</p>
+<table><thead><tr><th>Environment</th><th>Who uses it</th></tr></thead><tbody><tr><td>development</td><td>Developers</td></tr><tr><td>staging</td><td>QA + editorial UAT</td></tr><tr><td>production</td><td>Shoppers</td></tr></tbody></table>
+<p>Staging token <strong>never</strong> proves production.</p>
+<p>---</p>
+<h2 id="9-developer-json-what-the-website-actually-gets">9. Developer JSON — what the website actually gets</h2>
+<p><strong>Where:</strong> entry sidebar <strong>Developer Tools</strong> (if installed) → <strong>JSON View</strong> / <strong>API Details</strong></p>
+<figure class="shot"><img src="assets/official/developer-api.png" alt="Official Contentstack: API endpoint for the current entry" loading="lazy"><figcaption>Official Contentstack: API endpoint for the current entry</figcaption></figure>
+<figure class="shot"><img src="assets/official/developer-json.png" alt="Official Contentstack: JSON view of the entry" loading="lazy"><figcaption>Official Contentstack: JSON view of the entry</figcaption></figure>
+<table><thead><tr><th>Tab</th><th>QA use</th></tr></thead><tbody><tr><td><strong>API Details</strong></td><td>Copy the CDA URL. Add <strong>environment</strong> and delivery token</td></tr><tr><td><strong>JSON View</strong></td><td>This is often <strong>CMA/draft</strong> JSON. Confirm with <strong>CDA</strong> before you sign off the site</td></tr></tbody></table>
+<p>If JSON has the field and the page does not, that is a <strong>frontend mapper</strong> bug (Layer C).</p>
+<p>---</p>
+<h2 id="10-one-page-qa-walk-do-this-on-every-new-template">10. One-page QA walk (do this on every new template)</h2>
+<ol>
+<li>Content Models — Unique IDs stable? Localize flags correct?</li>
+<li>Entries list — locale + publish status + workflow stage</li>
+<li>Open entry — required fields, references, assets</li>
+<li>Publish dialog — staging only, correct locale, validate children</li>
+<li>CDA / JSON — same values, includes resolved</li>
+<li>Website — after cache SLA</li>
+</ol>
+<p><strong>Next:</strong> Open the <a href="cms-visual.html">labeled CMS screens</a> (numbered pins), then <a href="beginner.html">Start here (pictures)</a> or <a href=".labs/00-setup.html">Lab setup</a>.</p>
+      <div class="pager">
+        <a href="cms-visual.html">← Labeled screens</a>
+        <a href="modules/01-boundaries.html">Module 01 →</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
