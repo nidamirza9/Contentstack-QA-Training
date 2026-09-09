@@ -42,7 +42,8 @@
       <h1>Module 01 — Headless CMS and Contentstack Boundaries</h1>
 <p><strong>Time:</strong> 2 hours  </p>
 <p><strong>Goal:</strong> Explain why QA tests CMS + API + app, and what Contentstack will never do.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-stack-home.png" alt="Horizon Market QA stack home — Entries, Assets, Releases, and environment chips" loading="lazy"><figcaption>Horizon Market QA stack home — Entries, Assets, Releases, and environment chips</figcaption></figure>
+<p>---</p>
 <h2 id="1-coupled-cms-vs-headless-cms">1. Coupled CMS vs headless CMS</h2>
 <p>In a traditional (coupled) CMS, the same system stores content <strong>and</strong> renders HTML. Testers click Preview in the CMS and often treat that as the site.</p>
 <p>In a <strong>headless</strong> CMS:</p>
@@ -58,14 +59,14 @@
 <li>The entry fields, workflow, and publish state in Contentstack.</li>
 <li>The same values on the Delivery API for the target environment and locale, then on the channel.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="2-the-five-primitives">2. The five primitives</h2>
 <p>Every Contentstack project is built on:</p>
 <table><thead><tr><th>Primitive</th><th>One-sentence definition</th></tr></thead><tbody><tr><td><strong>Stack</strong></td><td>Isolated project: types, entries, assets, environments, tokens</td></tr><tr><td><strong>Content type</strong></td><td>Schema. This <strong>is</strong> the API contract</td></tr><tr><td><strong>Entry</strong></td><td>One filled-in instance of a content type</td></tr><tr><td><strong>Asset</strong></td><td>File stored and delivered from Contentstack’s CDN</td></tr><tr><td><strong>Environment</strong></td><td>Named publish target (<code>development</code>, <code>staging</code>, <code>production</code>)</td></tr></tbody></table>
 <p>The fundamental loop:</p>
 <pre><code>Model content types → create entries → publish to environments → deliver via API</code></pre>
 <p>QA tests every arrow in that loop.</p>
-<hr>
+<p>---</p>
 <h2 id="3-what-contentstack-does-test-these">3. What Contentstack does (test these)</h2>
 <ul>
 <li>Stores structured content with <strong>version history</strong> on entries and content types.</li>
@@ -77,10 +78,10 @@
 <li>Offers <strong>Live Preview</strong>, <strong>Visual Builder</strong>, <strong>Timeline</strong>, and <strong>Releases</strong>.</li>
 <li>Supports <strong>branches</strong> for parallel schema work.</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="4-what-contentstack-does-not-do-do-not-file-as-cms-bugs">4. What Contentstack does not do (do not file as CMS bugs)</h2>
 <table><thead><tr><th>Not in CMS</th><th>Where it actually lives</th><th>How QA should test</th></tr></thead><tbody><tr><td>Website hosting</td><td>Launch, Vercel, Azure, etc.</td><td>Deploy + cache + 404s</td></tr><tr><td>URL routing and redirects</td><td>Frontend / CDN</td><td>Slug field is only a string</td></tr><tr><td>End-user login</td><td>Auth0, Cognito, custom</td><td>CMS users ≠ site users</td></tr><tr><td>Cart, tax, payment</td><td>Commerce platform</td><td>CMS holds product *content*</td></tr><tr><td>Search index</td><td>Algolia, Elasticsearch</td><td>Webhook freshness</td></tr><tr><td>Cron / batch jobs</td><td>App infra</td><td>Scheduled <strong>publish</strong> is CMS; reports are not</td></tr><tr><td>Feature flags / app config</td><td>Flag service or env vars</td><td>Do not store flags as content unless the team agreed</td></tr></tbody></table>
-<hr>
+<p>---</p>
 <h2 id="5-three-layer-defect-model">5. Three-layer defect model</h2>
 <p>When something looks wrong, classify it before you file:</p>
 <h3>Layer A — CMS (authoring)</h3>
@@ -90,8 +91,9 @@
 <h3>Layer C — Experience (app)</h3>
 <p>Examples: field present in JSON but not mapped; cache TTL stale; image transform URL wrong; date format ignores locale; Visual Builder highlight on wrong DOM node.</p>
 <p><strong>Rule:</strong> attach evidence from the layer you claim. A screenshot of the site alone is not enough for Layer B.</p>
-<hr>
+<p>---</p>
 <h2 id="6-environments-are-not-folders">6. Environments are not “folders”</h2>
+<figure class="shot"><img src="../assets/screens/cs-environments.png" alt="Settings → Environments: development, staging, production — each has its own delivery token" loading="lazy"><figcaption>Settings → Environments: development, staging, production — each has its own delivery token</figcaption></figure>
 <p>Environments are <strong>publish destinations</strong>, each with its own delivery token.</p>
 <ul>
 <li>An entry can be published to <code>staging</code> and unpublished from <code>production</code>.</li>
@@ -100,7 +102,7 @@
 </ul>
 <p>Typical promotion path QA must verify:</p>
 <pre><code>Save (draft) → Preview → Publish staging → UAT → Publish production</code></pre>
-<hr>
+<p>---</p>
 <h2 id="7-knowledge-check">7. Knowledge check</h2>
 <p>Answer without looking back:</p>
 <ol>
@@ -111,7 +113,7 @@
 <li>Who owns URL redirects — Contentstack or the app?</li>
 </ol>
 <p>Expected answers are in <a href="../labs/01-orientation.html#knowledge-check-answers">labs/lab-01-stack-orientation.md</a>.</p>
-<hr>
+<p>---</p>
 <p><strong>Next:</strong> <a href="02-model-publish.html">Module 02 — Content model, authoring, publish</a></p>
       <div class="pager">
         <a href="../summary.html">← Training summary</a>

@@ -21,6 +21,8 @@ Hands-on learning material for QA testers who will test **real Contentstack proj
 **Canvas (keep beside chat):**  
 `C:\Users\nmirza.HZI\.cursor\projects\c-Users-nmirza-HZI-OneDrive-Horizontal-Integration-Inc-Documents-CNE-GSE-Contentstack-Learning\canvases\qa-training-summary.canvas.tsx`
 
+Each chapter includes a **Contentstack-style CMS screenshot** (stack home, content types, entries, publish, locales, workflow, tokens, Releases, Live Preview, CDA). Use them to match the real UI in your trial stack.
+
 **All paths on one page:** [html/paths.html](./html/paths.html)
 
 Markdown source remains in this repo: [TRAINING-SUMMARY.md](./TRAINING-SUMMARY.md)

@@ -5,6 +5,8 @@
 
 Do **not** use a client production stack for these labs.
 
+![Create development, staging, and production before you author a single entry](screens/cs-environments.png)
+
 ---
 
 ## 1. Create the stack
@@ -34,6 +36,10 @@ CS_REGION_CDA_HOST=https://cdn.contentstack.io
 ```
 
 ---
+
+![Add fr-fr and de-de with fallback en-us](screens/cs-languages.png)
+
+![Create cda-staging and cda-production delivery tokens](screens/cs-tokens.png)
 
 ## 2. Create roles (if you have admin)
 

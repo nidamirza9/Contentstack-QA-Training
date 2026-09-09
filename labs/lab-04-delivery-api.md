@@ -6,6 +6,8 @@
 
 Requires Lab 03 product published to staging.
 
+![Prove the product on staging CDA with include[]=category](screens/cs-cda-include.png)
+
 ---
 
 ## 1. Baseline without includes

@@ -43,7 +43,8 @@
 <p><strong>Time:</strong> 60 minutes  </p>
 <p><strong>Layer:</strong> CMS + Preview  </p>
 <p><strong>Exit:</strong> You can separate workflow stage from publish, and draft from CDA.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-workflow.png" alt="Move the tote through Draft → In Review → Approved, then publish" loading="lazy"><figcaption>Move the tote through Draft → In Review → Approved, then publish</figcaption></figure>
+<p>---</p>
 <h2 id="1-workflow-happy-path">1. Workflow happy path</h2>
 <p>If Horizon Review is assigned to <code>product</code>:</p>
 <ol>
@@ -55,14 +56,15 @@
 <li>Staging CDA returns the tote.</li>
 </ol>
 <p>Record: stage at each step vs CDA count.</p>
-<hr>
+<p>---</p>
 <h2 id="2-role-negatives-skip-if-you-are-only-admin">2. Role negatives (skip if you are only Admin)</h2>
 <p>Log in as <strong>HM Author</strong> (or equivalent):</p>
 <table><thead><tr><th>Attempt</th><th>Expected</th></tr></thead><tbody><tr><td>Publish tote to production</td><td>Denied</td></tr><tr><td>Edit a production-published legal entry (if you created one)</td><td>Denied if field/role restricted</td></tr></tbody></table>
 <p>Log in as <strong>HM Translator FR</strong>:</p>
 <table><thead><tr><th>Attempt</th><th>Expected</th></tr></thead><tbody><tr><td>Edit <code>en-us</code> title</td><td>Denied</td></tr><tr><td>Edit <code>fr-fr</code> title</td><td>Allowed</td></tr></tbody></table>
 <p>File any mismatch as a <strong>role defect</strong> with role name + permission screenshot.</p>
-<hr>
+<p>---</p>
+<figure class="shot"><img src="../assets/screens/cs-live-preview.png" alt="Preview shows DRAFT; staging CDA must still show the last published title" loading="lazy"><figcaption>Preview shows DRAFT; staging CDA must still show the last published title</figcaption></figure>
 <h2 id="3-preview-vs-cda">3. Preview vs CDA</h2>
 <ol>
 <li>As QA/Admin, change tote title to <code>Canvas Tote — DRAFT</code> and <strong>Save</strong>.</li>
@@ -76,7 +78,7 @@
   ?environment=staging
   &amp;locale=en-us</code></pre>
 <p>Headers: <code>api_key</code>, <code>preview_token</code>.</p>
-<hr>
+<p>---</p>
 <h2 id="4-publish-rules">4. Publish rules</h2>
 <p>If you configured “production only from Approved”:</p>
 <ol>
@@ -85,7 +87,7 @@
 <li>Expected: blocked.</li>
 <li>Approve, then production publish should work — <strong>immediately unpublish from production</strong> so labs stay clean.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="pass">Pass</h2>
 <ul>
 <li>Table of stage vs CDA for tote</li>
@@ -93,7 +95,7 @@
 <li>At least one role negative attempted or explicitly skipped with reason</li>
 <li>Production left clean (tote unpublished from production)</li>
 </ul>
-<hr>
+<p>---</p>
 <p><strong>Next:</strong> <a href="06-localization.html">Lab 06 — Localization</a></p>
       <div class="pager">
         <a href="04-delivery-api.html">← Lab 04</a>

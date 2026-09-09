@@ -41,7 +41,8 @@
       <div class="crumb">Home / Checklists / Acceptance</div>
       <h1>QA acceptance pack — Contentstack project</h1>
 <p>Use on every sprint, campaign, and “QA is unblocked” gate. Copy into ADO/Jira as needed.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-environments.png" alt="Confirm environment and token before you sign off" loading="lazy"><figcaption>Confirm environment and token before you sign off</figcaption></figure>
+<p>---</p>
 <h2 id="a-stack-access-once-per-project">A. Stack access (once per project)</h2>
 <ul>
 <li>Region and app URL documented</li>
@@ -52,7 +53,7 @@
 <li>Locales + fallback tree written down</li>
 <li>Webhook list + owner + expected SLA (rebuild / ISR)</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="b-content-type-schema-change">B. Content type / schema change</h2>
 <ul>
 <li>Field UIDs listed (added / removed / renamed)</li>
@@ -62,7 +63,7 @@
 <li>Global field consumers listed and spot-checked</li>
 <li>Branch merged to main and <strong>main staging</strong> retested</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="c-entry-page-acceptance">C. Entry / page acceptance</h2>
 <ul>
 <li>Required fields populated; no <code>lorem</code> / <code>TODO</code> on the target environment</li>
@@ -74,7 +75,7 @@
 <li>Version number recorded</li>
 <li>Unpublished / outdated related entries removed from refs</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="d-api-proof">D. API proof</h2>
 <ul>
 <li>CDA REST (correct environment + locale) matches CMS published version</li>
@@ -84,7 +85,7 @@
 <li>Preview API / Live Preview checked for draft-only tickets</li>
 <li>Tokens redacted in attachments</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="e-channel-site">E. Channel / site</h2>
 <ul>
 <li>Template mapping: every required JSON field visible or intentionally hidden</li>
@@ -93,7 +94,7 @@
 <li>404 for unpublished slug</li>
 <li>Visual Builder field mapping (if in scope)</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="f-localization">F. Localization</h2>
 <ul>
 <li>Requested locales published</li>
@@ -102,7 +103,7 @@
 <li>No mixed-language leftovers in RTE</li>
 <li>App formats dates/currency for the locale (Layer C)</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="g-release-go-live">G. Release / go-live</h2>
 <ul>
 <li>Item list reviewed (parents + children + assets + locales)</li>
@@ -111,7 +112,7 @@
 <li>Production smoke: CDA + 3 URLs</li>
 <li>Search index / secondary channels updated if webhooks exist</li>
 </ul>
-<hr>
+<p>---</p>
 <h2 id="h-sign-off">H. Sign-off</h2>
 <table><thead><tr><th>Role</th><th>Name</th><th>Date</th><th>Result</th></tr></thead><tbody><tr><td>QA</td><td></td><td></td><td>Pass / Blocked</td></tr><tr><td>Editor</td><td></td><td></td><td></td></tr><tr><td>Developer</td><td></td><td></td><td></td></tr></tbody></table>
 <p>Blocker UIDs:</p>

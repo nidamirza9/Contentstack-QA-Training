@@ -4,6 +4,8 @@
 **Layer:** CMS + Preview  
 **Exit:** You can separate workflow stage from publish, and draft from CDA.
 
+![Move the tote through Draft → In Review → Approved, then publish](screens/cs-workflow.png)
+
 ---
 
 ## 1. Workflow happy path
@@ -40,6 +42,8 @@ Log in as **HM Translator FR**:
 File any mismatch as a **role defect** with role name + permission screenshot.
 
 ---
+
+![Preview shows DRAFT; staging CDA must still show the last published title](screens/cs-live-preview.png)
 
 ## 3. Preview vs CDA
 

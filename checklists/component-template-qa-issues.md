@@ -17,6 +17,8 @@ Frontend template / React component
 
 If any arrow is wrong, the page looks “randomly broken.” File the issue with a **layer** and a **CDA snippet**, not only a screenshot.
 
+![Empty hero is usually an unpublished reference or a block the template does not map](screens/cs-modular-blocks.png)
+
 ---
 
 ## How to UAT a new template (do this first)

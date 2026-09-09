@@ -4,6 +4,8 @@
 **Layer:** CMS  
 **Exit:** Horizon Market core types exist; one product entry is saved (not published).
 
+![Build the product content type with these field UIDs](screens/cs-content-type-builder.png)
+
 ---
 
 ## 1. Build content types
@@ -58,6 +60,8 @@ Create these **multiple** types. Keep UIDs exactly as written.
 If you cannot create a global SEO field yet, skip it. Do not block the lab.
 
 ---
+
+![Save the Linen Overshirt entry — do not click Publish yet](screens/cs-entry-editor.png)
 
 ## 2. Create entries (save only)
 

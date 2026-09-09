@@ -2,6 +2,8 @@
 
 Classify every bug before you file it. Wrong layer = wrong owner and wasted time.
 
+![If Preview and the site disagree, attach both this CMS view and a CDA snippet](screens/cs-live-preview.png)
+
 ---
 
 ## Layers

@@ -203,6 +203,25 @@ li { margin: 4px 0; }
 .tile strong { display: block; margin-bottom: 4px; }
 .tile span { color: var(--ink-muted); font-size: 13px; }
 
+.shot {
+  margin: 16px 0 24px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.shot figcaption {
+  font-size: 13px;
+  color: var(--ink-muted);
+  padding: 8px 12px 12px;
+}
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .nav { position: relative; height: auto; }

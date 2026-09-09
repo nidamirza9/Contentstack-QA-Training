@@ -4,6 +4,8 @@
 **Layer:** CMS + API  
 **Exit:** A Spring Edit landing page ships as one Release on staging; production stays unchanged.
 
+![Assemble Spring Edit blocks, then add every child to the Release](screens/cs-modular-blocks.png)
+
 ---
 
 ## 1. Build campaign content
@@ -20,6 +22,8 @@
 Do **not** publish the landing page or banner yet.
 
 ---
+
+![Release item list — landing page, banner, products, assets — staging only](screens/cs-releases.png)
 
 ## 2. Assemble Release
 

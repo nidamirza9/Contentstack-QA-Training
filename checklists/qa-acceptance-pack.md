@@ -2,6 +2,8 @@
 
 Use on every sprint, campaign, and “QA is unblocked” gate. Copy into ADO/Jira as needed.
 
+![Confirm environment and token before you sign off](screens/cs-environments.png)
+
 ---
 
 ## A. Stack access (once per project)

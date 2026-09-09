@@ -3,6 +3,8 @@
 **Time:** 2 hours  
 **Goal:** Plan tests the way a delivery team actually ships: model change, content UAT, campaign, localization, regression.
 
+![Horizon Review workflow — Draft → In Review → Approved → Published. Approved is not live.](screens/cs-workflow.png)
+
 ---
 
 ## 1. Test strategy in one page

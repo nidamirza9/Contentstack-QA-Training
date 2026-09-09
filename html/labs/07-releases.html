@@ -43,7 +43,8 @@
 <p><strong>Time:</strong> 75 minutes  </p>
 <p><strong>Layer:</strong> CMS + API  </p>
 <p><strong>Exit:</strong> A Spring Edit landing page ships as one Release on staging; production stays unchanged.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-modular-blocks.png" alt="Assemble Spring Edit blocks, then add every child to the Release" loading="lazy"><figcaption>Assemble Spring Edit blocks, then add every child to the Release</figcaption></figure>
+<p>---</p>
 <h2 id="1-build-campaign-content">1. Build campaign content</h2>
 <ol>
 <li>Publish <code>author</code> Jordan Hale to staging if not already.</li>
@@ -58,7 +59,8 @@
 <li>Create <code>promo_banner</code> <code>[QA-FIXTURE] Spring 10%</code> with a date window and message. Save only.</li>
 </ol>
 <p>Do <strong>not</strong> publish the landing page or banner yet.</p>
-<hr>
+<p>---</p>
+<figure class="shot"><img src="../assets/screens/cs-releases.png" alt="Release item list — landing page, banner, products, assets — staging only" loading="lazy"><figcaption>Release item list — landing page, banner, products, assets — staging only</figcaption></figure>
 <h2 id="2-assemble-release">2. Assemble Release</h2>
 <ol>
 <li>Releases → Create <strong>QA Spring Edit Staging</strong>.</li>
@@ -71,7 +73,7 @@
 <li>Do <strong>not</strong> add unrelated products.</li>
 <li>Deploy the Release to <strong><code>staging</code> only</strong>.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="3-verify-atomic-result">3. Verify atomic result</h2>
 <p>Staging CDA:</p>
 <pre><code>GET {CDA}/v3/content_types/landing_page/entries
@@ -87,7 +89,7 @@
 <li>Production CDA still has <strong>no</strong> <code>spring-edit</code></li>
 </ul>
 <p>If the page exists but product grid is empty, a child was not in the Release or not already live.</p>
-<hr>
+<p>---</p>
 <h2 id="4-unpublish-via-release">4. Unpublish via Release</h2>
 <ol>
 <li>Create Release <strong>QA Spring Edit Takedown</strong>.</li>
@@ -96,11 +98,11 @@
 <li>Staging CDA no longer returns <code>spring-edit</code>.</li>
 <li>Recreate/redeploy a publish Release so Lab 08 still has a page — or leave unpublished if you will rebuild in Lab 08.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="5-workflow-gate-if-configured">5. Workflow gate (if configured)</h2>
 <p>Put the landing page in <strong>In Review</strong>, add it to a Release, deploy.</p>
 <p>Document: skipped vs failed vs published. That behaviour is what you will explain to a release manager on a real project.</p>
-<hr>
+<p>---</p>
 <h2 id="6-campaign-rehearsal-script-copy-to-client-projects">6. Campaign rehearsal script (copy to client projects)</h2>
 <ol>
 <li>Freeze new edits 30 minutes before deploy.</li>
@@ -112,14 +114,14 @@
 <li>Production CDA + 3 smoke URLs.</li>
 <li>Keep a takedown Release ready.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="pass">Pass</h2>
 <ul>
 <li>Staging has (or had) <code>spring-edit</code> via Release, not ad-hoc publish-all</li>
 <li>Production never received the campaign during the lab</li>
 <li>At least one missing-child or unpublish experiment documented</li>
 </ul>
-<hr>
+<p>---</p>
 <p><strong>Next:</strong> <a href="08-defects.html">Lab 08 — Regression and defects</a></p>
       <div class="pager">
         <a href="06-localization.html">← Lab 06</a>

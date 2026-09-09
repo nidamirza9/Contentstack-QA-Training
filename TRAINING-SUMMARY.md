@@ -4,6 +4,8 @@
 **Duration:** 4 days (2 concept + 2 lab) + first-sprint shadowing  
 **Outcome:** A tester who can accept content, prove it via API, and file defects that developers and editors can act on
 
+![Horizon Market QA stack — this is the training stack you will recreate](screens/cs-stack-home.png)
+
 ---
 
 ## Why QA on Contentstack is different

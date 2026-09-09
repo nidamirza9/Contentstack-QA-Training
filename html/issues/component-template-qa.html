@@ -51,7 +51,8 @@ CDA / GraphQL JSON (includes, embeds, assets)
         ↓
 Frontend template / React component</code></pre>
 <p>If any arrow is wrong, the page looks “randomly broken.” File the issue with a <strong>layer</strong> and a <strong>CDA snippet</strong>, not only a screenshot.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-modular-blocks.png" alt="Empty hero is usually an unpublished reference or a block the template does not map" loading="lazy"><figcaption>Empty hero is usually an unpublished reference or a block the template does not map</figcaption></figure>
+<p>---</p>
 <h2 id="how-to-uat-a-new-template-do-this-first">How to UAT a new template (do this first)</h2>
 <ol>
 <li>Open the content type. List every field UID the template claims to render.</li>
@@ -63,7 +64,7 @@ Frontend template / React component</code></pre>
 <li>Unpublish one referenced child. The parent must degrade safely (no blank hero, no 500).</li>
 </ol>
 <p>If you skip step 4, you will file Layer C bugs that are actually unpublished refs or missing includes.</p>
-<hr>
+<p>---</p>
 <h2 id="issue-catalog">Issue catalog</h2>
 <p>IDs use <code>CS-CMP-##</code>. Clone them into ADO/Jira. Severity: S1 live-breaking · S2 staging/UAT blocker · S3 functional · S4 polish.</p>
 <h3>Modular blocks and page builder</h3>
@@ -82,17 +83,17 @@ Frontend template / React component</code></pre>
 <table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-33</td><td>S3</td><td>B</td><td>Listing page only shows 6 of 20 products</td><td><code>limit</code> default; no pagination in template</td><td><code>skip</code> / <code>limit</code> on the query</td></tr><tr><td>CS-CMP-34</td><td>S3</td><td>B</td><td>Sort order ≠ CMS</td><td>App sorts by title; editors use <code>sort_order</code> number</td><td>Compare field vs rendered order</td></tr><tr><td>CS-CMP-35</td><td>S2</td><td>B</td><td>Taxonomy filter “Apparel” returns nothing</td><td>Term not attached, or query uses display name not UID</td><td>Taxonomy in CDA</td></tr><tr><td>CS-CMP-36</td><td>S2</td><td>C</td><td>Header nav wrong on one template only</td><td><code>site_settings</code> single type fetched on home, hardcoded on PDP</td><td>Two templates, one entry</td></tr><tr><td>CS-CMP-37</td><td>S2</td><td>A</td><td>Editing the SEO global field breaks 40 pages</td><td>Global field change; not all templates tolerate a new required inner field</td><td>One consumer per template after the change</td></tr></tbody></table>
 <h3>Releases, cache, and “I published it”</h3>
 <table><thead><tr><th>ID</th><th>Severity</th><th>Layer</th><th>Symptom</th><th>What happened</th><th>Proof</th></tr></thead><tbody><tr><td>CS-CMP-38</td><td>S1</td><td>B</td><td>Campaign page live, product grid empty</td><td>Release had the landing page, not the products</td><td>Release item list vs CDA children</td></tr><tr><td>CS-CMP-39</td><td>S2</td><td>C</td><td>CDA is new; HTML is 10 minutes old</td><td>Webhook / ISR / CDN TTL</td><td>Publish time vs rebuild vs <code>cache-control</code></td></tr><tr><td>CS-CMP-40</td><td>S2</td><td>A</td><td>Workflow “In Review” item skipped in Release</td><td>Stage not publishable</td><td>Release log + entry stage</td></tr><tr><td>CS-CMP-41</td><td>S3</td><td>B</td><td>Unpublish in CMS, URL still 200</td><td>Cache or ISR did not revalidate the slug</td><td>CDA 0 entries + site still 200</td></tr></tbody></table>
-<hr>
+<p>---</p>
 <h2 id="component-test-matrix-copy-per-template">Component test matrix (copy per template)</h2>
 <p>Use one row per <strong>block or referenced component</strong> on the page.</p>
 <table><thead><tr><th>Component</th><th>Field UIDs used</th><th>Required?</th><th>Localizable?</th><th>Needs include / embed?</th><th>Empty-state expected</th><th>Fixture entry UID</th><th>Pass?</th></tr></thead><tbody><tr><td>Hero</td><td><code>heading</code>, <code>subheading</code>, <code>background_image</code>, <code>cta_label</code>, <code>cta_url</code></td><td>heading, image</td><td>heading, subheading, CTA label</td><td>asset published</td><td>Hide CTA if label or URL empty</td><td></td><td></td></tr><tr><td>Product grid</td><td><code>heading</code>, <code>products</code></td><td>products ≥ 1</td><td>heading</td><td><code>include[]</code> on products + category</td><td>Hide grid if all children unpublished</td><td></td><td></td></tr><tr><td>CTA</td><td><code>heading</code>, <code>button_text</code>, <code>button_url</code></td><td>all three</td><td>all text</td><td>none</td><td>Hide block if any missing</td><td></td><td></td></tr><tr><td>Rich text</td><td><code>body</code></td><td>body</td><td>yes</td><td><code>include_embedded_items[]=body</code></td><td>Hide if empty document</td><td></td><td></td></tr><tr><td>Cards from refs</td><td><code>title</code>, <code>slug</code>, <code>hero_image</code></td><td>title, slug</td><td>title</td><td>child published same env+locale</td><td>Skip card, do not 500</td><td></td><td></td></tr></tbody></table>
-<hr>
+<p>---</p>
 <h2 id="defect-title-pattern-for-template-bugs">Defect title pattern for template bugs</h2>
 <pre><code>[stack][env][locale][CS-CMP-##][template] short fact</code></pre>
 <p>Example:</p>
 <pre><code>[horizon-market][staging][en-us][CS-CMP-01][landing_page] hero empty; promo_banner blt999 unpublished</code></pre>
 <p>Body must include: template name, block UID, entry UID, version, environment, locale, CDA snippet (redact tokens), and whether Preview differs from the site.</p>
-<hr>
+<p>---</p>
 <h2 id="negative-tests-every-template-must-fail-safe">Negative tests every template must fail-safe</h2>
 <ol>
 <li>Unpublish one referenced product used in a grid.</li>
@@ -103,7 +104,7 @@ Frontend template / React component</code></pre>
 <li>Open the page with the <strong>production</strong> delivery token by mistake (expect empty/403), then with staging.</li>
 <li>After a Release, hit the site <strong>before</strong> and <strong>after</strong> the documented cache SLA.</li>
 </ol>
-<hr>
+<p>---</p>
 <h2 id="what-to-say-in-stand-up">What to say in stand-up</h2>
 <ul>
 <li>“CS-CMP-07 on PDP: category is a UID; include uses field UID <code>category</code>.”</li>
@@ -111,7 +112,7 @@ Frontend template / React component</code></pre>
 <li>“CS-CMP-38: Spring Edit Release missing two product UIDs; grid will be empty on prod.”</li>
 </ul>
 <p>Do not say “homepage is broken” without a CS-CMP id, layer, and UID.</p>
-<hr>
+<p>---</p>
 <h2 id="next">Next</h2>
 <p>Use <a href="../checklists/defects.html">defect taxonomy</a> for the ticket template and <a href="../checklists/test-cases.html">sample test cases</a> for API-level IDs (<code>HM-QA-##</code>). Run <a href="../labs/08-defects.html">Lab 08</a> to plant these bugs on purpose.</p>
       <div class="pager">

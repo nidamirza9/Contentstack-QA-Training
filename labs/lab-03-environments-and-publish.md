@@ -4,6 +4,8 @@
 **Layer:** CMS + (light) API  
 **Exit:** Product is on staging only; production CDA does not return it.
 
+![Publish dialog — staging checked, production unchecked](screens/cs-publish-dialog.png)
+
 ---
 
 ## 1. Publish dependencies first
@@ -50,6 +52,8 @@ If production returns the product, you published to production. Unpublish from p
 5. In Versions, publish the previous version back to staging (rollback). CDA shows v1 title again.
 
 ---
+
+![Publish the hero image asset to staging as well as the entry](screens/cs-assets.png)
 
 ## 4. Asset drill
 

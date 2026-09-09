@@ -44,14 +44,15 @@
 <p><strong>Layer:</strong> API  </p>
 <p><strong>Exit:</strong> You can resolve references, explain a UID-only response, and query by slug.</p>
 <p>Requires Lab 03 product published to staging.</p>
-<hr>
+<p>![Prove the product on staging CDA with include[]=category](../assets/screens/cs-cda-include.png)</p>
+<p>---</p>
 <h2 id="1-baseline-without-includes">1. Baseline without includes</h2>
 <pre><code>GET {CDA}/v3/content_types/product/entries/{PRODUCT_UID}
   ?environment=staging
   &amp;locale=en-us</code></pre>
 <p>Headers: <code>api_key</code>, <code>access_token</code> = staging delivery token.</p>
 <p><strong>Observe:</strong> <code>category</code> is likely a UID string (or a small object without title). Screenshot or save JSON as <code>notes/product-no-include.json</code>.</p>
-<hr>
+<p>---</p>
 <h2 id="2-resolve-references">2. Resolve references</h2>
 <pre><code>GET {CDA}/v3/content_types/product/entries/{PRODUCT_UID}
   ?environment=staging
@@ -61,14 +62,14 @@
 <p><strong>Expected:</strong> <code>category.title</code> is <code>Apparel</code>.</p>
 <p>Wrong on purpose: <code>include[]=categories</code> (content type UID, not field UID).  </p>
 <p><strong>Expected:</strong> category still unresolved. Remember this defect comment: “include uses field UID.”</p>
-<hr>
+<p>---</p>
 <h2 id="3-query-and-pagination">3. Query and pagination</h2>
 <pre><code>GET {CDA}/v3/content_types/product/entries
   ?environment=staging
   &amp;query={&quot;featured&quot;:true}
   &amp;limit=10</code></pre>
 <p>Create a second product, featured <code>false</code>, publish to staging. Featured query must not return it.</p>
-<hr>
+<p>---</p>
 <h2 id="4-graphql-cda">4. GraphQL CDA</h2>
 <p>POST to your region GraphQL host with the <strong>same</strong> staging delivery token.</p>
 <pre><code>query {
@@ -83,18 +84,18 @@
 }</code></pre>
 <p>Field names follow your schema (sometimes <code>categoryConnection</code>). Use GraphiQL in the stack if the query fails — that is part of the lab.</p>
 <p><strong>Expected:</strong> same title/SKU as REST.</p>
-<hr>
+<p>---</p>
 <h2 id="5-embedded-rte-if-you-embedded-a-category-or-product-in-description">5. Embedded RTE (if you embedded a category or product in Description)</h2>
 <pre><code>GET {CDA}/v3/content_types/product/entries/{PRODUCT_UID}
   ?environment=staging
   &amp;include[]=category
   &amp;include_embedded_items[]=description</code></pre>
 <p>Without the embed param, embedded items are UIDs only. With it, <code>_embedded_items</code> (or equivalent) is populated.</p>
-<hr>
+<p>---</p>
 <h2 id="6-token-mix-up-negative">6. Token mix-up (negative)</h2>
 <p>Call staging URL with the <strong>production</strong> delivery token (or omit <code>environment</code>).</p>
 <p><strong>Expected:</strong> 403 / empty / error. Document the exact status. This is how leaked-token bugs present.</p>
-<hr>
+<p>---</p>
 <h2 id="pass">Pass</h2>
 <ul>
 <li>Before/after include JSON saved</li>
@@ -102,7 +103,7 @@
 <li>GraphQL and REST agree on title and SKU</li>
 <li>You can explain include field UID vs content type UID</li>
 </ul>
-<hr>
+<p>---</p>
 <p><strong>Next:</strong> <a href="05-workflow-preview.html">Lab 05 — Workflow, roles, preview</a></p>
       <div class="pager">
         <a href="03-publish.html">← Lab 03</a>

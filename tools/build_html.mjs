@@ -96,15 +96,17 @@ function esc(s) {
     .replaceAll('"', "&quot;");
 }
 
-function rewriteLinks(text) {
+function rewriteLinks(text, dest) {
   for (const [re, to] of LINK_MAP) text = text.replace(re, to);
-  return text;
+  const shot = dest.includes("/") ? "../assets/screens/" : "assets/screens/";
+  return text.replace(/\(screens\//g, `(${shot}`);
 }
 
 function inline(text) {
   let s = esc(text);
   s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
   s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
   return s;
 }
@@ -179,9 +181,12 @@ function mdToHtml(md) {
     } else if (line.startsWith("### ")) {
       close();
       out.push(`<h3>${inline(line.slice(4))}</h3>`);
-    } else if (line.trim() === "---") {
+    } else if (/^!\[([^\]]*)\]\(([^)]+)\)/.test(line.trim())) {
       close();
-      out.push("<hr>");
+      const m = line.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)/);
+      out.push(
+        `<figure class="shot"><img src="${esc(m[2])}" alt="${esc(m[1])}" loading="lazy"><figcaption>${inline(m[1])}</figcaption></figure>`,
+      );
     } else if (/^\s+-\s/.test(line)) {
       if (inOl && !inNestedUl) {
         out.push("<ul>");
@@ -298,7 +303,8 @@ function homeHtml() {
     <main class="main">
       <div class="crumb">Contentstack Learning / HTML</div>
       <h1>Contentstack QA tester training</h1>
-      <p class="meta">Hands-on pack for testers on real Contentstack projects. Open this file in any browser. No server required.</p>
+      <p class="meta">Hands-on pack for testers on real Contentstack projects. Open this file in any browser. No server required. Each chapter includes a Contentstack-style CMS screenshot so you can match the real UI.</p>
+      <figure class="shot"><img src="assets/screens/cs-stack-home.png" alt="Horizon Market QA stack home" loading="lazy"><figcaption>Horizon Market QA stack home — Entries, Assets, Releases, environments</figcaption></figure>
       <div class="card-row">
         <div class="stat"><b>4 days</b><span>Concept + labs</span></div>
         <div class="stat"><b>8 labs</b><span>On a real stack</span></div>
@@ -370,7 +376,7 @@ fs.mkdirSync(path.join(HTML_DIR, "issues"), { recursive: true });
 
 for (const page of PAGES) {
   const src = fs.readFileSync(path.join(ROOT, page[1]), "utf8");
-  const body = mdToHtml(rewriteLinks(src));
+  const body = mdToHtml(rewriteLinks(src, page[2]));
   const dest = path.join(HTML_DIR, page[2]);
   fs.writeFileSync(dest, wrap(page, body), "utf8");
   console.log("wrote", dest);
@@ -402,6 +408,7 @@ const allFiles = [
   ["Defect taxonomy", path.join(HTML_DIR, "checklists", "defects.html")],
   ["Component / template issues", path.join(HTML_DIR, "issues", "component-template-qa.html")],
   ["Stylesheet", path.join(HTML_DIR, "assets", "app.css")],
+  ["CMS screenshots folder", path.join(HTML_DIR, "assets", "screens")],
   ["Canvas (keep in Cursor)", CANVAS_PATH],
 ];
 

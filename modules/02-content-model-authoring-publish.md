@@ -3,6 +3,8 @@
 **Time:** 4 hours  
 **Goal:** Read a content type like a contract, author clean entries, and publish without leaking to production.
 
+![Content type builder for product — field UIDs, types, and Localize this field](screens/cs-content-type-builder.png)
+
 ---
 
 ## 1. Content type = API contract
@@ -46,6 +48,8 @@ When testers review a new type, ask:
 | Extension / custom | Color picker, DAM | Value shape vs frontend mapper |
 | Taxonomy | Region, audience | Filter queries; unpublished terms |
 
+![Landing page modular blocks — hero, product grid, CTA; order in the CMS is the order on the site](screens/cs-modular-blocks.png)
+
 ### Reference vs Modular Blocks
 
 | | Reference | Modular Blocks |
@@ -69,6 +73,8 @@ A classic production bug: homepage references a `promo_banner` that is still dra
 
 ## 4. Assets
 
+![Assets library — publish the file to staging; a new upload is not live until the asset is published](screens/cs-assets.png)
+
 Assets have their own publish lifecycle.
 
 Test:
@@ -78,6 +84,8 @@ Test:
 3. Image transforms (`?width=800&format=webp`) are **URL features**, not CMS preview features. Verify the app’s transform string.
 
 ---
+
+![Entry editor for Linen Overshirt — Save is not Publish; workflow still Draft](screens/cs-entry-editor.png)
 
 ## 5. Entries, versions, and save vs publish
 

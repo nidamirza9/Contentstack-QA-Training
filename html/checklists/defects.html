@@ -41,22 +41,23 @@
       <div class="crumb">Home / Checklists / Defects</div>
       <h1>Defect taxonomy — Contentstack QA</h1>
 <p>Classify every bug before you file it. Wrong layer = wrong owner and wasted time.</p>
-<hr>
+<figure class="shot"><img src="../assets/screens/cs-live-preview.png" alt="If Preview and the site disagree, attach both this CMS view and a CDA snippet" loading="lazy"><figcaption>If Preview and the site disagree, attach both this CMS view and a CDA snippet</figcaption></figure>
+<p>---</p>
 <h2 id="layers">Layers</h2>
 <table><thead><tr><th>Code</th><th>Layer</th><th>Owner (typical)</th><th>Evidence required</th></tr></thead><tbody><tr><td>A</td><td>CMS authoring / workflow / roles / assets</td><td>Editor, CMS admin</td><td>Entry UID, stage, permissions screenshot</td></tr><tr><td>B</td><td>Delivery / Preview / Release contract</td><td>Frontend (query) or CMS admin (publish)</td><td>CDA/Preview JSON, env, locale, token type</td></tr><tr><td>C</td><td>App render / cache / routing / format</td><td>Frontend, DevOps</td><td>HAR or URL + JSON proving field exists</td></tr></tbody></table>
 <p>A ticket may list a <strong>primary</strong> layer and a <strong>secondary</strong> (example: A unpublished ref causing B empty include).</p>
-<hr>
+<p>---</p>
 <h2 id="common-codes">Common codes</h2>
 <table><thead><tr><th>Code</th><th>Symptom</th><th>First check</th></tr></thead><tbody><tr><td>A-REF-UNPUB</td><td>Missing module / blank card</td><td>Child entry publish state on same env+locale</td></tr><tr><td>A-ASSET-UNPUB</td><td>Broken image</td><td>Asset publish queue</td></tr><tr><td>A-WF-STUCK</td><td>Cannot publish</td><td>Stage + publish rules + role</td></tr><tr><td>A-ROLE-PERM</td><td>Button missing / API 403 in UI</td><td>Role vs locale vs content type</td></tr><tr><td>A-LOC-PARTIAL</td><td>Mixed language on page</td><td>Which fields localized and published</td></tr><tr><td>A-BLOCK-ORDER</td><td>Wrong section order</td><td>Modular blocks array in CMS</td></tr><tr><td>B-NOT-PUBLISHED</td><td>Site old, Preview new</td><td>CDA vs Preview</td></tr><tr><td>B-WRONG-ENV</td><td>“Works on staging”</td><td>Token and <code>environment</code> param</td></tr><tr><td>B-WRONG-LOCALE</td><td>Wrong language JSON</td><td><code>locale</code> + fallback flags</td></tr><tr><td>B-NO-INCLUDE</td><td>IDs in JSON, names missing</td><td><code>include[]</code> field UID</td></tr><tr><td>B-NO-EMBED</td><td>RTE embed empty</td><td><code>include_embedded_items[]</code></td></tr><tr><td>B-RELEASE-PARTIAL</td><td>Some items live</td><td>Release log vs workflow stage</td></tr><tr><td>B-SCHEMA-DRIFT</td><td>Field missing after merge</td><td>Content type UID/field UID</td></tr><tr><td>C-MAPPER</td><td>JSON has field, UI does not</td><td>Component mapping</td></tr><tr><td>C-CACHE</td><td>JSON new, HTML old</td><td>Webhook, ISR, CDN TTL</td></tr><tr><td>C-ROUTE</td><td>CMS slug ≠ URL</td><td>App router, not CMS</td></tr><tr><td>C-CSLP</td><td>Visual Builder edits wrong field</td><td><code>data-cslp</code> path</td></tr></tbody></table>
-<hr>
+<p>---</p>
 <h2 id="severity-guide">Severity guide</h2>
 <table><thead><tr><th>Severity</th><th>Example</th></tr></thead><tbody><tr><td>S1</td><td>Production Release unpublished homepage; checkout content missing on live</td></tr><tr><td>S2</td><td>Staging campaign page empty due to unpublished ref; production publish rule broken</td></tr><tr><td>S3</td><td>FR fallback unexpected on one PDP; Visual Builder highlight off by one field</td></tr><tr><td>S4</td><td>Fixture naming, copy typo in QA only</td></tr></tbody></table>
-<hr>
+<p>---</p>
 <h2 id="title-pattern">Title pattern</h2>
 <pre><code>[Stack][env][locale][layer] short fact</code></pre>
 <p>Example:</p>
 <pre><code>[horizon-market][staging][fr-fr][B-NO-INCLUDE] product category is UID; PDP shows blank</code></pre>
-<hr>
+<p>---</p>
 <h2 id="template">Template</h2>
 <pre><code>Title:
 Layer / code:

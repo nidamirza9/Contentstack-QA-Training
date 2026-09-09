@@ -3,6 +3,8 @@
 **Time:** 3 hours  
 **Goal:** Pick the correct API for each QA check and prove publish, preview, and campaign releases.
 
+![Delivery vs Preview vs Management tokens — never mix these](screens/cs-tokens.png)
+
 ---
 
 ## 1. Three APIs, three jobs
@@ -55,6 +57,8 @@ Common query parameters:
 | `only[BASE][]` / `except[BASE][]` | Field projection |
 
 ---
+
+![CDA request with include[]=category — resolved title Apparel, not a UID](screens/cs-cda-include.png)
 
 ## 3. REST CDA recipes for Horizon Market
 
@@ -123,6 +127,8 @@ Call GraphQL CDA with the **same** staging delivery token. If GraphQL returns th
 
 ---
 
+![Live Preview shows the draft title; CDA still has the last published version](screens/cs-live-preview.png)
+
 ## 4. Preview vs published (the #1 QA confusion)
 
 | Check | API | Expected |
@@ -135,6 +141,8 @@ Call GraphQL CDA with the **same** staging delivery token. If GraphQL returns th
 If Live Preview and the public staging site disagree, do not immediately blame the frontend. Confirm which API each surface calls.
 
 ---
+
+![Release QA Spring Edit Staging — deploy to staging only; include child entries and assets](screens/cs-releases.png)
 
 ## 5. Releases and scheduled publish
 

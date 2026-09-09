@@ -4,6 +4,8 @@
 **Layer:** All three  
 **Exit:** Five defects (or simulated defects) written to the project standard.
 
+![Use CDA evidence like this when you file CS-CMP / HM-QA defects](screens/cs-cda-include.png)
+
 ---
 
 ## 1. Plant bugs (on purpose)
