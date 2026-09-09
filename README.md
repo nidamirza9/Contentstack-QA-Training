@@ -4,7 +4,11 @@ Hands-on learning material for QA testers who will test **real Contentstack proj
 
 **Public course (GitHub Pages):** https://nidamirza9.github.io/Contentstack-QA-Training/html/
 
-**Component / template QA issues:** https://nidamirza9.github.io/Contentstack-QA-Training/html/issues/component-template-qa.html
+**Public course (Vercel):** https://contentstack-qa-training.vercel.app/html/
+
+**Component / template QA issues (GitHub Pages):** https://nidamirza9.github.io/Contentstack-QA-Training/html/issues/component-template-qa.html
+
+**Component / template QA issues (Vercel):** https://contentstack-qa-training.vercel.app/html/issues/component-template-qa.html
 
 **GitHub repo:** https://github.com/nidamirza9/Contentstack-QA-Training
 
