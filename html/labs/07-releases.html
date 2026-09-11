@@ -25,7 +25,7 @@
     </a>
     <nav class="header-links" aria-label="Quick access">
       <a href="../summary.html">Summary</a>
-      <a class="header-ext" href="https://istqb-blog-52934-28690.lovable.app/about" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a href="../about.html">About Me</a>
       <a class="header-ext" href="https://www.linkedin.com/in/nida-mirza/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </nav>
   </div>
@@ -161,13 +161,14 @@
       <span class="footer-logo-wrap"><img class="footer-logo" src="../assets/brand/nida-logo.png" alt="Nida Mirza logo" width="56" height="56"></span>
       <div class="footer-brand-text">
         <strong>Nida Mirza</strong>
-        <p>Software Tester &amp; QA Professional | ISTQB Certified | Contentstack QA Training</p>
+        <p>ISTQB-certified QA Engineer · Manual &amp; Automation · AI-Assisted QA</p>
       </div>
     </div>
     <nav class="footer-links" aria-label="Author links">
-      <a href="https://istqb-blog-52934-28690.lovable.app/about" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a href="../about.html">About Me</a>
       <a href="https://www.linkedin.com/in/nida-mirza/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://nidamirza9.github.io/nidaportfolio/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+      <a href="https://github.com/nidamirza9" target="_blank" rel="noopener noreferrer">GitHub</a>
     </nav>
     <p class="footer-copy">© 2026 Nida Mirza. All rights reserved. | Empowering QA professionals through Contentstack &amp; testing knowledge</p>
   </div>
@@ -181,7 +182,7 @@
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "header-trim-test",
+        runId: "about-resume-test",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -232,11 +233,20 @@
         })
       : [];
     var favicon = document.querySelector('link[rel="icon"]');
+    var aboutMarkers = {
+      hasHeadline: !!document.querySelector(".about-headline"),
+      hasSummary: !!document.querySelector("#professional-summary"),
+      hasExperience: !!document.querySelector("#experience"),
+      hasProjects: !!document.querySelector("#projects"),
+      hasSkills: !!document.querySelector("#skills"),
+      email: (document.querySelector('a[href^="mailto:"]') || {}).href || null,
+    };
     // #region agent log
-    send("H1", "header-trim-favicon-check", {
+    send("A1", "about-resume-check", {
       href: location.href,
       headerLinks: headerLinks,
       faviconHref: favicon ? favicon.getAttribute("href") : null,
+      aboutMarkers: aboutMarkers,
       hasHeader: !!header,
       hasFooter: !!footer,
       footerAlign: footerAlign,

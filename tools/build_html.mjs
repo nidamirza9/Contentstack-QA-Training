@@ -245,9 +245,13 @@ function mdToHtml(md) {
 
 const SITE_BRAND = {
   name: "Nida Mirza",
+  headline:
+    "QA Engineer | Manual & Automation Testing | Selenium | API & Performance Testing | AI-Assisted QA",
   tagline:
-    "Software Tester & QA Professional | ISTQB Certified | Contentstack QA Training",
-  about: "https://istqb-blog-52934-28690.lovable.app/about",
+    "ISTQB-certified QA Engineer · Manual & Automation · AI-Assisted QA",
+  email: "mirzanida58@gmail.com",
+  github: "https://github.com/nidamirza9",
+  about: "about.html",
   linkedin: "https://www.linkedin.com/in/nida-mirza/",
   portfolio: "https://nidamirza9.github.io/nidaportfolio/",
   motto: "Empowering QA professionals through Contentstack & testing knowledge",
@@ -262,7 +266,7 @@ const VERIFY_SCRIPT = `<script>
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "header-trim-test",
+        runId: "about-resume-test",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -313,11 +317,20 @@ const VERIFY_SCRIPT = `<script>
         })
       : [];
     var favicon = document.querySelector('link[rel="icon"]');
+    var aboutMarkers = {
+      hasHeadline: !!document.querySelector(".about-headline"),
+      hasSummary: !!document.querySelector("#professional-summary"),
+      hasExperience: !!document.querySelector("#experience"),
+      hasProjects: !!document.querySelector("#projects"),
+      hasSkills: !!document.querySelector("#skills"),
+      email: (document.querySelector('a[href^="mailto:"]') || {}).href || null,
+    };
     // #region agent log
-    send("H1", "header-trim-favicon-check", {
+    send("A1", "about-resume-check", {
       href: location.href,
       headerLinks: headerLinks,
       faviconHref: favicon ? favicon.getAttribute("href") : null,
+      aboutMarkers: aboutMarkers,
       hasHeader: !!header,
       hasFooter: !!footer,
       footerAlign: footerAlign,
@@ -394,7 +407,7 @@ function siteHeader(dest) {
     </a>
     <nav class="header-links" aria-label="Quick access">
       <a href="${prefix}summary.html">Summary</a>
-      <a class="header-ext" href="${SITE_BRAND.about}" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a href="${prefix}about.html">About Me</a>
       <a class="header-ext" href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </nav>
   </div>
@@ -413,9 +426,10 @@ function siteFooter(dest) {
       </div>
     </div>
     <nav class="footer-links" aria-label="Author links">
-      <a href="${SITE_BRAND.about}" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a href="${prefix}about.html">About Me</a>
       <a href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="${SITE_BRAND.portfolio}" target="_blank" rel="noopener noreferrer">Portfolio</a>
+      <a href="${SITE_BRAND.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
     </nav>
     <p class="footer-copy">© 2026 ${esc(SITE_BRAND.name)}. All rights reserved. | ${esc(SITE_BRAND.motto)}</p>
   </div>
@@ -722,6 +736,158 @@ const pathsPage = `<!DOCTYPE html>
 const pathsDest = path.join(HTML_DIR, "paths.html");
 fs.writeFileSync(pathsDest, pathsPage, "utf8");
 console.log("wrote", pathsDest);
+
+function aboutHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Me · ${esc(SITE_BRAND.name)}</title>
+  ${faviconLinks("about.html")}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  ${siteHeader("about.html")}
+  <div class="layout">
+    ${renderNav("home", "about.html")}
+    <main class="main about-page" id="main">
+      <section class="about-hero">
+        <p class="eyebrow">About Me</p>
+        <h1>${esc(SITE_BRAND.name)}</h1>
+        <p class="about-headline">${esc(SITE_BRAND.headline)}</p>
+        <p class="about-meta">Open to Remote Roles</p>
+        <div class="about-contacts">
+          <a href="mailto:${esc(SITE_BRAND.email)}">${esc(SITE_BRAND.email)}</a>
+          <a href="${SITE_BRAND.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="${SITE_BRAND.portfolio}" target="_blank" rel="noopener noreferrer">Portfolio</a>
+        </div>
+      </section>
+
+      <section id="professional-summary" class="resume-section">
+        <h2>Professional summary</h2>
+        <p>ISTQB-certified QA Engineer with 4.5+ years testing scalable, user-facing web applications in Agile/Scrum environments for global clients across the US, UK, and UAE. Skilled in manual, API, cross-browser, accessibility (WCAG), and performance testing, with hands-on automation using Selenium WebDriver and TestNG and load testing using Apache JMeter.</p>
+        <p>Builds custom QA tools with Claude AI and Cursor to speed up testing and improve accuracy — with a track record of cutting regression cycles and post-release defects. Using AI tools has helped reduce workload by 25% and fasten testing processes.</p>
+      </section>
+
+      <section id="experience" class="resume-section">
+        <h2>Professional experience</h2>
+        <article class="job">
+          <header>
+            <h3>QA Engineer — Horizontal Digital</h3>
+            <p class="job-dates">Jan 2024 – Present</p>
+          </header>
+          <ul>
+            <li>Collaborate within Agile teams on requirement reviews, sprint planning, and retrospectives to align on deliverables.</li>
+            <li>Execute end-to-end website QA, identifying and documenting defects using industry-standard bug tracking tools.</li>
+            <li>Introduced Selenium WebDriver automation, reducing regression testing time by 20%.</li>
+            <li>Led 10+ training programs upskilling the team on QA best practices, while partnering directly with clients across the US, UAE, and UK.</li>
+          </ul>
+        </article>
+        <article class="job">
+          <header>
+            <h3>Associate QA Engineer — Horizontal Digital</h3>
+            <p class="job-dates">Jun 2022 – Dec 2023</p>
+          </header>
+          <ul>
+            <li>Performed manual and automated testing (functional, regression, UI, cross-browser) for large-scale projects, including Cadence Bank.</li>
+            <li>Led WCAG accessibility testing and Sitecore personalization testing to improve compliance and user experience.</li>
+            <li>Logged 100+ defects in JIRA, contributing to a 15% reduction in post-release bugs.</li>
+          </ul>
+        </article>
+        <article class="job">
+          <header>
+            <h3>QA Intern — Horizontal Digital</h3>
+            <p class="job-dates">Jan 2022 – Jun 2022</p>
+          </header>
+          <ul>
+            <li>Supported manual testing, defect tracking, and test documentation using JIRA and QMetry.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="projects" class="resume-section">
+        <h2>Projects</h2>
+        <article class="job">
+          <header>
+            <h3>Tutorials Ninja E-Commerce — Hybrid Automation Framework</h3>
+            <p class="job-dates">Java · Selenium WebDriver · TestNG · Maven</p>
+          </header>
+          <p class="project-link"><a href="https://github.com/nidamirza9/tutorialsninjaHybridFramework" target="_blank" rel="noopener noreferrer">github.com/nidamirza9/tutorialsninjaHybridFramework</a></p>
+          <ul>
+            <li>Built a hybrid automation framework using the Page Object Model with a shared Base Class for WebDriver setup.</li>
+            <li>Added data-driven and cross-browser testing (Chrome, Firefox, Edge), with Extent Reports and Log4j for reporting.</li>
+          </ul>
+        </article>
+        <article class="job">
+          <header>
+            <h3>AI-Powered QA Extensions — Built with Claude AI &amp; Cursor</h3>
+          </header>
+          <ul>
+            <li><strong>Redirection Testing Extension</strong> — flags broken links and unexpected redirects. <a href="https://github.com/nidamirza9/404-finder-extension" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><strong>SEO Testing Extension</strong> — audits titles, meta descriptions, and tags. <a href="https://github.com/nidamirza9/seo-meta-extension" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><strong>UI Validator &amp; Content Comparator</strong> — compares UI and content across builds. <a href="https://github.com/nidamirza9/ui-compare-extension" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><strong>AI-Assisted Automation Demo</strong> — AI-assisted test script generation and code review in Cursor. <a href="https://github.com/nidamirza9/ai-cursor-demo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="skills" class="resume-section">
+        <h2>Core skills</h2>
+        <div class="skills-grid">
+          <div>
+            <h3>Testing</h3>
+            <p>Manual, Regression, Smoke &amp; Sanity, Functional, End-to-End, UAT, Cross-Browser, Cross-Platform (BrowserStack &amp; LambdaTest)</p>
+          </div>
+          <div>
+            <h3>Automation &amp; API</h3>
+            <p>Selenium WebDriver, TestNG, Maven, Page Object Model (POM), Data-Driven Testing, Postman</p>
+          </div>
+          <div>
+            <h3>Performance &amp; AI tools</h3>
+            <p>Apache JMeter, Claude AI, Cursor</p>
+          </div>
+          <div>
+            <h3>QA tools &amp; languages</h3>
+            <p>JIRA, Confluence, QMetry, Sitecore CMS, Contentstack, Git, Jenkins, Java, Python, HTML/CSS/JavaScript</p>
+          </div>
+          <div>
+            <h3>Practices</h3>
+            <p>Agile/Scrum, Test Case Design, Defect Management, Accessibility (WCAG), A/B Testing (CRO)</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="resume-section">
+        <h2>Education, certifications &amp; achievements</h2>
+        <p><strong>Computer Engineering (BE)</strong> — Madhuben &amp; Bhanubhai Patel Institute of Technology · 2018–2022 · CGPA: 9.02/10</p>
+        <p>ISTQB Foundation Level · Python for Data Science (University of Michigan, Coursera) · Java Certification (HackerRank) · Generative AI (Google)</p>
+        <ul>
+          <li>“Raise the BAR Award” for defect identification and mentoring excellence</li>
+          <li>Mentored 20+ ISTQB aspirants with a 100% first-attempt pass rate</li>
+        </ul>
+      </section>
+
+      <div class="pager">
+        <a href="index.html">← Home</a>
+        <a href="summary.html">Training summary →</a>
+      </div>
+    </main>
+  </div>
+  ${siteFooter("about.html")}
+  ${VERIFY_SCRIPT}
+</body>
+</html>
+`;
+}
+
+const aboutDest = path.join(HTML_DIR, "about.html");
+fs.writeFileSync(aboutDest, aboutHtml(), "utf8");
+console.log("wrote", aboutDest);
 
 fs.writeFileSync(
   LAUNCHER_PATH,
