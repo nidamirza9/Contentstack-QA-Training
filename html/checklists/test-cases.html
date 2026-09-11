@@ -17,43 +17,70 @@
     el.href = "/";
   }
   document.head.insertBefore(el, document.head.firstChild);
+  // #region agent log
+  setTimeout(function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var img = document.querySelector("img");
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "redirect-fix",
+        hypothesisId: "H1",
+        location: location.pathname,
+        message: "nav-asset-resolve",
+        data: {
+          href: location.href,
+          base: el.href,
+          cmsHref: cms ? cms.href : null,
+          cmsAttr: cms ? cms.getAttribute("href") : null,
+          imgSrc: img ? img.currentSrc || img.src : null,
+          imgAttr: img ? img.getAttribute("src") : null,
+          imgOk: !!(img && img.naturalWidth),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+  }, 0);
+  // #endregion
 })();
 </script>
-  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="../assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="index.html">Contentstack QA Training</a>
+<a class="brand" href="../index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="beginner.html">Start here (pictures)</a></li>
-<li><a href="cms-visual.html">CMS screens (labeled)</a></li>
-<li><a href="paths.html">Full paths</a></li>
-<li><a href="summary.html">Training summary</a></li>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../beginner.html">Start here (pictures)</a></li>
+<li><a href="../cms-visual.html">CMS screens (labeled)</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
-<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="../modules/05-cms-visual.html">05 · CMS visual guide</a></li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="labs/index.html">Lab index</a></li>
-<li><a href="labs/00-setup.html">00 · Setup</a></li>
-<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="labs/03-publish.html">03 · Publish</a></li>
-<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="labs/06-localization.html">06 · Localization</a></li>
-<li><a href="labs/07-releases.html">07 · Releases</a></li>
-<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
-<li><a class="active" href="checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a class="active" href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Checklists / Test cases</div>
@@ -61,10 +88,10 @@
 <p>IDs use <code>HM-QA-##</code>. Clone and change stack names on a client project.</p>
 <table><thead><tr><th>ID</th><th>Layer</th><th>Title</th><th>Steps</th><th>Expected</th></tr></thead><tbody><tr><td>HM-QA-01</td><td>A</td><td>Required slug on product</td><td>Create product, clear slug, save</td><td>Validation error; no entry created</td></tr><tr><td>HM-QA-02</td><td>A</td><td>Unique SKU</td><td>Create second product with <code>HM-OSH-001</code></td><td>Unique-field error</td></tr><tr><td>HM-QA-03</td><td>B</td><td>Save does not publish</td><td>Edit title, save, GET staging CDA</td><td>CDA title unchanged</td></tr><tr><td>HM-QA-04</td><td>B</td><td>Staging isolation</td><td>Publish product to staging only; GET production CDA</td><td>0 entries</td></tr><tr><td>HM-QA-05</td><td>B</td><td>include field UID</td><td>GET product without <code>include[]=category</code>; then with</td><td>UID only, then <code>title=Apparel</code></td></tr><tr><td>HM-QA-06</td><td>B</td><td>Featured query</td><td>Two products, featured true/false; query featured</td><td>Only featured returned</td></tr><tr><td>HM-QA-07</td><td>A</td><td>Unpublished reference</td><td>Landing page grid refs unpublished product; publish page</td><td>Grid missing/empty; CDA ref 404</td></tr><tr><td>HM-QA-08</td><td>A</td><td>Unpublished asset</td><td>Publish entry, unpublish hero asset</td><td>Image URL 404 or stale</td></tr><tr><td>HM-QA-09</td><td>B</td><td>Version rollback</td><td>Publish v2, publish v1 to staging</td><td>CDA matches v1</td></tr><tr><td>HM-QA-10</td><td>B</td><td>FR localize</td><td>Localize title, publish <code>fr-fr</code></td><td><code>locale=fr-fr</code> returns FR title; SKU unchanged</td></tr><tr><td>HM-QA-11</td><td>B</td><td>DE fallback</td><td>No DE localize; <code>include_fallback=true</code></td><td>EN title (or documented fallback)</td></tr><tr><td>HM-QA-12</td><td>A</td><td>Non-localizable price</td><td>Change EN price, publish EN</td><td>FR CDA price matches</td></tr><tr><td>HM-QA-13</td><td>A</td><td>Workflow vs CDA</td><td>Move Draft → In Review, no publish</td><td>CDA 0 entries</td></tr><tr><td>HM-QA-14</td><td>A</td><td>Author cannot publish prod</td><td>Login Author, publish to production</td><td>Denied</td></tr><tr><td>HM-QA-15</td><td>A</td><td>Translator cannot edit master</td><td>FR translator edits <code>en-us</code></td><td>Denied</td></tr><tr><td>HM-QA-16</td><td>B</td><td>Preview vs CDA</td><td>Save draft title; Preview API vs CDA</td><td>Preview new; CDA old</td></tr><tr><td>HM-QA-17</td><td>B</td><td>Release atomic</td><td>Release with page + products to staging</td><td>All present; production unchanged</td></tr><tr><td>HM-QA-18</td><td>B</td><td>Release missing child</td><td>Release page only; child draft</td><td>Page live, grid broken</td></tr><tr><td>HM-QA-19</td><td>B</td><td>Release unpublish</td><td>Takedown Release on staging</td><td>Slug gone from CDA</td></tr><tr><td>HM-QA-20</td><td>B</td><td>Workflow blocks Release</td><td>Item In Review in Release</td><td>Skip or fail per config</td></tr><tr><td>HM-QA-21</td><td>C</td><td>Mapper miss</td><td>Field in CDA, not on PDP</td><td>Layer C defect</td></tr><tr><td>HM-QA-22</td><td>C</td><td>Cache SLA</td><td>Publish, hit site immediately</td><td>May be stale until SLA; then updated</td></tr><tr><td>HM-QA-23</td><td>B</td><td>Wrong token</td><td>Production token on staging query</td><td>403/empty</td></tr><tr><td>HM-QA-24</td><td>B</td><td>GraphQL parity</td><td>Same slug on REST and GraphQL</td><td>Same title, sku, price</td></tr><tr><td>HM-QA-25</td><td>A</td><td>Modular order</td><td>Reorder hero below CTA; publish</td><td>JSON array order + page order match</td></tr><tr><td>HM-QA-26</td><td>A</td><td>Single type</td><td>Create second <code>site_settings</code></td><td>UI prevents or app breaks — document</td></tr><tr><td>HM-QA-27</td><td>B</td><td>Pagination</td><td><code>limit=1</code> on products</td><td>One item; <code>skip=1</code> different UID</td></tr><tr><td>HM-QA-28</td><td>C</td><td>Slug vs route</td><td>Slug <code>linen-overshirt</code></td><td>App URL convention matches (Layer C)</td></tr><tr><td>HM-QA-29</td><td>B</td><td>Locale header mix</td><td>Entry FR, request <code>en-us</code></td><td>EN title, not FR</td></tr><tr><td>HM-QA-30</td><td>All</td><td>Campaign smoke</td><td>After Release: CDA + hero + 2 PDPs</td><td>All green; tokens not in bugs</td></tr></tbody></table>
 <p>Add automation later for <strong>HM-QA-03, 04, 05, 10, 17</strong> first (highest signal, lowest UI flake).</p>
-<p>For component and template UAT on a real project, use <a href="./component-template-qa-issues.md">component-template-qa-issues.md</a> (<code>CS-CMP-01</code> … <code>CS-CMP-41</code>).</p>
+<p>For component and template UAT on a real project, use <a href=".././component-template-qa-issues.md">component-template-qa-issues.md</a> (<code>CS-CMP-01</code> … <code>CS-CMP-41</code>).</p>
       <div class="pager">
-        <a href="checklists/acceptance.html">← Acceptance pack</a>
-        <a href="checklists/defects.html">Defect taxonomy →</a>
+        <a href="../checklists/acceptance.html">← Acceptance pack</a>
+        <a href="../checklists/defects.html">Defect taxonomy →</a>
       </div>
     </main>
   </div>

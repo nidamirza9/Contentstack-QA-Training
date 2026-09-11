@@ -17,43 +17,70 @@
     el.href = "/";
   }
   document.head.insertBefore(el, document.head.firstChild);
+  // #region agent log
+  setTimeout(function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var img = document.querySelector("img");
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "redirect-fix",
+        hypothesisId: "H1",
+        location: location.pathname,
+        message: "nav-asset-resolve",
+        data: {
+          href: location.href,
+          base: el.href,
+          cmsHref: cms ? cms.href : null,
+          cmsAttr: cms ? cms.getAttribute("href") : null,
+          imgSrc: img ? img.currentSrc || img.src : null,
+          imgAttr: img ? img.getAttribute("src") : null,
+          imgOk: !!(img && img.naturalWidth),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+  }, 0);
+  // #endregion
 })();
 </script>
-  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="../assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="index.html">Contentstack QA Training</a>
+<a class="brand" href="../index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="beginner.html">Start here (pictures)</a></li>
-<li><a href="cms-visual.html">CMS screens (labeled)</a></li>
-<li><a href="paths.html">Full paths</a></li>
-<li><a href="summary.html">Training summary</a></li>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../beginner.html">Start here (pictures)</a></li>
+<li><a href="../cms-visual.html">CMS screens (labeled)</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
-<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="../modules/05-cms-visual.html">05 · CMS visual guide</a></li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="labs/index.html">Lab index</a></li>
-<li><a href="labs/00-setup.html">00 · Setup</a></li>
-<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a class="active" href="labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="labs/03-publish.html">03 · Publish</a></li>
-<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="labs/06-localization.html">06 · Localization</a></li>
-<li><a href="labs/07-releases.html">07 · Releases</a></li>
-<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a class="active" href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Labs / 02</div>
@@ -61,9 +88,9 @@
 <p><strong>Time:</strong> 75 minutes  </p>
 <p><strong>Layer:</strong> CMS  </p>
 <p><strong>Exit:</strong> Horizon Market core types exist; one product entry is saved (not published).</p>
-<figure class="shot"><img src="assets/official/create-content-type.png" alt="Official Create New Content Type — set Name, UID, and Multiple" loading="lazy"><figcaption>Official Create New Content Type — set Name, UID, and Multiple</figcaption></figure>
-<figure class="shot"><img src="assets/official/content-type-builder.png" alt="Official Content Type Builder — add fields with +, then open the gear for Unique ID" loading="lazy"><figcaption>Official Content Type Builder — add fields with +, then open the gear for Unique ID</figcaption></figure>
-<figure class="shot"><img src="assets/official/about-fields.png" alt="Official field properties — Display Name vs Unique ID" loading="lazy"><figcaption>Official field properties — Display Name vs Unique ID</figcaption></figure>
+<figure class="shot"><img src="../assets/official/create-content-type.png" alt="Official Create New Content Type — set Name, UID, and Multiple" loading="lazy"><figcaption>Official Create New Content Type — set Name, UID, and Multiple</figcaption></figure>
+<figure class="shot"><img src="../assets/official/content-type-builder.png" alt="Official Content Type Builder — add fields with +, then open the gear for Unique ID" loading="lazy"><figcaption>Official Content Type Builder — add fields with +, then open the gear for Unique ID</figcaption></figure>
+<figure class="shot"><img src="../assets/official/about-fields.png" alt="Official field properties — Display Name vs Unique ID" loading="lazy"><figcaption>Official field properties — Display Name vs Unique ID</figcaption></figure>
 <p>---</p>
 <h2 id="1-build-content-types">1. Build content types</h2>
 <p>Create these <strong>multiple</strong> types. Keep UIDs exactly as written.</p>
@@ -84,7 +111,7 @@
 </ol>
 <p>If you cannot create a global SEO field yet, skip it. Do not block the lab.</p>
 <p>---</p>
-<figure class="shot"><img src="assets/official/developer-json.png" alt="Official entry editor — Save is not Publish; use JSON view to confirm field Unique IDs" loading="lazy"><figcaption>Official entry editor — Save is not Publish; use JSON view to confirm field Unique IDs</figcaption></figure>
+<figure class="shot"><img src="../assets/official/developer-json.png" alt="Official entry editor — Save is not Publish; use JSON view to confirm field Unique IDs" loading="lazy"><figcaption>Official entry editor — Save is not Publish; use JSON view to confirm field Unique IDs</figcaption></figure>
 <h2 id="2-create-entries-save-only">2. Create entries (save only)</h2>
 <ol>
 <li>Category: Title <code>Apparel</code>, slug <code>apparel</code>. Note UID.</li>
@@ -108,10 +135,10 @@ product.linen-overshirt =</code></pre>
 <li>UIDs written down</li>
 </ul>
 <p>---</p>
-<p><strong>Next:</strong> <a href="labs/03-publish.html">Lab 03 — Environments and publish</a></p>
+<p><strong>Next:</strong> <a href="../labs/03-publish.html">Lab 03 — Environments and publish</a></p>
       <div class="pager">
-        <a href="labs/01-orientation.html">← Lab 01</a>
-        <a href="labs/03-publish.html">Lab 03 →</a>
+        <a href="../labs/01-orientation.html">← Lab 01</a>
+        <a href="../labs/03-publish.html">Lab 03 →</a>
       </div>
     </main>
   </div>

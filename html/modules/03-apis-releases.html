@@ -17,52 +17,79 @@
     el.href = "/";
   }
   document.head.insertBefore(el, document.head.firstChild);
+  // #region agent log
+  setTimeout(function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var img = document.querySelector("img");
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "redirect-fix",
+        hypothesisId: "H1",
+        location: location.pathname,
+        message: "nav-asset-resolve",
+        data: {
+          href: location.href,
+          base: el.href,
+          cmsHref: cms ? cms.href : null,
+          cmsAttr: cms ? cms.getAttribute("href") : null,
+          imgSrc: img ? img.currentSrc || img.src : null,
+          imgAttr: img ? img.getAttribute("src") : null,
+          imgOk: !!(img && img.naturalWidth),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+  }, 0);
+  // #endregion
 })();
 </script>
-  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="../assets/app.css">
 </head>
 <body>
   <div class="layout">
     <nav class="nav">
-<a class="brand" href="index.html">Contentstack QA Training</a>
+<a class="brand" href="../index.html">Contentstack QA Training</a>
 <div class="tag">Horizon Market · offline HTML</div>
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="beginner.html">Start here (pictures)</a></li>
-<li><a href="cms-visual.html">CMS screens (labeled)</a></li>
-<li><a href="paths.html">Full paths</a></li>
-<li><a href="summary.html">Training summary</a></li>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../beginner.html">Start here (pictures)</a></li>
+<li><a href="../cms-visual.html">CMS screens (labeled)</a></li>
+<li><a href="../paths.html">Full paths</a></li>
+<li><a href="../summary.html">Training summary</a></li>
 <li class="group">Modules</li>
-<li><a href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
-<li><a href="modules/01-boundaries.html">01 · Boundaries</a></li>
-<li><a href="modules/02-model-publish.html">02 · Model &amp; publish</a></li>
-<li><a class="active" href="modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
-<li><a href="modules/04-qa-strategy.html">04 · QA strategy</a></li>
+<li><a href="../modules/05-cms-visual.html">05 · CMS visual guide</a></li>
+<li><a href="../modules/01-boundaries.html">01 · Boundaries</a></li>
+<li><a href="../modules/02-model-publish.html">02 · Model &amp; publish</a></li>
+<li><a class="active" href="../modules/03-apis-releases.html">03 · APIs &amp; releases</a></li>
+<li><a href="../modules/04-qa-strategy.html">04 · QA strategy</a></li>
 <li class="group">Labs</li>
-<li><a href="labs/index.html">Lab index</a></li>
-<li><a href="labs/00-setup.html">00 · Setup</a></li>
-<li><a href="labs/01-orientation.html">01 · Stack orientation</a></li>
-<li><a href="labs/02-model-entry.html">02 · Model and entry</a></li>
-<li><a href="labs/03-publish.html">03 · Publish</a></li>
-<li><a href="labs/04-delivery-api.html">04 · Delivery API</a></li>
-<li><a href="labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
-<li><a href="labs/06-localization.html">06 · Localization</a></li>
-<li><a href="labs/07-releases.html">07 · Releases</a></li>
-<li><a href="labs/08-defects.html">08 · Defects</a></li>
+<li><a href="../labs/index.html">Lab index</a></li>
+<li><a href="../labs/00-setup.html">00 · Setup</a></li>
+<li><a href="../labs/01-orientation.html">01 · Stack orientation</a></li>
+<li><a href="../labs/02-model-entry.html">02 · Model and entry</a></li>
+<li><a href="../labs/03-publish.html">03 · Publish</a></li>
+<li><a href="../labs/04-delivery-api.html">04 · Delivery API</a></li>
+<li><a href="../labs/05-workflow-preview.html">05 · Workflow &amp; preview</a></li>
+<li><a href="../labs/06-localization.html">06 · Localization</a></li>
+<li><a href="../labs/07-releases.html">07 · Releases</a></li>
+<li><a href="../labs/08-defects.html">08 · Defects</a></li>
 <li class="group">Checklists</li>
-<li><a href="checklists/acceptance.html">Acceptance pack</a></li>
-<li><a href="checklists/test-cases.html">Sample test cases</a></li>
-<li><a href="checklists/defects.html">Defect taxonomy</a></li>
-<li><a href="issues/component-template-qa.html">Component / template issues</a></li>
+<li><a href="../checklists/acceptance.html">Acceptance pack</a></li>
+<li><a href="../checklists/test-cases.html">Sample test cases</a></li>
+<li><a href="../checklists/defects.html">Defect taxonomy</a></li>
+<li><a href="../issues/component-template-qa.html">Component / template issues</a></li>
 </ul></nav>
     <main class="main">
       <div class="crumb">Home / Modules / 03</div>
       <h1>Module 03 — APIs, Preview, and Releases</h1>
 <p><strong>Time:</strong> 3 hours  </p>
 <p><strong>Goal:</strong> Pick the correct API for each QA check and prove publish, preview, and campaign releases.</p>
-<figure class="shot"><img src="assets/official/developer-api.png" alt="Official Developer Tools API Details — copy the CDA URL, then add environment + delivery token" loading="lazy"><figcaption>Official Developer Tools API Details — copy the CDA URL, then add environment + delivery token</figcaption></figure>
-<figure class="shot"><img src="assets/diagrams/tokens.svg" alt="Three keys: delivery for the shopper site, preview for drafts, management for writes" loading="lazy"><figcaption>Three keys: delivery for the shopper site, preview for drafts, management for writes</figcaption></figure>
-<figure class="shot"><img src="assets/diagrams/include.svg" alt="Without include you get an ID. With include you get the name." loading="lazy"><figcaption>Without include you get an ID. With include you get the name.</figcaption></figure>
+<figure class="shot"><img src="../assets/official/developer-api.png" alt="Official Developer Tools API Details — copy the CDA URL, then add environment + delivery token" loading="lazy"><figcaption>Official Developer Tools API Details — copy the CDA URL, then add environment + delivery token</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/tokens.svg" alt="Three keys: delivery for the shopper site, preview for drafts, management for writes" loading="lazy"><figcaption>Three keys: delivery for the shopper site, preview for drafts, management for writes</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/include.svg" alt="Without include you get an ID. With include you get the name." loading="lazy"><figcaption>Without include you get an ID. With include you get the name.</figcaption></figure>
 <p>---</p>
 <h2 id="1-three-apis-three-jobs">1. Three APIs, three jobs</h2>
 <table><thead><tr><th>API</th><th>Read/Write</th><th>Data state</th><th>Auth</th><th>QA use</th></tr></thead><tbody><tr><td><strong>REST CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Delivery token</td><td>Contract and regression</td></tr><tr><td><strong>GraphQL CDA</strong></td><td>Read</td><td>Published only, one environment</td><td>Same delivery token</td><td>Field-level contract, over-fetch checks</td></tr><tr><td><strong>Preview API</strong></td><td>Read</td><td>Draft + Timeline + live preview hash</td><td>Preview token</td><td>Preview UAT, embargo Timeline</td></tr><tr><td><strong>CMA</strong></td><td>Read/Write</td><td>All states, admin operations</td><td>Management token</td><td>Setup, workflow, Releases — <strong>not</strong> runtime proof</td></tr></tbody></table>
@@ -122,13 +149,13 @@ access_token: &lt;environment delivery token&gt;</code></pre>
 }</code></pre>
 <p>Call GraphQL CDA with the <strong>same</strong> staging delivery token. If GraphQL returns the product and REST does not, you used different environments or locales — that is the defect, not “GraphQL is newer.”</p>
 <p>---</p>
-<figure class="shot"><img src="assets/screens/cs-live-preview.png" alt="Live Preview shows the draft title; CDA still has the last published version" loading="lazy"><figcaption>Live Preview shows the draft title; CDA still has the last published version</figcaption></figure>
+<figure class="shot"><img src="../assets/screens/cs-live-preview.png" alt="Live Preview shows the draft title; CDA still has the last published version" loading="lazy"><figcaption>Live Preview shows the draft title; CDA still has the last published version</figcaption></figure>
 <h2 id="4-preview-vs-published-the-1-qa-confusion">4. Preview vs published (the #1 QA confusion)</h2>
 <table><thead><tr><th>Check</th><th>API</th><th>Expected</th></tr></thead><tbody><tr><td>Editor saved, not published</td><td>Preview: new copy</td><td>CDA: old published version or 404</td></tr><tr><td>Published to staging only</td><td>Staging CDA: new</td><td>Production CDA: old</td></tr><tr><td>Live Preview iframe</td><td>Preview host + <code>live_preview</code> hash + preview token</td><td>Must not use delivery token</td></tr><tr><td>Timeline / scheduled future</td><td>Preview + <code>preview_timestamp</code></td><td>CDA unchanged until schedule fires</td></tr></tbody></table>
 <p>If Live Preview and the public staging site disagree, do not immediately blame the frontend. Confirm which API each surface calls.</p>
 <p>---</p>
-<figure class="shot"><img src="assets/screens/cs-releases.png" alt="Release QA Spring Edit Staging — deploy to staging only; include child entries and assets" loading="lazy"><figcaption>Release QA Spring Edit Staging — deploy to staging only; include child entries and assets</figcaption></figure>
-<figure class="shot"><img src="assets/diagrams/release.svg" alt="A Release is one box. Forgotten children make empty grids." loading="lazy"><figcaption>A Release is one box. Forgotten children make empty grids.</figcaption></figure>
+<figure class="shot"><img src="../assets/screens/cs-releases.png" alt="Release QA Spring Edit Staging — deploy to staging only; include child entries and assets" loading="lazy"><figcaption>Release QA Spring Edit Staging — deploy to staging only; include child entries and assets</figcaption></figure>
+<figure class="shot"><img src="../assets/diagrams/release.svg" alt="A Release is one box. Forgotten children make empty grids." loading="lazy"><figcaption>A Release is one box. Forgotten children make empty grids.</figcaption></figure>
 <h2 id="5-releases-and-scheduled-publish">5. Releases and scheduled publish</h2>
 <p>A <strong>Release</strong> is a named set of items, each with <code>publish</code> or <code>unpublish</code>, deployed together to one or more environments.</p>
 <p>QA must verify:</p>
@@ -177,10 +204,10 @@ access_token: &lt;environment delivery token&gt;</code></pre>
 <li>A Release deploys but the hero image 404s. What was likely left out of the Release?</li>
 </ol>
 <p>---</p>
-<p><strong>Next:</strong> <a href="modules/04-qa-strategy.html">Module 04 — QA strategy on real projects</a></p>
+<p><strong>Next:</strong> <a href="../modules/04-qa-strategy.html">Module 04 — QA strategy on real projects</a></p>
       <div class="pager">
-        <a href="modules/02-model-publish.html">← Module 02</a>
-        <a href="modules/04-qa-strategy.html">Module 04 →</a>
+        <a href="../modules/02-model-publish.html">← Module 02</a>
+        <a href="../modules/04-qa-strategy.html">Module 04 →</a>
       </div>
     </main>
   </div>

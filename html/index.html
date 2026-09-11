@@ -17,6 +17,33 @@
     el.href = "/";
   }
   document.head.insertBefore(el, document.head.firstChild);
+  // #region agent log
+  setTimeout(function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var img = document.querySelector("img");
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "redirect-fix",
+        hypothesisId: "H1",
+        location: location.pathname,
+        message: "nav-asset-resolve",
+        data: {
+          href: location.href,
+          base: el.href,
+          cmsHref: cms ? cms.href : null,
+          cmsAttr: cms ? cms.getAttribute("href") : null,
+          imgSrc: img ? img.currentSrc || img.src : null,
+          imgAttr: img ? img.getAttribute("src") : null,
+          imgOk: !!(img && img.naturalWidth),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+  }, 0);
+  // #endregion
 })();
 </script>
   <link rel="stylesheet" href="assets/app.css">
@@ -139,57 +166,5 @@
       <div class="pathbox">C:\Users\nmirza.HZI\.cursor\projects\c-Users-nmirza-HZI-OneDrive-Horizontal-Integration-Inc-Documents-CNE-GSE-Contentstack-Learning\canvases\qa-training-summary.canvas.tsx</div>
     </main>
   </div>
-  <script>
-(function () {
-  function send(hypothesisId, message, data) {
-    // #region agent log
-    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
-      body: JSON.stringify({
-        sessionId: "ac4729",
-        runId: "post-fix",
-        hypothesisId: hypothesisId,
-        location: location.pathname || "html/index.html",
-        message: message,
-        data: data,
-        timestamp: Date.now(),
-      }),
-    }).catch(function () {});
-    // #endregion
-  }
-  var official = 0, screens = 0, diagrams = 0;
-  Array.prototype.slice.call(document.images).forEach(function (img, i) {
-    var src = img.getAttribute("src") || "";
-    if (src.indexOf("official/") !== -1) official += 1;
-    if (src.indexOf("screens/") !== -1) screens += 1;
-    if (src.indexOf("diagrams/") !== -1) diagrams += 1;
-    function report(when) {
-      var hid = src.indexOf("official/") !== -1 ? "H1" : src.indexOf("diagrams/") !== -1 ? "H5" : "H3";
-      send(hid, "img-" + when, {
-        i: i,
-        alt: img.alt,
-        attrSrc: src,
-        currentSrc: img.currentSrc,
-        complete: img.complete,
-        naturalWidth: img.naturalWidth,
-        naturalHeight: img.naturalHeight,
-      });
-    }
-    if (img.complete && img.naturalWidth) report("load");
-    img.addEventListener("load", function () { report("load"); });
-    img.addEventListener("error", function () { report("error"); });
-  });
-  send("H2", "page-asset-mix", {
-    href: location.href,
-    pathname: location.pathname,
-    official: official,
-    screens: screens,
-    diagrams: diagrams,
-    labeled: document.querySelectorAll(".labeled").length,
-    pins: document.querySelectorAll(".pin").length,
-  });
-})();
-</script>
 </body>
 </html>

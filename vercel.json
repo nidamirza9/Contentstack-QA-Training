@@ -6,7 +6,12 @@
   "redirects": [
     { "source": "/html", "destination": "/", "permanent": false },
     { "source": "/html/", "destination": "/", "permanent": false },
-    { "source": "/html/:path*", "destination": "/:path*", "permanent": false }
+    { "source": "/html/:path*", "destination": "/:path*", "permanent": false },
+    { "source": "/index.html", "destination": "/", "permanent": false },
+    { "source": "/modules", "destination": "/modules/01-boundaries", "permanent": false },
+    { "source": "/modules/", "destination": "/modules/01-boundaries", "permanent": false },
+    { "source": "/checklists", "destination": "/checklists/acceptance", "permanent": false },
+    { "source": "/checklists/", "destination": "/checklists/acceptance", "permanent": false }
   ],
   "rewrites": [
     { "source": "/:page/assets/:path*", "destination": "/assets/:path*" },

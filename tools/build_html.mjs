@@ -256,23 +256,69 @@ const BASE_SCRIPT = `<script>
     el.href = "/";
   }
   document.head.insertBefore(el, document.head.firstChild);
+  // #region agent log
+  setTimeout(function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var img = document.querySelector("img");
+    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
+      body: JSON.stringify({
+        sessionId: "ac4729",
+        runId: "redirect-fix",
+        hypothesisId: "H1",
+        location: location.pathname,
+        message: "nav-asset-resolve",
+        data: {
+          href: location.href,
+          base: el.href,
+          cmsHref: cms ? cms.href : null,
+          cmsAttr: cms ? cms.getAttribute("href") : null,
+          imgSrc: img ? img.currentSrc || img.src : null,
+          imgAttr: img ? img.getAttribute("src") : null,
+          imgOk: !!(img && img.naturalWidth),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(function () {});
+  }, 0);
+  // #endregion
 })();
 </script>`;
 
-function cssHref() {
-  return "assets/app.css";
+function depthPrefix(dest) {
+  const parts = String(dest || "")
+    .replace(/\\/g, "/")
+    .split("/")
+    .filter(Boolean);
+  const depth = Math.max(0, parts.length - 1);
+  return "../".repeat(depth);
 }
 
-function navPrefix() {
-  return "";
+function cssHref(dest) {
+  return `${depthPrefix(dest)}assets/app.css`;
 }
 
-function toRoot(html) {
-  return html.replace(/(href|src)="(?:\.\.\/)+/g, "$1=\"");
+function rootHref(dest, target) {
+  if (!target) return target;
+  if (/^(https?:|\/\/|#|mailto:)/i.test(target)) return target;
+  const cleaned = target.replace(/^\.\//, "").replace(/^(\.\.\/)+/, "");
+  return `${depthPrefix(dest)}${cleaned}`;
+}
+
+/** Prefix root-relative href/src so nested pages work without relying on <base>. */
+function prefixRootRefs(html, dest) {
+  const p = depthPrefix(dest);
+  if (!p) return html;
+  return html.replace(/(href|src)="([^"]+)"/g, (full, attr, url) => {
+    if (/^(https?:|\/\/|#|mailto:|data:)/i.test(url)) return full;
+    if (url.startsWith("../") || url.startsWith("/")) return full;
+    return `${attr}="${p}${url}"`;
+  });
 }
 
 function renderNav(active, dest) {
-  const prefix = navPrefix(dest);
+  const prefix = depthPrefix(dest);
   const items = [
     `<nav class="nav">`,
     `<a class="brand" href="${prefix}index.html">Contentstack QA Training</a>`,
@@ -301,17 +347,17 @@ function wrap(page, body) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} · Contentstack QA</title>
   ${BASE_SCRIPT}
-  <link rel="stylesheet" href="${cssHref()}">
+  <link rel="stylesheet" href="${cssHref(dest)}">
 </head>
 <body>
   <div class="layout">
     ${renderNav(id, dest)}
     <main class="main">
       <div class="crumb">${esc(crumb)}</div>
-      ${toRoot(body)}
+      ${prefixRootRefs(body, dest)}
       <div class="pager">
-        <a href="${prev[0]}">← ${esc(prev[1])}</a>
-        <a href="${next[0]}">${esc(next[1])} →</a>
+        <a href="${rootHref(dest, prev[0])}">← ${esc(prev[1])}</a>
+        <a href="${rootHref(dest, next[0])}">${esc(next[1])} →</a>
       </div>
     </main>
   </div>
@@ -319,59 +365,6 @@ function wrap(page, body) {
 </html>
 `;
 }
-
-const DEBUG_SCRIPT = `<script>
-(function () {
-  function send(hypothesisId, message, data) {
-    // #region agent log
-    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
-      body: JSON.stringify({
-        sessionId: "ac4729",
-        runId: "post-fix",
-        hypothesisId: hypothesisId,
-        location: location.pathname || "html/index.html",
-        message: message,
-        data: data,
-        timestamp: Date.now(),
-      }),
-    }).catch(function () {});
-    // #endregion
-  }
-  var official = 0, screens = 0, diagrams = 0;
-  Array.prototype.slice.call(document.images).forEach(function (img, i) {
-    var src = img.getAttribute("src") || "";
-    if (src.indexOf("official/") !== -1) official += 1;
-    if (src.indexOf("screens/") !== -1) screens += 1;
-    if (src.indexOf("diagrams/") !== -1) diagrams += 1;
-    function report(when) {
-      var hid = src.indexOf("official/") !== -1 ? "H1" : src.indexOf("diagrams/") !== -1 ? "H5" : "H3";
-      send(hid, "img-" + when, {
-        i: i,
-        alt: img.alt,
-        attrSrc: src,
-        currentSrc: img.currentSrc,
-        complete: img.complete,
-        naturalWidth: img.naturalWidth,
-        naturalHeight: img.naturalHeight,
-      });
-    }
-    if (img.complete && img.naturalWidth) report("load");
-    img.addEventListener("load", function () { report("load"); });
-    img.addEventListener("error", function () { report("error"); });
-  });
-  send("H2", "page-asset-mix", {
-    href: location.href,
-    pathname: location.pathname,
-    official: official,
-    screens: screens,
-    diagrams: diagrams,
-    labeled: document.querySelectorAll(".labeled").length,
-    pins: document.querySelectorAll(".pin").length,
-  });
-})();
-</script>`;
 
 function homeHtml() {
   return `<!DOCTYPE html>
@@ -470,7 +463,6 @@ function homeHtml() {
       <div class="pathbox">${esc(CANVAS_PATH)}</div>
     </main>
   </div>
-  ${DEBUG_SCRIPT}
 </body>
 </html>
 `;
@@ -497,7 +489,6 @@ function cmsVisualHtml() {
       </div>
     </main>
   </div>
-  ${DEBUG_SCRIPT}
 </body>
 </html>
 `;
