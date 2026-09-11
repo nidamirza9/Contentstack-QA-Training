@@ -243,41 +243,65 @@ function mdToHtml(md) {
   return out.join("\n");
 }
 
+const SITE_BRAND = {
+  name: "Nida Mirza",
+  tagline:
+    "Software Tester & QA Professional | ISTQB Certified | Contentstack QA Training",
+  about: "https://istqb-blog-52934-28690.lovable.app/about",
+  linkedin: "https://www.linkedin.com/in/nida-mirza/",
+  portfolio: "https://nidamirza9.github.io/nidaportfolio/",
+  motto: "Empowering QA professionals through Contentstack & testing knowledge",
+};
+
 const VERIFY_SCRIPT = `<script>
 (function () {
   // #region agent log
-  function send(data) {
-    fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
+  function send(hypothesisId, message, data) {
+    fetch("http://127.0.0.1:7875/ingest/75a583e4-9943-4931-8a1b-f2e9dd49713f", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "redirect-fix",
-        hypothesisId: "H1",
+        runId: "brand-fix",
+        hypothesisId: hypothesisId,
         location: location.pathname,
-        message: "nav-asset-resolve",
+        message: message,
         data: data,
         timestamp: Date.now(),
       }),
     }).catch(function () {});
   }
-  window.addEventListener("load", function () {
-    var cms = document.querySelector('a[href*="cms-visual"]');
-    var css = document.querySelector('link[rel="stylesheet"]');
-    var img = document.querySelector("img");
-    send({
-      href: location.href,
-      hasBase: !!document.querySelector("base"),
-      cmsAttr: cms ? cms.getAttribute("href") : null,
-      cmsHref: cms ? cms.href : null,
-      cssHref: css ? css.href : null,
-      imgAttr: img ? img.getAttribute("src") : null,
-      imgSrc: img ? (img.currentSrc || img.src) : null,
-      imgOk: !!(img && img.naturalWidth),
-      cssOk: !!(css && css.sheet),
-    });
-  });
   // #endregion
+  var toggle = document.querySelector(".nav-toggle");
+  var nav = document.querySelector(".nav");
+  if (toggle && nav) {
+    toggle.addEventListener("click", function () {
+      var open = nav.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+  window.addEventListener("load", function () {
+    var pager = document.querySelector(".pager");
+    var links = pager ? Array.prototype.map.call(pager.querySelectorAll("a"), function (a) {
+      return { text: (a.textContent || "").trim(), href: a.getAttribute("href"), abs: a.href };
+    }) : [];
+    var footer = document.querySelector(".site-footer");
+    // #region agent log
+    send("H1", "pager-footer-check", {
+      href: location.href,
+      pagerLeft: links[0] || null,
+      pagerRight: links[1] || null,
+      hasFooter: !!footer,
+      footerLinks: footer
+        ? Array.prototype.map.call(footer.querySelectorAll("a"), function (a) {
+            return { text: (a.textContent || "").trim(), href: a.href };
+          })
+        : [],
+      viewport: { w: window.innerWidth, h: window.innerHeight },
+      navOpen: !!(nav && nav.classList.contains("is-open")),
+    });
+    // #endregion
+  });
 })();
 </script>`;
 
@@ -312,12 +336,34 @@ function prefixRootRefs(html, dest) {
   });
 }
 
+function siteFooter(dest) {
+  const prefix = depthPrefix(dest);
+  return `<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img class="footer-logo" src="${prefix}assets/brand/nida-logo.png" alt="Nida Mirza logo" width="56" height="56">
+      <div>
+        <strong>${esc(SITE_BRAND.name)}</strong>
+        <p>${esc(SITE_BRAND.tagline)}</p>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="Author links">
+      <a href="${SITE_BRAND.about}" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="${SITE_BRAND.portfolio}" target="_blank" rel="noopener noreferrer">Portfolio</a>
+    </nav>
+    <p class="footer-copy">© 2026 ${esc(SITE_BRAND.name)}. All rights reserved. | ${esc(SITE_BRAND.motto)}</p>
+  </div>
+</footer>`;
+}
+
 function renderNav(active, dest) {
   const prefix = depthPrefix(dest);
   const items = [
-    `<nav class="nav">`,
+    `<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>`,
+    `<nav class="nav" id="site-nav">`,
     `<a class="brand" href="${prefix}index.html">Contentstack QA Training</a>`,
-    `<div class="tag">Horizon Market · offline HTML</div>`,
+    `<div class="tag">By ${esc(SITE_BRAND.name)} · Horizon Market</div>`,
     `<ul>`,
   ];
   for (const row of NAV) {
@@ -355,6 +401,7 @@ function wrap(page, body) {
       </div>
     </main>
   </div>
+  ${siteFooter(dest)}
   ${VERIFY_SCRIPT}
 </body>
 </html>
@@ -457,6 +504,7 @@ function homeHtml() {
       <div class="pathbox">${esc(CANVAS_PATH)}</div>
     </main>
   </div>
+  ${siteFooter("index.html")}
   ${VERIFY_SCRIPT}
 </body>
 </html>
@@ -478,11 +526,12 @@ function cmsVisualHtml() {
     <main class="main">
       ${cmsVisualBody()}
       <div class="pager">
-        <a href="index.html">← Home</a>
-        <a href="beginner.html">Start here (pictures) →</a>
+        <a href="beginner.html">← Start here (pictures)</a>
+        <a href="paths.html">Full paths →</a>
       </div>
     </main>
   </div>
+  ${siteFooter("cms-visual.html")}
   ${VERIFY_SCRIPT}
 </body>
 </html>
@@ -568,6 +617,7 @@ const pathsPage = `<!DOCTYPE html>
       </div>
     </main>
   </div>
+  ${siteFooter("paths.html")}
   ${VERIFY_SCRIPT}
 </body>
 </html>
