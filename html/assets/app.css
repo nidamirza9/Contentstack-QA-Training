@@ -139,8 +139,9 @@ a:hover { color: #0a3340; }
 
 .layout {
   display: grid;
-  grid-template-columns: var(--nav-w) 1fr;
+  grid-template-columns: var(--nav-w) minmax(0, 1fr);
   min-height: calc(100vh - var(--header-h));
+  width: 100%;
 }
 
 .nav {
@@ -151,6 +152,7 @@ a:hover { color: #0a3340; }
   top: var(--header-h);
   height: calc(100vh - var(--header-h));
   overflow: auto;
+  min-width: 0;
 }
 .nav-title {
   font-family: var(--display);
@@ -196,7 +198,13 @@ a:hover { color: #0a3340; }
   color: #fff;
 }
 
-.main { padding: 36px 48px 80px; max-width: 980px; }
+.main {
+  padding: 36px 40px 80px;
+  max-width: none;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
 .crumb {
   color: var(--ink-muted);
   font-size: 13px;

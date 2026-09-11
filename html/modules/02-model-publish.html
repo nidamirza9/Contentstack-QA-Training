@@ -212,7 +212,7 @@ site_settings (single)
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "footer-post-fix",
+        runId: "paths-layout-fix",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -251,14 +251,31 @@ site_settings (single)
         transform: getComputedStyle(logo).transform,
       };
     }
+    var activeNav = document.querySelector(".nav a.active");
+    var mainEl = document.querySelector(".main");
+    var layoutEl = document.querySelector(".layout");
+    var mainBox = mainEl ? mainEl.getBoundingClientRect() : null;
+    var layoutBox = layoutEl ? layoutEl.getBoundingClientRect() : null;
+    var mainCs = mainEl ? getComputedStyle(mainEl) : null;
     // #region agent log
-    send("F3", "footer-logo-align-check", {
+    send("P1", "paths-layout-nav-check", {
       href: location.href,
       hasHeader: !!header,
       hasFooter: !!footer,
       footerAlign: footerAlign,
+      activeNav: activeNav
+        ? { text: (activeNav.textContent || "").trim(), href: activeNav.getAttribute("href") }
+        : null,
       pagerLeft: links[0] || null,
       pagerRight: links[1] || null,
+      main: mainBox && mainCs
+        ? {
+            width: Math.round(mainBox.width),
+            maxWidth: mainCs.maxWidth,
+            paddingRight: mainCs.paddingRight,
+            rightGutter: layoutBox ? Math.round(layoutBox.right - mainBox.right) : null,
+          }
+        : null,
       viewport: { w: window.innerWidth, h: window.innerHeight },
       navOpen: !!(nav && nav.classList.contains("is-open")),
     });

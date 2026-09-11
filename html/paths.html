@@ -35,10 +35,10 @@
 <nav class="nav" id="site-nav">
 <div class="nav-title">Course outline</div>
 <ul>
-<li><a class="active" href="index.html">Home</a></li>
+<li><a href="index.html">Home</a></li>
 <li><a href="beginner.html">Start here (pictures)</a></li>
 <li><a href="cms-visual.html">CMS screens (labeled)</a></li>
-<li><a href="paths.html">Full paths</a></li>
+<li><a class="active" href="paths.html">Full paths</a></li>
 <li><a href="summary.html">Training summary</a></li>
 <li class="group">Modules</li>
 <li><a href="modules/05-cms-visual.html">05 · CMS visual guide</a></li>
@@ -129,7 +129,7 @@
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "footer-post-fix",
+        runId: "paths-layout-fix",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -168,14 +168,31 @@
         transform: getComputedStyle(logo).transform,
       };
     }
+    var activeNav = document.querySelector(".nav a.active");
+    var mainEl = document.querySelector(".main");
+    var layoutEl = document.querySelector(".layout");
+    var mainBox = mainEl ? mainEl.getBoundingClientRect() : null;
+    var layoutBox = layoutEl ? layoutEl.getBoundingClientRect() : null;
+    var mainCs = mainEl ? getComputedStyle(mainEl) : null;
     // #region agent log
-    send("F3", "footer-logo-align-check", {
+    send("P1", "paths-layout-nav-check", {
       href: location.href,
       hasHeader: !!header,
       hasFooter: !!footer,
       footerAlign: footerAlign,
+      activeNav: activeNav
+        ? { text: (activeNav.textContent || "").trim(), href: activeNav.getAttribute("href") }
+        : null,
       pagerLeft: links[0] || null,
       pagerRight: links[1] || null,
+      main: mainBox && mainCs
+        ? {
+            width: Math.round(mainBox.width),
+            maxWidth: mainCs.maxWidth,
+            paddingRight: mainCs.paddingRight,
+            rightGutter: layoutBox ? Math.round(layoutBox.right - mainBox.right) : null,
+          }
+        : null,
       viewport: { w: window.innerWidth, h: window.innerHeight },
       navOpen: !!(nav && nav.classList.contains("is-open")),
     });
