@@ -243,23 +243,10 @@ function mdToHtml(md) {
   return out.join("\n");
 }
 
-const BASE_SCRIPT = `<script>
+const VERIFY_SCRIPT = `<script>
 (function () {
-  var el = document.createElement("base");
-  var href = location.href.split("#")[0].split("?")[0];
-  if (location.protocol === "file:") {
-    var m = href.match(/^(.*\\/html\\/)/i);
-    el.href = m ? m[1] : href.replace(/[^/]*$/, "");
-  } else if (location.pathname.indexOf("/Contentstack-QA-Training/") === 0) {
-    el.href = "/Contentstack-QA-Training/html/";
-  } else {
-    el.href = "/";
-  }
-  document.head.insertBefore(el, document.head.firstChild);
   // #region agent log
-  setTimeout(function () {
-    var cms = document.querySelector('a[href*="cms-visual"]');
-    var img = document.querySelector("img");
+  function send(data) {
     fetch("http://127.0.0.1:7814/ingest/7ad18201-309e-45d0-b904-2cf71bb500c1", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
@@ -269,19 +256,27 @@ const BASE_SCRIPT = `<script>
         hypothesisId: "H1",
         location: location.pathname,
         message: "nav-asset-resolve",
-        data: {
-          href: location.href,
-          base: el.href,
-          cmsHref: cms ? cms.href : null,
-          cmsAttr: cms ? cms.getAttribute("href") : null,
-          imgSrc: img ? img.currentSrc || img.src : null,
-          imgAttr: img ? img.getAttribute("src") : null,
-          imgOk: !!(img && img.naturalWidth),
-        },
+        data: data,
         timestamp: Date.now(),
       }),
     }).catch(function () {});
-  }, 0);
+  }
+  window.addEventListener("load", function () {
+    var cms = document.querySelector('a[href*="cms-visual"]');
+    var css = document.querySelector('link[rel="stylesheet"]');
+    var img = document.querySelector("img");
+    send({
+      href: location.href,
+      hasBase: !!document.querySelector("base"),
+      cmsAttr: cms ? cms.getAttribute("href") : null,
+      cmsHref: cms ? cms.href : null,
+      cssHref: css ? css.href : null,
+      imgAttr: img ? img.getAttribute("src") : null,
+      imgSrc: img ? (img.currentSrc || img.src) : null,
+      imgOk: !!(img && img.naturalWidth),
+      cssOk: !!(css && css.sheet),
+    });
+  });
   // #endregion
 })();
 </script>`;
@@ -346,7 +341,6 @@ function wrap(page, body) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} · Contentstack QA</title>
-  ${BASE_SCRIPT}
   <link rel="stylesheet" href="${cssHref(dest)}">
 </head>
 <body>
@@ -361,6 +355,7 @@ function wrap(page, body) {
       </div>
     </main>
   </div>
+  ${VERIFY_SCRIPT}
 </body>
 </html>
 `;
@@ -373,7 +368,6 @@ function homeHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contentstack QA tester training</title>
-  ${BASE_SCRIPT}
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
@@ -463,6 +457,7 @@ function homeHtml() {
       <div class="pathbox">${esc(CANVAS_PATH)}</div>
     </main>
   </div>
+  ${VERIFY_SCRIPT}
 </body>
 </html>
 `;
@@ -475,7 +470,6 @@ function cmsVisualHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CMS screens (labeled) · Contentstack QA</title>
-  ${BASE_SCRIPT}
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
@@ -489,6 +483,7 @@ function cmsVisualHtml() {
       </div>
     </main>
   </div>
+  ${VERIFY_SCRIPT}
 </body>
 </html>
 `;
@@ -549,7 +544,6 @@ const pathsPage = `<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Full paths · Contentstack QA</title>
-  ${BASE_SCRIPT}
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
@@ -574,6 +568,7 @@ const pathsPage = `<!DOCTYPE html>
       </div>
     </main>
   </div>
+  ${VERIFY_SCRIPT}
 </body>
 </html>
 `;
