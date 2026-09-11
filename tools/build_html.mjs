@@ -262,7 +262,7 @@ const VERIFY_SCRIPT = `<script>
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "brand-fix",
+        runId: "footer-post-fix",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -285,18 +285,30 @@ const VERIFY_SCRIPT = `<script>
     var links = pager ? Array.prototype.map.call(pager.querySelectorAll("a"), function (a) {
       return { text: (a.textContent || "").trim(), href: a.getAttribute("href"), abs: a.href };
     }) : [];
+    var header = document.querySelector(".site-header");
     var footer = document.querySelector(".site-footer");
+    var logoWrap = document.querySelector(".footer-logo-wrap");
+    var logo = document.querySelector(".footer-logo");
+    var brandText = document.querySelector(".footer-brand-text");
+    var footerAlign = null;
+    if (logoWrap && brandText && logo) {
+      var lr = logoWrap.getBoundingClientRect();
+      var tr = brandText.getBoundingClientRect();
+      footerAlign = {
+        hasWrap: true,
+        deltaCenterY: (lr.top + lr.height / 2) - (tr.top + tr.height / 2),
+        flexDirection: getComputedStyle(logoWrap.parentElement).flexDirection,
+        transform: getComputedStyle(logo).transform,
+      };
+    }
     // #region agent log
-    send("H1", "pager-footer-check", {
+    send("F3", "footer-logo-align-check", {
       href: location.href,
+      hasHeader: !!header,
+      hasFooter: !!footer,
+      footerAlign: footerAlign,
       pagerLeft: links[0] || null,
       pagerRight: links[1] || null,
-      hasFooter: !!footer,
-      footerLinks: footer
-        ? Array.prototype.map.call(footer.querySelectorAll("a"), function (a) {
-            return { text: (a.textContent || "").trim(), href: a.href };
-          })
-        : [],
       viewport: { w: window.innerWidth, h: window.innerHeight },
       navOpen: !!(nav && nav.classList.contains("is-open")),
     });
@@ -336,13 +348,37 @@ function prefixRootRefs(html, dest) {
   });
 }
 
+function siteHeader(dest) {
+  const prefix = depthPrefix(dest);
+  return `<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-brand" href="${prefix}index.html">
+      <span class="header-logo-wrap"><img src="${prefix}assets/brand/nida-logo.png" alt="" width="44" height="44"></span>
+      <span>
+        <strong>Contentstack QA Training</strong>
+        <em>by ${esc(SITE_BRAND.name)} · ISTQB Certified</em>
+      </span>
+    </a>
+    <nav class="header-links" aria-label="Quick access">
+      <a href="${prefix}cms-visual.html">CMS screens</a>
+      <a href="${prefix}beginner.html">Start here</a>
+      <a href="${prefix}labs/00-setup.html">Lab setup</a>
+      <a href="${prefix}summary.html">Summary</a>
+      <a class="header-ext" href="${SITE_BRAND.about}" target="_blank" rel="noopener noreferrer">About Me</a>
+      <a class="header-ext" href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </div>
+</header>`;
+}
+
 function siteFooter(dest) {
   const prefix = depthPrefix(dest);
   return `<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <img class="footer-logo" src="${prefix}assets/brand/nida-logo.png" alt="Nida Mirza logo" width="56" height="56">
-      <div>
+      <span class="footer-logo-wrap"><img class="footer-logo" src="${prefix}assets/brand/nida-logo.png" alt="Nida Mirza logo" width="56" height="56"></span>
+      <div class="footer-brand-text">
         <strong>${esc(SITE_BRAND.name)}</strong>
         <p>${esc(SITE_BRAND.tagline)}</p>
       </div>
@@ -360,10 +396,9 @@ function siteFooter(dest) {
 function renderNav(active, dest) {
   const prefix = depthPrefix(dest);
   const items = [
-    `<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>`,
+    `<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Course menu</button>`,
     `<nav class="nav" id="site-nav">`,
-    `<a class="brand" href="${prefix}index.html">Contentstack QA Training</a>`,
-    `<div class="tag">By ${esc(SITE_BRAND.name)} · Horizon Market</div>`,
+    `<div class="nav-title">Course outline</div>`,
     `<ul>`,
   ];
   for (const row of NAV) {
@@ -387,12 +422,16 @@ function wrap(page, body) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} · Contentstack QA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="${cssHref(dest)}">
 </head>
 <body>
+  ${siteHeader(dest)}
   <div class="layout">
     ${renderNav(id, dest)}
-    <main class="main">
+    <main class="main" id="main">
       <div class="crumb">${esc(crumb)}</div>
       ${prefixRootRefs(body, dest)}
       <div class="pager">
@@ -415,15 +454,32 @@ function homeHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contentstack QA tester training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
+  ${siteHeader("index.html")}
   <div class="layout">
     ${renderNav("home", "index.html")}
-    <main class="main">
-      <div class="crumb">Contentstack Learning / HTML</div>
-      <h1>Contentstack QA tester training</h1>
-      <p class="meta">A hands-on pack for testers new to Contentstack. Start with labeled CMS screens, then labs on a trial stack.</p>
+    <main class="main" id="main">
+      <section class="hero">
+        <p class="eyebrow">Hands-on Contentstack training for QA</p>
+        <h1>Contentstack QA tester training</h1>
+        <p class="meta">Learn the real CMS UI, prove content on Delivery API, then sign off the website. Built by ${esc(SITE_BRAND.name)} for Horizon Market labs.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="cms-visual.html">Open CMS screens</a>
+          <a class="btn" href="beginner.html">Start here (pictures)</a>
+          <a class="btn" href="labs/00-setup.html">Lab setup</a>
+        </div>
+      </section>
+      <div class="quick-strip" aria-label="Quick access">
+        <a href="cms-visual.html"><strong>CMS screens</strong><span>Labeled fields &amp; dashboard</span></a>
+        <a href="beginner.html"><strong>Beginner guide</strong><span>Simple pictures first</span></a>
+        <a href="modules/01-boundaries.html"><strong>Module 01</strong><span>CMS / API / app layers</span></a>
+        <a href="issues/component-template-qa.html"><strong>41 defects</strong><span>Component / template UAT</span></a>
+      </div>
       <div class="layers" aria-label="Three QA layers">
         <div class="layer a"><span>Layer A</span><strong>CMS</strong><em>Editor fills a form and publishes</em></div>
         <div class="layer b"><span>Layer B</span><strong>API (JSON)</strong><em>Published to one environment + locale</em></div>
@@ -518,12 +574,16 @@ function cmsVisualHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CMS screens (labeled) · Contentstack QA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
+  ${siteHeader("cms-visual.html")}
   <div class="layout">
     ${renderNav("visual", "cms-visual.html")}
-    <main class="main">
+    <main class="main" id="main">
       ${cmsVisualBody()}
       <div class="pager">
         <a href="beginner.html">← Start here (pictures)</a>
@@ -593,12 +653,16 @@ const pathsPage = `<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Full paths · Contentstack QA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
+  ${siteHeader("paths.html")}
   <div class="layout">
-    ${renderNav("home", "index.html")}
-    <main class="main">
+    ${renderNav("home", "paths.html")}
+    <main class="main" id="main">
       <div class="crumb">Home / Full paths</div>
       <h1>Full paths — open without hunting</h1>
       <p class="meta">Paste any path into File Explorer, Chrome address bar, or Cursor Quick Open.</p>
