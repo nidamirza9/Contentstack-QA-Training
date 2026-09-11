@@ -664,14 +664,9 @@ li { margin: 4px 0; }
   font-size: 17px;
   font-weight: 600;
   color: var(--accent);
-  margin: 0 0 10px;
-  max-width: 52ch;
-  line-height: 1.4;
-}
-.about-meta {
-  color: var(--ink-muted);
-  font-size: 14px;
   margin: 0 0 14px;
+  max-width: none;
+  line-height: 1.4;
 }
 .about-contacts {
   display: flex;
@@ -685,7 +680,8 @@ li { margin: 4px 0; }
 .about-contacts a:hover { text-decoration: underline; }
 .resume-section {
   margin: 0 0 32px;
-  max-width: 72ch;
+  max-width: none;
+  width: 100%;
 }
 .resume-section h2 {
   margin-top: 0;
@@ -723,9 +719,13 @@ li { margin: 4px 0; }
   margin: 0 0 8px;
   font-size: 13.5px;
 }
+.main.about-page {
+  max-width: none;
+  width: 100%;
+}
 .skills-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px 24px;
 }
 .skills-grid h3 {

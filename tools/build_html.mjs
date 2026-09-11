@@ -759,7 +759,6 @@ function aboutHtml() {
         <p class="eyebrow">About Me</p>
         <h1>${esc(SITE_BRAND.name)}</h1>
         <p class="about-headline">${esc(SITE_BRAND.headline)}</p>
-        <p class="about-meta">Open to Remote Roles</p>
         <div class="about-contacts">
           <a href="mailto:${esc(SITE_BRAND.email)}">${esc(SITE_BRAND.email)}</a>
           <a href="${SITE_BRAND.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
