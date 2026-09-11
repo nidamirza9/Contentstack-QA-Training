@@ -262,7 +262,7 @@ const VERIFY_SCRIPT = `<script>
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "ac4729" },
       body: JSON.stringify({
         sessionId: "ac4729",
-        runId: "paths-layout-fix",
+        runId: "header-trim-test",
         hypothesisId: hypothesisId,
         location: location.pathname,
         message: message,
@@ -307,9 +307,17 @@ const VERIFY_SCRIPT = `<script>
     var mainBox = mainEl ? mainEl.getBoundingClientRect() : null;
     var layoutBox = layoutEl ? layoutEl.getBoundingClientRect() : null;
     var mainCs = mainEl ? getComputedStyle(mainEl) : null;
+    var headerLinks = header
+      ? Array.prototype.map.call(header.querySelectorAll(".header-links a"), function (a) {
+          return (a.textContent || "").trim().replace(/\\s+/g, " ");
+        })
+      : [];
+    var favicon = document.querySelector('link[rel="icon"]');
     // #region agent log
-    send("P1", "paths-layout-nav-check", {
+    send("H1", "header-trim-favicon-check", {
       href: location.href,
+      headerLinks: headerLinks,
+      faviconHref: favicon ? favicon.getAttribute("href") : null,
       hasHeader: !!header,
       hasFooter: !!footer,
       footerAlign: footerAlign,
@@ -365,6 +373,13 @@ function prefixRootRefs(html, dest) {
   });
 }
 
+function faviconLinks(dest) {
+  const icon = `${depthPrefix(dest)}assets/brand/nida-logo.png`;
+  return `<link rel="icon" href="${icon}" type="image/png" sizes="32x32">
+  <link rel="icon" href="${icon}" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="${icon}">`;
+}
+
 function siteHeader(dest) {
   const prefix = depthPrefix(dest);
   return `<a class="skip-link" href="#main">Skip to content</a>
@@ -378,9 +393,6 @@ function siteHeader(dest) {
       </span>
     </a>
     <nav class="header-links" aria-label="Quick access">
-      <a href="${prefix}cms-visual.html">CMS screens</a>
-      <a href="${prefix}beginner.html">Start here</a>
-      <a href="${prefix}labs/00-setup.html">Lab setup</a>
       <a href="${prefix}summary.html">Summary</a>
       <a class="header-ext" href="${SITE_BRAND.about}" target="_blank" rel="noopener noreferrer">About Me</a>
       <a class="header-ext" href="${SITE_BRAND.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -439,6 +451,7 @@ function wrap(page, body) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} · Contentstack QA</title>
+  ${faviconLinks(dest)}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -471,6 +484,7 @@ function homeHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contentstack QA tester training</title>
+  ${faviconLinks("index.html")}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -591,6 +605,7 @@ function cmsVisualHtml() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CMS screens (labeled) · Contentstack QA</title>
+  ${faviconLinks("cms-visual.html")}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -670,6 +685,7 @@ const pathsPage = `<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Full paths · Contentstack QA</title>
+  ${faviconLinks("paths.html")}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
